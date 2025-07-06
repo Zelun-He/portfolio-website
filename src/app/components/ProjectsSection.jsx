@@ -17,7 +17,7 @@ const projectsData = [
     {
         id:2,
         title:"A Comparison of Transformer Encoder and Decoder Architecture",
-        description: "PMy Dozerformer studies explored the architectural differences between encoder-only and decoder-only transformer models for time-series forecasting. By conducting targeted ablation experiments, I analyzed each component’s impact on performance to better understand and streamline transformer-based approaches for temporal data.",
+        description: "My Dozerformer studies explored the architectural differences between encoder-only and decoder-only transformer models for time-series forecasting. By conducting targeted ablation experiments, I analyzed each component’s impact on performance to better understand and streamline transformer-based approaches for temporal data.",
         image:"images/2.png",
         tag: ["ALL", "web"],
         gitUrl: "https://github.com/Zelun-He/Dozerformer-Decoder-Only",
@@ -34,9 +34,12 @@ const projectsData = [
     },
     {
         id:4,
-        title: "Space Invaders",
-        description:"",
-    }
+        title: "Space Invaders Game",
+        description:"Recreation of the classic game Space Invaders! I wanted to try game programming and this was a great introduction using C++ and Raylib.",
+        image:"images/4.png",
+        tag:["ALL", "web"],
+        gitUrl: "https://github.com/Zelun-He/Space_Invaders"
+      }
 ];
 
 const ProjectsSection = () => {
