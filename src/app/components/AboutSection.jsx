@@ -28,7 +28,8 @@ const TAB_DATA = [
         id: "education",
         content: (
             <ul className="list-disc pl-2"> 
-                <li>Missouri State University</li>
+                <li>Bachelors in Computer Science with a Minor in Mathematics - Missouri State University (In Progress)</li>
+                <li>Associate Degree in General Studies - Saint Louis Community College - 2022</li>
             </ul>
         )
     },
@@ -37,10 +38,10 @@ const TAB_DATA = [
         id: "experience",
         content: (
             <ul className="list-disc pl-2">  
-                <li>Deep Learning Researcher - Yifan Zhang | Missouri State University</li>
+                <li>Software Engineer Intern at N-of-1.ai </li>
+                <li>Software Engineer Intern at Oasis.ai</li>
                 <li>Deep Learning Reseeacher - Dr. Hui Liu | Missouri State University</li>
-                <li>Software Engineer Intern | Oasis.Ai</li>
-                <li>President - Association of Computing Machinery | Missouri State University</li>
+                <li>Deep Learning Researcher - Yifan Zhang | Missouri State University</li>
             </ul>
         )
     }
