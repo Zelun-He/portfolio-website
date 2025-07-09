@@ -43,15 +43,26 @@ const HeroSection = () => {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4">
-            <button className="px-6 py-3 w-full sm:w-fit rounded-full bg-gradient-to-br from-red-600 via-orange-300 to-white hover:bg-slate-200 text-black">
-              Hire Me
-            </button>
-            <button className="px-1 py-1 w-full sm:w-fit rounded-full bg-gradient-to-br from-red-600 via-orange-300 to-white hover:bg-slate-800 text-white border border-white">
-              <span className="block bg-[#121212] hover:bg-slate-800 rounded-full px-5 py-2">
-                Download CV
-              </span>
-            </button>
-          </div>
+          {/* Hire Me scrolls to email section */}
+          <a
+            href="#contact"
+            className="px-6 py-3 w-full sm:w-fit rounded-full bg-gradient-to-br from-red-600 via-orange-300 to-white hover:bg-slate-200 text-black text-center"
+          >
+            Hire Me
+          </a>
+
+          {/* Download CV button */}
+          <a
+            href="/resume.pdf"
+            download
+            className="px-1 py-1 w-full sm:w-fit rounded-full bg-gradient-to-br from-red-600 via-orange-300 to-white hover:bg-slate-800 text-white border border-white text-center"
+          >
+            <span className="block bg-[#121212] hover:bg-slate-800 rounded-full px-5 py-2">
+              Download CV
+            </span>
+          </a>
+        </div>
+
         </motion.div>
 
         {/* Right: Profile Image */}
@@ -63,7 +74,7 @@ const HeroSection = () => {
         >
           <div className="rounded-full bg-[#181818] w-[250px] h-[250px] lg:w-[400px] lg:h-[400px] relative overflow-hidden">
             <Image
-              src="/images/hero-image.jpg"
+              src="/Images/hero-image.jpg"
               alt="hero image"
               fill
               className="object-cover"
