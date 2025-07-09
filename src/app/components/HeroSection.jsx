@@ -63,7 +63,7 @@ const HeroSection = () => {
         >
           <div className="rounded-full bg-[#181818] w-[250px] h-[250px] lg:w-[400px] lg:h-[400px] relative overflow-hidden">
             <Image
-              src="/images/hero-image.jpg"
+              src="/Images/hero-image.jpg"
               alt="hero image"
               fill
               className="object-cover"
