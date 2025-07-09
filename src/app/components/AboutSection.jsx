@@ -40,7 +40,7 @@ const TAB_DATA = [
             <ul className="list-disc pl-2">  
                 <li>Software Engineer Intern at N-of-1.ai </li>
                 <li>Software Engineer Intern at Oasis.ai</li>
-                <li>Deep Learning Reseeacher - Dr. Hui Liu | Missouri State University</li>
+                <li>Deep Learning Researcher - Dr. Hui Liu | Missouri State University</li>
                 <li>Deep Learning Researcher - Yifan Zhang | Missouri State University</li>
             </ul>
         )
@@ -59,7 +59,7 @@ const AboutSection = () => {
     return (
         <section className="text-white">
             <div className="md:grid md:grid-cols-2 gap-8 items-center py-8 px-4 xl:gap-16 sm:py-16 xl:px-16">
-                <Image src="/images/about-image.jpg" width={500} height={500} alt="About Me Image" />
+                <Image src="/Images/about-image.jpg" width={500} height={500} alt="About Me Image" />
                 <div className="mt-4 md:mt-0 text-left flex flex-col h-full">
                     <h2 className="text-4xl font-bold text-white mb-4">About Me</h2>
                     <p className="text-base md:text-lg">
