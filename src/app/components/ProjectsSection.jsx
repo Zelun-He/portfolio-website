@@ -37,7 +37,7 @@ const projectsData = [
         title: "Scribsy",
         description: "Scribsy is an AI-powered scribe designed to streamline note-taking and documentation. This was built both for an internship as well as my friend who works as a general doctor. She described to me the burnout she felt, spending extra time outside of her work hours trying to properly organize and document her Scribe notes. I built this to help her and other doctors stay organized and hopefully reduce their burnout. It transforms conversations and rough ideas into well-structured notes, helping users stay organized and focused. Built as a project to explore the intersection of AI and productivity, Scribsy highlights my ability to design practical solutions that blend usability with advanced technology.",
         image: "/Images/5.png",
-        tag: ["All", "Research"],
+        tag: ["All", "Web"],
         gitUrl: "https://github.com/Zelun-He/Scribsy",
         previewUrl: "https://scribsy.vercel.app/"
     }
