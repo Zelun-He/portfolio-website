@@ -5,23 +5,15 @@ import ProjectTag from "./ProjectTag";
 import { motion, useInView } from "framer-motion";
 
 const projectsData = [
-    {
-        id:1,
-        title:"React Portfolio Website",
-        description: "My portfolio website showcases my projects, skills, and experience as a software engineer through a clean, responsive design. It highlights my work with interactive project cards, a professional overview, and intuitive navigation to demonstrate my technical and creative abilities.",
-        image:"/Images/1.png",
-        tag: ["All", "Web"],
-        gitUrl: "https://github.com/Zelun-He/portfolio-website",
-        previewUrl: "https://www.linkedin.com/in/zelun-he-2b22351bb/",
-    },
+    
     {
         id:2,
         title:"A Comparison of Transformer Encoder and Decoder Architecture",
-        description: "My Dozerformer studies explored the architectural differences between encoder-only and decoder-only transformer models for time-series forecasting. By conducting targeted ablation experiments, I analyzed each component’s impact on performance to better understand and streamline transformer-based approaches for temporal data.",
+        description: "My Dozerformer studies explored the architectural differences between encoder-only and decoder-only transformer models for time-series forecasting. By conducting targeted ablation experiments, I analyzed each component's impact on performance to better understand and streamline transformer-based approaches for temporal data.",
         image:"/Images/2.png",
         tag: ["All", "Research"],
         gitUrl: "https://github.com/Zelun-He/Dozerformer-Decoder-Only",
-        previewUrl: "https://www.linkedin.com/in/zelun-he-2b22351bb/",
+        previewUrl: null
     },
     {
         id:3,
@@ -30,7 +22,7 @@ const projectsData = [
         image:"/Images/3.png",
         tag: ["All", "Mobile"],
         gitUrl: "https://github.com/Zelun-He/RealTimeTranslationApp",
-        previewUrl:"https://www.linkedin.com/in/zelun-he-2b22351bb/",
+        previewUrl: null
     },
     {
         id:4,
@@ -46,8 +38,8 @@ const projectsData = [
         description: "Scribsy is an AI-powered scribe designed to streamline note-taking and documentation. This was built both for an internship as well as my friend who works as a general doctor. She described to me the burnout she felt, spending extra time outside of her work hours trying to properly organize and document her Scribe notes. I built this to help her and other doctors stay organized and hopefully reduce their burnout. It transforms conversations and rough ideas into well-structured notes, helping users stay organized and focused. Built as a project to explore the intersection of AI and productivity, Scribsy highlights my ability to design practical solutions that blend usability with advanced technology.",
         image: "/Images/5.png",
         tag: ["All", "Research"],
-        gitUrl: "https://github.com/Zelun-He/ai-chatbot",
-        previewUrl: "https://your-demo-link.com"
+        gitUrl: "https://github.com/Zelun-He/Scribsy",
+        previewUrl: "https://scribsy.vercel.app/"
     }
 ];
 
@@ -64,6 +56,45 @@ const ProjectsSection = () => {
     project.tag.includes(tag)
   );
 
+  // Error handling for empty filtered results
+  if (filteredProjects.length === 0) {
+    return (
+      <section id="projects">
+        <h2 className="text-center text-4xl font-bold text-white mt-4 mb-8 md:mb-12">
+          My Projects
+        </h2>
+        <p className="text-center text-[#ADB7BE] mb-8 text-lg">
+          A collection of my recent work showcasing different technologies and problem-solving approaches
+        </p>
+        <div className="text-white flex flex-row justify-center items-center gap-2 py-6" role="tablist" aria-label="Project category filters">
+          <ProjectTag
+            onClick={handleTagChange}
+            name="All"
+            isSelected={tag === "All"}
+          />
+          <ProjectTag
+            onClick={handleTagChange}
+            name="Web"
+            isSelected={tag === "Web"}
+          />
+          <ProjectTag
+            onClick={handleTagChange}
+            name="Mobile"
+            isSelected={tag === "Mobile"}
+          />
+          <ProjectTag
+            onClick={handleTagChange}
+            name="Research"
+            isSelected={tag === "Research"}
+          />
+        </div>
+        <p className="text-center text-[#ADB7BE] text-lg">
+          No projects found in this category.
+        </p>
+      </section>
+    );
+  }
+
   const cardVariants = {
     initial: { y: 50, opacity: 0 },
     animate: { y: 0, opacity: 1 },
@@ -74,7 +105,10 @@ const ProjectsSection = () => {
       <h2 className="text-center text-4xl font-bold text-white mt-4 mb-8 md:mb-12">
         My Projects
       </h2>
-      <div className="text-white flex flex-row justify-center items-center gap-2 py-6">
+      <p className="text-center text-[#ADB7BE] mb-8 text-lg">
+        A collection of my recent work showcasing different technologies and problem-solving approaches
+      </p>
+      <div className="text-white flex flex-row justify-center items-center gap-2 py-6" role="tablist" aria-label="Project category filters">
         <ProjectTag
           onClick={handleTagChange}
           name="All"
@@ -96,10 +130,10 @@ const ProjectsSection = () => {
           isSelected={tag === "Research"}
           />
       </div>
-      <ul ref={ref} className="grid md:grid-cols-3 gap-8 md:gap-12">
+      <ul ref={ref} className="grid md:grid-cols-3 gap-8 md:gap-12" role="list" aria-label="Project showcase">
         {filteredProjects.map((project, index) => (
           <motion.li
-            key={index}
+            key={project.id}
             variants={cardVariants}
             initial="initial"
             animate={isInView ? "animate" : "initial"}
