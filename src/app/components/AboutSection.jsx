@@ -38,6 +38,7 @@ const TAB_DATA = [
         id: "experience",
         content: (
             <ul className="list-disc pl-2">  
+                <li>Software Engineer Intern at NeuralSeek</li>
                 <li>Software Engineer Intern at N-of-1.ai </li>
                 <li>Software Engineer Intern at Oasis.ai</li>
                 <li>Deep Learning Researcher - Dr. Hui Liu | Missouri State University</li>
