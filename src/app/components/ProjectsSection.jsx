@@ -7,6 +7,15 @@ import { motion, useInView } from "framer-motion";
 const projectsData = [
     
     {
+      id:1,
+      title:"Gene Classifier Project",
+      description: "This project is a gene classifier that uses a convolutional neural network to classify genes into different classes. It is a binary classification problem, where the input is a gene sequence and the output is a binary label indicating whether the gene is a protein-coding gene or a non-coding gene.",
+      image:"/Images/1.png",
+      tag: ["All", "Research"],
+      gitUrl: "https://github.com/Zelun-He/gene_classifier_project",
+      previewUrl: null
+    },
+    {
         id:2,
         title:"A Comparison of Transformer Encoder and Decoder Architecture",
         description: "My Dozerformer studies explored the architectural differences between encoder-only and decoder-only transformer models for time-series forecasting. By conducting targeted ablation experiments, I analyzed each component's impact on performance to better understand and streamline transformer-based approaches for temporal data.",
