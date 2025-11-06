@@ -12,7 +12,16 @@ const TabButton = ({ active, selectTab, children }) => {
     : 'text-[ADB7BE] border-b border-orange-500';
 
   return (
-    <button onClick={selectTab}>
+    <motion.button 
+      onClick={selectTab}
+      whileHover={{ 
+        scale: 1.1,
+        y: -5,
+        transition: { duration: 0.2 }
+      }}
+      whileTap={{ scale: 0.95 }}
+      className="cursor-pointer"
+    >
       <p className={`mr-3 font-semibold hover:text-white ${buttonClasses}`}>
         {children}
       </p>
@@ -21,7 +30,7 @@ const TabButton = ({ active, selectTab, children }) => {
         variants={variants}
         className="h-1 bg-primary-500 mt-2 mr-3"
       />
-    </button>
+    </motion.button>
   );
 };
 

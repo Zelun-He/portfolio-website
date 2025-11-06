@@ -9,7 +9,7 @@ const projectsData = [
     {
       id:1,
       title:"Gene Classifier Project",
-      description: "This project is a gene classifier that uses a convolutional neural network to classify genes into different classes. It is a binary classification problem, where the input is a gene sequence and the output is a binary label indicating whether the gene is a protein-coding gene or a non-coding gene.",
+      description: "Built a deep learning model to classify cancer genes using DNABERT, a pre-trained DNA language model. The system processes genomic sequences and predicts whether genes are oncogenes (cancer-causing) or tumor suppressors (cancer-preventing) with visual confidence scores.",
       image:"/Images/1.png",
       tag: ["All", "Research"],
       gitUrl: "https://github.com/Zelun-He/gene_classifier_project",
