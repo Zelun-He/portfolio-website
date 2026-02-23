@@ -49,6 +49,15 @@ const projectsData = [
         tag: ["All", "Web"],
         gitUrl: "https://github.com/Zelun-He/Scribsy",
         previewUrl: "https://scribsy.vercel.app/"
+    },
+    {
+        id: 6,
+        title: "Low-Latency Limit Order Book & Matching Engine",
+        description: "Built a low-latency C++20 limit order book and matching engine with FIFO price-level queues and price-time priority matching. The system supports simulation and stdin modes, captures execution records, and reports latency stats (min/avg/p50/p90/p99/max) with optional CSV export for trades, latency, and book state. Also includes a React browser demo to visualize book state, recent trades, event logs, simulation bursts, and top-of-book metrics. Ongoing since 2/12/2026.",
+        image: "/Images/2.png",
+        tag: ["All", "Web", "Research"],
+        gitUrl: "https://github.com/Zelun-He/limit-order-book-engine",
+        previewUrl: null
     }
 ];
 
