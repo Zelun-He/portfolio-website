@@ -7,7 +7,7 @@ const timelineEntries = [
   {
     id: "exp-neuralseek",
     type: "Experience",
-    dateRange: "Recent",
+    dateRange: "Aug 2025 – Present",
     title: "Software Engineer Intern",
     org: "NeuralSeek",
     summary:
@@ -16,7 +16,7 @@ const timelineEntries = [
   {
     id: "exp-nof1",
     type: "Experience",
-    dateRange: "Recent",
+    dateRange: "Jun 2025 – Aug 2025",
     title: "Software Engineer Intern",
     org: "N-of-1.ai",
     summary:
@@ -25,7 +25,7 @@ const timelineEntries = [
   {
     id: "exp-oasis",
     type: "Experience",
-    dateRange: "Recent",
+    dateRange: "Jun 2025 – Present",
     title: "Software Engineer Intern",
     org: "Oasis.ai",
     summary:
@@ -34,7 +34,7 @@ const timelineEntries = [
   {
     id: "exp-hui-liu",
     type: "Experience",
-    dateRange: "Recent",
+    dateRange: "Jan 2025 – Present",
     title: "Deep Learning Researcher",
     org: "Dr. Hui Liu | Missouri State University",
     summary:
@@ -43,7 +43,7 @@ const timelineEntries = [
   {
     id: "exp-yifan-zhang",
     type: "Experience",
-    dateRange: "Recent",
+    dateRange: "Jan 2025 – Present",
     title: "Deep Learning Researcher",
     org: "Yifan Zhang | Missouri State University",
     summary:
@@ -52,7 +52,7 @@ const timelineEntries = [
   {
     id: "edu-msu",
     type: "Education",
-    dateRange: "In Progress",
+    dateRange: "Expected Dec 2025",
     title: "Bachelors in Computer Science (Minor in Mathematics)",
     org: "Missouri State University",
     summary:
