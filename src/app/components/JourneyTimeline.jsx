@@ -5,51 +5,6 @@ import { motion, useInView } from "framer-motion";
 
 const timelineEntries = [
   {
-    id: "exp-neuralseek",
-    type: "Experience",
-    dateRange: "Aug 2025 – Present",
-    title: "Software Engineer Intern",
-    org: "NeuralSeek",
-    summary:
-      "Worked as a software engineer intern, contributing to applied AI product development and practical engineering deliverables.",
-  },
-  {
-    id: "exp-nof1",
-    type: "Experience",
-    dateRange: "Jun 2025 – Aug 2025",
-    title: "Software Engineer Intern",
-    org: "N-of-1.ai",
-    summary:
-      "Supported software engineering efforts focused on AI-driven solutions in a startup environment.",
-  },
-  {
-    id: "exp-oasis",
-    type: "Experience",
-    dateRange: "Jun 2025 – Present",
-    title: "Software Engineer Intern",
-    org: "Oasis.ai",
-    summary:
-      "Contributed to engineering initiatives as an intern, helping build and refine AI-centric product features.",
-  },
-  {
-    id: "exp-hui-liu",
-    type: "Experience",
-    dateRange: "Jan 2025 – Present",
-    title: "Deep Learning Researcher",
-    org: "Dr. Hui Liu | Missouri State University",
-    summary:
-      "Conducted deep learning research, exploring model design and experimentation for impactful academic outcomes.",
-  },
-  {
-    id: "exp-yifan-zhang",
-    type: "Experience",
-    dateRange: "Jan 2025 – Present",
-    title: "Deep Learning Researcher",
-    org: "Yifan Zhang | Missouri State University",
-    summary:
-      "Worked on deep learning research projects at Missouri State University with a focus on rigorous experimentation.",
-  },
-  {
     id: "edu-msu",
     type: "Education",
     dateRange: "Expected Dec 2025",
@@ -66,6 +21,42 @@ const timelineEntries = [
     org: "Saint Louis Community College",
     summary:
       "Completed associate-level studies and built the academic foundation for continued computer science education.",
+  },
+  {
+    id: "exp-oasis",
+    type: "Experience",
+    dateRange: "Jun 2025 – Present",
+    title: "Software Engineer Intern",
+    org: "Oasis.ai",
+    summary:
+      "Building and scaling backend systems for an AI journaling platform and maintaining relational database schemas to support efficient data access and storage.",
+  },
+  {
+    id: "exp-msu-research",
+    type: "Experience",
+    dateRange: "Jan 2025 – Present",
+    title: "Research Assistant (Deep Learning)",
+    org: "Missouri State University | Supervisors: Yifan Zhang, Hui Liu",
+    summary:
+      "Conducting deep-learning ablation studies on transformer architectures and developing a transformer-based classifier for oncogene vs tumor-suppressor gene sequences.",
+  },
+  {
+    id: "exp-neuralseek",
+    type: "Experience",
+    dateRange: "Aug 2025 – Present",
+    title: "Software Engineer Intern",
+    org: "NeuralSeek",
+    summary:
+      "Engineered multi-agent RAG pipelines and agent-routing logic aligned with AWS partner-network practices to improve response quality and reliability.",
+  },
+  {
+    id: "exp-nof1",
+    type: "Experience",
+    dateRange: "Jun 2025 – Aug 2025",
+    title: "Software Engineer Intern",
+    org: "N-of-1.ai",
+    summary:
+      "Developed a clinical documentation app with FastAPI, Next.js, and OpenAI APIs, including scalable backend APIs and a React/TypeScript frontend.",
   },
 ];
 
