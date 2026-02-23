@@ -8,25 +8,16 @@ const timelineEntries = [
     id: "exp-oasis",
     type: "Experience",
     dateRange: "June 2025 – Present",
-    title: "Software Engineering Intern",
-    org: "MyOasis.ai",
+    title: "Software Engineering Intern – MyOasis",
+    org: "MyOasis",
     summary:
       "Led front-end implementation of the MyOasis landing page using React, TypeScript, and Tailwind CSS while improving cross-device performance and collaborating on compliance-sensitive modules.",
   },
   {
-    id: "exp-msu-research",
-    type: "Experience",
-    dateRange: "January 2025 – December 2025",
-    title: "Research Assistant (Deep Learning)",
-    org: "Missouri State University | Supervisor: Yifan Zhang | Hui Liu",
-    summary:
-      "Conducted Dozerformer ablation studies for time-series forecasting and developed a DNABERT-based classifier for oncogene vs tumor suppressor gene sequences using curated COSMIC/OncoKB datasets.",
-  },
-  {
     id: "exp-neuralseek",
     type: "Experience",
-    dateRange: "August 2025 – September 2025",
-    title: "Software Engineering Intern",
+    dateRange: "Aug 2025 – Sep 2025",
+    title: "Software Engineering Intern – NeuralSeek",
     org: "NeuralSeek",
     summary:
       "Engineered multi-agent RAG pipelines and agent routing logic aligned with AWS Partner Network practices to boost response speed, accuracy, and reliability.",
@@ -34,17 +25,26 @@ const timelineEntries = [
   {
     id: "exp-nof1",
     type: "Experience",
-    dateRange: "June 2025 – August 2025",
-    title: "Software Engineering Intern",
+    dateRange: "June 2025 – Aug 2025",
+    title: "Software Engineering Intern – N-of-1 AI",
     org: "N-of-1 AI",
     summary:
       "Developed a clinical documentation app with FastAPI, Next.js, and OpenAI APIs, and architected scalable authentication and clinical note workflows for production-ready deployment.",
   },
   {
+    id: "exp-msu-research",
+    type: "Experience",
+    dateRange: "Jan 2025 – Dec 2025",
+    title: "Research Assistant – Missouri State",
+    org: "Missouri State University",
+    summary:
+      "Conducted Dozerformer ablation studies for time-series forecasting and developed a DNABERT-based classifier for oncogene vs tumor suppressor gene sequences using curated COSMIC/OncoKB datasets.",
+  },
+  {
     id: "edu-msu",
     type: "Education",
-    dateRange: "Expected December 2025",
-    title: "B.S. Computer Science (Minor in Mathematics)",
+    dateRange: "Aug 2022 – Dec 2025",
+    title: "🎓 B.S. Computer Science – Missouri State",
     org: "Missouri State University",
     summary:
       "Undergraduate studies focused on computer science fundamentals, mathematics, and applied AI coursework.",
@@ -68,7 +68,7 @@ const JourneyTimeline = () => {
       </p>
 
       <div ref={ref} className="relative mx-auto max-w-4xl">
-        <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-[#7C2D12] via-[#C2410C] to-[#EA580C] md:left-1/2 md:-translate-x-1/2" />
+        <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-red-700 via-red-600 to-orange-400 md:left-1/2 md:-translate-x-1/2" />
 
         <ul className="space-y-8" role="list" aria-label="Journey timeline">
           {timelineEntries.map((entry, index) => (
@@ -80,7 +80,7 @@ const JourneyTimeline = () => {
               transition={{ duration: 0.45, delay: index * 0.12 }}
               className="relative pl-12 md:pl-0"
             >
-              <span className="absolute left-4 top-4 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full border border-[#F97316]/80 bg-[#181818] text-[11px] font-semibold text-[#FDBA74] shadow-[0_0_0_4px_rgba(249,115,22,0.2)] md:left-1/2">
+              <span className="absolute left-4 top-4 flex h-6 w-6 -translate-x-1/2 items-center justify-center rounded-full border border-orange-300/90 bg-gradient-to-br from-red-600 to-orange-400 text-[11px] font-semibold text-white shadow-[0_0_0_4px_rgba(234,88,12,0.25)] md:left-1/2">
                 {index + 1}
               </span>
 
@@ -91,9 +91,9 @@ const JourneyTimeline = () => {
                     : "md:ml-auto md:pl-8"
                 }`}
               >
-                <div className="rounded-xl border border-[#C2410C]/70 bg-[#181818] p-5">
+                <div className="rounded-xl border border-orange-500/80 bg-[#181818] p-5">
                   <div className="mb-2 flex flex-wrap items-center gap-2 text-sm">
-                    <span className="rounded-full border border-[#EA580C]/70 bg-[#121212] px-2 py-1 text-[#FDBA74]">
+                    <span className="rounded-full border border-orange-400/80 bg-[#121212] px-2 py-1 text-orange-300">
                       {entry.type}
                     </span>
                     <span className="text-[#ADB7BE]">{entry.dateRange}</span>
