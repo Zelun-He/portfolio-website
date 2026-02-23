@@ -14,13 +14,22 @@ const timelineEntries = [
       "Pursuing undergraduate studies with emphasis on computer science fundamentals, mathematics, and applied AI topics.",
   },
   {
-    id: "edu-stlcc",
-    type: "Education",
-    dateRange: "2022",
-    title: "Associate Degree in General Studies",
-    org: "Saint Louis Community College",
+    id: "exp-msu-research",
+    type: "Experience",
+    dateRange: "Jan 2025 – Present",
+    title: "Research Assistant (Deep Learning)",
+    org: "Missouri State University | Supervisors: Yifan Zhang, Hui Liu",
     summary:
-      "Completed associate-level studies and built the academic foundation for continued computer science education.",
+      "Conducting deep-learning ablation studies on transformer architectures and developing a transformer-based classifier for oncogene vs tumor-suppressor gene sequences.",
+  },
+  {
+    id: "exp-nof1",
+    type: "Experience",
+    dateRange: "Jun 2025 – Aug 2025",
+    title: "Software Engineer Intern",
+    org: "N-of-1.ai",
+    summary:
+      "Developed a clinical documentation app with FastAPI, Next.js, and OpenAI APIs, including scalable backend APIs and a React/TypeScript frontend.",
   },
   {
     id: "exp-oasis",
@@ -32,15 +41,6 @@ const timelineEntries = [
       "Building and scaling backend systems for an AI journaling platform and maintaining relational database schemas to support efficient data access and storage.",
   },
   {
-    id: "exp-msu-research",
-    type: "Experience",
-    dateRange: "Jan 2025 – Present",
-    title: "Research Assistant (Deep Learning)",
-    org: "Missouri State University | Supervisors: Yifan Zhang, Hui Liu",
-    summary:
-      "Conducting deep-learning ablation studies on transformer architectures and developing a transformer-based classifier for oncogene vs tumor-suppressor gene sequences.",
-  },
-  {
     id: "exp-neuralseek",
     type: "Experience",
     dateRange: "Aug 2025 – Present",
@@ -48,15 +48,6 @@ const timelineEntries = [
     org: "NeuralSeek",
     summary:
       "Engineered multi-agent RAG pipelines and agent-routing logic aligned with AWS partner-network practices to improve response quality and reliability.",
-  },
-  {
-    id: "exp-nof1",
-    type: "Experience",
-    dateRange: "Jun 2025 – Aug 2025",
-    title: "Software Engineer Intern",
-    org: "N-of-1.ai",
-    summary:
-      "Developed a clinical documentation app with FastAPI, Next.js, and OpenAI APIs, including scalable backend APIs and a React/TypeScript frontend.",
   },
 ];
 
