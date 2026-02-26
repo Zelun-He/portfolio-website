@@ -43,11 +43,11 @@ const timelineEntries = [
   {
     id: "edu-msu",
     type: "Education",
-    dateRange: "Aug 2022 – Dec 2025",
+    dateRange: "Aug 2022 – Dec 2026",
     title: "B.S. Computer Science",
     org: "Missouri State University",
     summary:
-      "Undergraduate studies focused on computer science fundamentals, mathematics, and applied AI coursework.",
+      "Graduated in December 2026 after undergraduate studies focused on computer science fundamentals, mathematics, and applied AI coursework.",
   },
 ];
 

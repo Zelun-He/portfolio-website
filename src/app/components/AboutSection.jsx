@@ -28,7 +28,7 @@ const TAB_DATA = [
         id: "education",
         content: (
             <ul className="list-disc pl-2"> 
-                <li>Bachelors in Computer Science with a Minor in Mathematics - Missouri State University (In Progress)</li>
+                <li>Bachelors in Computer Science with a Minor in Mathematics - Missouri State University (Graduated Dec 2026)</li>
                 <li>Associate Degree in General Studies - Saint Louis Community College - 2022</li>
             </ul>
         )
@@ -64,7 +64,7 @@ const AboutSection = () => {
                 <div className="mt-4 md:mt-0 text-left flex flex-col h-full">
                     <h2 className="text-4xl font-bold text-white mb-4">About Me</h2>
                     <p className="text-base md:text-lg">
-                        Welcome to my personal website! I'm Zelun He, a Computer Science Student at Missouri
+                        Welcome to my personal website! I'm Zelun He, a Computer Science graduate from Missouri
                         State University with a current fixation on artificial intelligence, but overall 
                         passion for software development and impactful technology as well.
                         This site is a showcase of my projects, research, and resume, reflecting my
