@@ -5,71 +5,77 @@ import ProjectTag from "./ProjectTag";
 import { motion, useInView } from "framer-motion";
 
 const projectsData = [
-    
-    {
-      id:1,
-      title:"Gene Classifier Project",
-      description: "Built a deep learning model to classify cancer genes using DNABERT, a pre-trained DNA language model. The system processes genomic sequences and predicts whether genes are oncogenes (cancer-causing) or tumor suppressors (cancer-preventing) with visual confidence scores.",
-      image:"/Images/1.png",
-      tag: ["All", "Research"],
-      gitUrl: "https://github.com/Zelun-He/gene_classifier_project",
-      previewUrl: null
-    },
-    {
-        id:2,
-        title:"A Comparison of Transformer Encoder and Decoder Architecture",
-        description: "My Dozerformer studies explored the architectural differences between encoder-only and decoder-only transformer models for time-series forecasting. By conducting targeted ablation experiments, I analyzed each component's impact on performance to better understand and streamline transformer-based approaches for temporal data.",
-        image:"/Images/2.png",
-        tag: ["All", "Research"],
-        gitUrl: "https://github.com/Zelun-He/Dozerformer-Decoder-Only",
-        previewUrl: null
-    },
-    {
-        id:3,
-        title:"Real Time Translation App",
-        description:"Experience seamless multilingual communication with my real-time translation app, which uses Kotlin and Python with FastAPI to combine Whisper and Google Cloud APIs for instant speech-to-text and translation. The app features a push-to-talk interface that streams audio for immediate transcription, translation, and natural-sounding text-to-speech playback.",
-        image:"/Images/3.png",
-        tag: ["All", "Mobile"],
-        gitUrl: "https://github.com/Zelun-He/RealTimeTranslationApp",
-        previewUrl: null
-    },
-    {
-        id:4,
-        title: "Space Invaders Game",
-        description:"Recreation of the classic game Space Invaders! I wanted to try game programming and this was a great introduction using C++ and Raylib.",
-        image:"/Images/4.png",
-        tag:["All", "Web"],
-        gitUrl: "https://github.com/Zelun-He/Space_Invaders"
-      },
-    {
-        id: 5,
-        title: "Scribsy",
-        description: "Scribsy is an AI-powered scribe designed to streamline note-taking and documentation. This was built both for an internship as well as my friend who works as a general doctor. She described to me the burnout she felt, spending extra time outside of her work hours trying to properly organize and document her Scribe notes. I built this to help her and other doctors stay organized and hopefully reduce their burnout. It transforms conversations and rough ideas into well-structured notes, helping users stay organized and focused. Built as a project to explore the intersection of AI and productivity, Scribsy highlights my ability to design practical solutions that blend usability with advanced technology.",
-        image: "/Images/5.png",
-        tag: ["All", "Web"],
-        gitUrl: "https://github.com/Zelun-He/Scribsy",
-        previewUrl: "https://scribsy.vercel.app/"
-    },
-    {
-        id: 6,
-        title: "Low-Latency Limit Order Book & Matching Engine",
-        description: "Built a low-latency C++20 limit order book and matching engine with FIFO price-level queues and price-time priority matching. The system supports simulation and stdin modes, captures execution records, and reports latency stats (min/avg/p50/p90/p99/max) with optional CSV export for trades, latency, and book state. Also includes a React browser demo to visualize book state, recent trades, event logs, simulation bursts, and top-of-book metrics. Ongoing since 2/12/2026.",
-        image: "/Images/lob-demo.svg",
-        imagePosition: "center top",
-        tag: ["All", "Web", "Research"],
-        gitUrl: "https://github.com/Zelun-He/limit-order-book-engine",
-        previewUrl: null
-    },
-    {
-        id: 7,
-        title: "MyOasis Platform Development",
-        description: "Contributed across a wide range of front-end components for MyOasis and partnered directly with the CTO to keep implementation aligned with product specifications. Helped improve overall smoothness, responsiveness, and consistency of the platform experience as features evolved.",
-        image: "/Images/myoasis.png",
-        imagePosition: "center top",
-        tag: ["All", "Web"],
-        gitUrl: null,
-        previewUrl: "https://www.myoasis.ai/"
-    }
+  {
+    id: 7,
+    title: "MyOasis Platform Development",
+    description:
+      "Contributed across a wide range of front-end components for MyOasis and partnered directly with the CTO to keep implementation aligned with product specifications. Helped improve overall smoothness, responsiveness, and consistency of the platform experience as features evolved.",
+    image: "/Images/myoasis.png",
+    imagePosition: "center top",
+    tag: ["All", "Web", "Website"],
+    gitUrl: null,
+    previewUrl: "https://www.myoasis.ai/",
+  },
+  {
+    id: 5,
+    title: "Scribsy",
+    description:
+      "Scribsy is an AI-powered scribe designed to streamline note-taking and documentation. This was built both for an internship as well as my friend who works as a general doctor. She described to me the burnout she felt, spending extra time outside of her work hours trying to properly organize and document her Scribe notes. I built this to help her and other doctors stay organized and hopefully reduce their burnout. It transforms conversations and rough ideas into well-structured notes, helping users stay organized and focused. Built as a project to explore the intersection of AI and productivity, Scribsy highlights my ability to design practical solutions that blend usability with advanced technology.",
+    image: "/Images/5.png",
+    tag: ["All", "Web"],
+    gitUrl: "https://github.com/Zelun-He/Scribsy",
+    previewUrl: "https://scribsy.vercel.app/",
+  },
+  {
+    id: 6,
+    title: "Low-Latency Limit Order Book & Matching Engine",
+    description:
+      "Built a low-latency C++20 limit order book and matching engine with FIFO price-level queues and price-time priority matching. The system supports simulation and stdin modes, captures execution records, and reports latency stats (min/avg/p50/p90/p99/max) with optional CSV export for trades, latency, and book state. Also includes a React browser demo to visualize book state, recent trades, event logs, simulation bursts, and top-of-book metrics. Ongoing since 2/12/2026.",
+    image: "/Images/lob-demo.svg",
+    imagePosition: "center top",
+    tag: ["All", "Web", "Research"],
+    gitUrl: "https://github.com/Zelun-He/limit-order-book-engine",
+    previewUrl: null,
+  },
+  {
+    id: 3,
+    title: "Real Time Translation App",
+    description:
+      "Experience seamless multilingual communication with my real-time translation app, which uses Kotlin and Python with FastAPI to combine Whisper and Google Cloud APIs for instant speech-to-text and translation. The app features a push-to-talk interface that streams audio for immediate transcription, translation, and natural-sounding text-to-speech playback.",
+    image: "/Images/3.png",
+    tag: ["All", "Mobile"],
+    gitUrl: "https://github.com/Zelun-He/RealTimeTranslationApp",
+    previewUrl: null,
+  },
+  {
+    id: 1,
+    title: "Gene Classifier Project",
+    description:
+      "Built a deep learning model to classify cancer genes using DNABERT, a pre-trained DNA language model. The system processes genomic sequences and predicts whether genes are oncogenes (cancer-causing) or tumor suppressors (cancer-preventing) with visual confidence scores.",
+    image: "/Images/1.png",
+    tag: ["All", "Research"],
+    gitUrl: "https://github.com/Zelun-He/gene_classifier_project",
+    previewUrl: null,
+  },
+  {
+    id: 2,
+    title: "A Comparison of Transformer Encoder and Decoder Architecture",
+    description:
+      "My Dozerformer studies explored the architectural differences between encoder-only and decoder-only transformer models for time-series forecasting. By conducting targeted ablation experiments, I analyzed each component's impact on performance to better understand and streamline transformer-based approaches for temporal data.",
+    image: "/Images/2.png",
+    tag: ["All", "Research"],
+    gitUrl: "https://github.com/Zelun-He/Dozerformer-Decoder-Only",
+    previewUrl: null,
+  },
+  {
+    id: 4,
+    title: "Space Invaders Game",
+    description:
+      "Recreation of the classic game Space Invaders! I wanted to try game programming and this was a great introduction using C++ and Raylib.",
+    image: "/Images/4.png",
+    tag: ["All", "Web"],
+    gitUrl: "https://github.com/Zelun-He/Space_Invaders",
+  },
 ];
 
 const ProjectsSection = () => {
@@ -105,6 +111,11 @@ const ProjectsSection = () => {
             onClick={handleTagChange}
             name="Web"
             isSelected={tag === "Web"}
+          />
+          <ProjectTag
+            onClick={handleTagChange}
+            name="Website"
+            isSelected={tag === "Website"}
           />
           <ProjectTag
             onClick={handleTagChange}
@@ -147,6 +158,11 @@ const ProjectsSection = () => {
           onClick={handleTagChange}
           name="Web"
           isSelected={tag === "Web"}
+        />
+        <ProjectTag
+          onClick={handleTagChange}
+          name="Website"
+          isSelected={tag === "Website"}
         />
         <ProjectTag
           onClick={handleTagChange}
