@@ -59,6 +59,16 @@ const projectsData = [
         tag: ["All", "Web", "Research"],
         gitUrl: "https://github.com/Zelun-He/limit-order-book-engine",
         previewUrl: null
+    },
+    {
+        id: 7,
+        title: "MyOasis Platform Development",
+        description: "Contributed across a wide range of front-end components for MyOasis and partnered directly with the CTO to keep implementation aligned with product specifications. Helped improve overall smoothness, responsiveness, and consistency of the platform experience as features evolved.",
+        image: "/Images/myoasis.png",
+        imagePosition: "center top",
+        tag: ["All", "Web"],
+        gitUrl: null,
+        previewUrl: "https://www.myoasis.ai/"
     }
 ];
 
