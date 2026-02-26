@@ -44,7 +44,7 @@ const timelineEntries = [
     id: "edu-msu",
     type: "Education",
     dateRange: "Aug 2022 – Dec 2025",
-    title: "🎓 B.S. Computer Science – Missouri State",
+    title: "B.S. Computer Science – Missouri State",
     org: "Missouri State University",
     summary:
       "Undergraduate studies focused on computer science fundamentals, mathematics, and applied AI coursework.",
@@ -68,7 +68,7 @@ const JourneyTimeline = () => {
       </p>
 
       <div ref={ref} className="relative mx-auto max-w-4xl">
-        <div className="absolute left-4 top-0 h-full w-px bg-gradient-to-b from-red-700 via-red-600 to-orange-400 md:left-1/2 md:-translate-x-1/2" />
+        <div className="absolute left-4 top-0 h-full w-px bg-gray-500/80 md:left-1/2 md:-translate-x-1/2" />
 
         <ul className="space-y-8" role="list" aria-label="Journey timeline">
           {timelineEntries.map((entry, index) => (
