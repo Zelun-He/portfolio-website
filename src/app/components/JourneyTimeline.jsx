@@ -8,7 +8,7 @@ const timelineEntries = [
     id: "exp-oasis",
     type: "Experience",
     dateRange: "June 2025 – Present",
-    title: "Software Engineering Intern – MyOasis",
+    title: "Software Engineering Intern",
     org: "MyOasis",
     summary:
       "Led front-end implementation of the MyOasis landing page using React, TypeScript, and Tailwind CSS while improving cross-device performance and collaborating on compliance-sensitive modules.",
@@ -17,7 +17,7 @@ const timelineEntries = [
     id: "exp-neuralseek",
     type: "Experience",
     dateRange: "Aug 2025 – Sep 2025",
-    title: "Software Engineering Intern – NeuralSeek",
+    title: "Software Engineering Intern",
     org: "NeuralSeek",
     summary:
       "Engineered multi-agent RAG pipelines and agent routing logic aligned with AWS Partner Network practices to boost response speed, accuracy, and reliability.",
@@ -26,7 +26,7 @@ const timelineEntries = [
     id: "exp-nof1",
     type: "Experience",
     dateRange: "June 2025 – Aug 2025",
-    title: "Software Engineering Intern – N-of-1 AI",
+    title: "Software Engineering Intern",
     org: "N-of-1 AI",
     summary:
       "Developed a clinical documentation app with FastAPI, Next.js, and OpenAI APIs, and architected scalable authentication and clinical note workflows for production-ready deployment.",
@@ -35,7 +35,7 @@ const timelineEntries = [
     id: "exp-msu-research",
     type: "Experience",
     dateRange: "Jan 2025 – Dec 2025",
-    title: "Research Assistant – Missouri State",
+    title: "Research Assistant",
     org: "Missouri State University",
     summary:
       "Conducted Dozerformer ablation studies for time-series forecasting and developed a DNABERT-based classifier for oncogene vs tumor suppressor gene sequences using curated COSMIC/OncoKB datasets.",
@@ -44,7 +44,7 @@ const timelineEntries = [
     id: "edu-msu",
     type: "Education",
     dateRange: "Aug 2022 – Dec 2025",
-    title: "B.S. Computer Science – Missouri State",
+    title: "B.S. Computer Science",
     org: "Missouri State University",
     summary:
       "Undergraduate studies focused on computer science fundamentals, mathematics, and applied AI coursework.",
