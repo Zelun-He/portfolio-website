@@ -23,13 +23,29 @@
     <div class="wrap header-inner">
       <a class="wordmark" href="#top" aria-label="Zelun He, back to top"><span class="wordmark-icon" aria-hidden="true">ZH</span><span>ZELUN HE</span></a>
       <nav aria-label="Main navigation">
-        <a href="#work">EXPERIENCE</a>
+        <a href="#experience">EXPERIENCE</a>
         <a href="#projects">PROJECTS</a>
         <a href="#about">ABOUT</a>
         <a class="nav-contact" href="#contact">CONTACT <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
+  <nav class="journey-map" aria-label="Portfolio map">
+    <div class="wrap journey-map-inner">
+      <div class="map-heading"><span class="map-heading-mark" aria-hidden="true">✦</span><span>WORLD MAP</span><strong id="map-current-label">START</strong></div>
+      <div class="map-board" id="map-board">
+        <svg class="map-route" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="75,66 245,60 420,70 590,56 760,68 925,58"/><polyline class="map-route-complete" id="map-route-complete" points="75,66"/></svg>
+        <a class="map-stop" href="#top" data-map-stop="top" style="--x:7.5%;--y:66%" aria-label="Start" aria-current="location"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">START</span></a>
+        <a class="map-stop" href="#experience" data-map-stop="experience" style="--x:24.5%;--y:60%" aria-label="Experience"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">EXPERIENCE</span><span class="map-label-short">EXP</span></span></a>
+        <a class="map-stop" href="#internships" data-map-stop="internships" style="--x:42%;--y:70%" aria-label="Internships"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">INTERNSHIPS</span><span class="map-label-short">INTERN</span></span></a>
+        <a class="map-stop" href="#projects" data-map-stop="projects" style="--x:59%;--y:56%" aria-label="Projects"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">PROJECTS</span><span class="map-label-short">PROJ</span></span></a>
+        <a class="map-stop" href="#about" data-map-stop="about" style="--x:76%;--y:68%" aria-label="About"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">ABOUT</span></a>
+        <a class="map-stop" href="#contact" data-map-stop="contact" style="--x:92.5%;--y:58%" aria-label="Contact"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">CONTACT</span><span class="map-label-short">MAIL</span></span></a>
+        <img class="map-character" id="map-character" src="map-character.png" alt="" width="58" height="104" decoding="async">
+      </div>
+      <div class="map-progress"><span id="map-progress-text">01 / 06</span><div class="map-progress-track" id="map-progress-track" role="progressbar" aria-label="Page progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="map-progress-fill"></span></div></div>
+    </div>
+  </nav>
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
       <div class="hero-inner wrap">
@@ -67,14 +83,14 @@
     <section class="work section-pad" id="work" aria-labelledby="work-title">
       <div class="wrap">
         <div class="section-heading"><div><p class="eyebrow">SOFTWARE ENGINEERING</p><h2 id="work-title">SELECTED<br><em>WORK.</em></h2></div><p class="section-lede">Web platforms, product development, systems engineering, and machine learning research.</p></div>
-        <div class="work-group" aria-labelledby="experience-title">
+        <div class="work-group" id="experience" aria-labelledby="experience-title">
           <div class="work-group-heading"><h3 id="experience-title">PROFESSIONAL EXPERIENCE</h3><span>MAY 2026 – PRESENT</span></div>
           <article class="role-card">
             <div class="role-main"><p class="role-kicker">ARROWS UP · SOFTWARE ENGINEER</p><h4>Modernizing client web platforms.</h4><p>Rebuilt more than 21 client sites with SvelteKit, from interface and routing changes to CMS integration and SEO migrations.</p><ul><li>Built reusable templates that cut delivery time by 50%, tracked in Jira.</li><li>Configured Sanity CMS, Cloudflare Workers, analytics, and GitHub Actions deployment pipelines.</li></ul></div>
             <div class="role-stats" aria-label="Selected results"><div><strong>21+</strong><span>CLIENT SITES</span></div><div><strong>50%</strong><span>FASTER DELIVERY</span></div></div>
           </article>
         </div>
-        <div class="work-group" aria-labelledby="internships-title">
+        <div class="work-group" id="internships" aria-labelledby="internships-title">
           <div class="work-group-heading"><h3 id="internships-title">INTERNSHIPS</h3><span>TEAM EXPERIENCE</span></div>
           <div class="project-grid">
             <article class="project-card card-oasis">
