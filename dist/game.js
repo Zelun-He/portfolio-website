@@ -152,7 +152,7 @@
     if (piece.y >= 0) lock();
   }
   function updateStatus() {
-    statusLabel.textContent = gameOver ? 'GAME OVER • RESTART TO PLAY' : paused ? 'PAUSED' : mode === 'demo' ? 'AUTO DEMO • SELECT GAME TO PLAY' : 'YOUR TURN • CLEAR THE LINES';
+    statusLabel.textContent = gameOver ? 'GAME OVER • RESTART' : paused ? 'PAUSED' : mode === 'demo' ? 'AUTO PLAY • CLICK TO CONTROL' : 'MANUAL PLAY • WASD / ARROWS';
     toggle.textContent = paused ? '▶ PLAY' : '❚❚ PAUSE';
     toggle.setAttribute('aria-label', paused ? 'Resume game' : 'Pause game');
   }
@@ -206,7 +206,7 @@
       }));
     }
     label('TETRIS', 157, 37, '#5df3d0', 16);
-    label('BUILD MODE', 157, 52, '#94adc9', 9);
+    label('FALLING BLOCKS', 157, 52, '#94adc9', 9);
     ctx.fillStyle = '#213653'; ctx.fillRect(151, 64, 185, 72);
     ctx.strokeStyle = '#6684a8'; ctx.lineWidth = 2; ctx.strokeRect(151, 64, 185, 72);
     label('NEXT', 163, 80, '#ffd176', 10);
@@ -216,9 +216,9 @@
         if (cell) block(175 + x * size, 89 + y * size, colors[nextKind], false, size);
       }));
     }
-    label(`LEVEL ${String(1 + Math.floor(lines / 10)).padStart(2, '0')}`, 246, 94, '#e7edff', 10);
+    label(`SCORE ${String(score).padStart(5, '0')}`, 246, 94, '#e7edff', 10);
     label(`LINES ${String(lines).padStart(3, '0')}`, 246, 113, '#e7edff', 10);
-    label(mode === 'demo' ? 'DEMO PLAYING' : 'YOU ARE PLAYING', 155, 157, '#ffd176', 9);
+    label(mode === 'demo' ? 'AUTO PLAY' : 'MANUAL PLAY', 155, 157, '#ffd176', 9);
     label('A/D + LEFT/RIGHT MOVE', 155, 175, '#9db4ce', 8);
     label('W / UP / TAP   ROTATE', 155, 190, '#9db4ce', 8);
     label('S / DOWN      SOFT DROP', 155, 205, '#9db4ce', 8);
