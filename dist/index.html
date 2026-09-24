@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1024">
+  <meta name="description" content="Zelun He is a software engineer at Arrows Up with a machine learning background. Explore shipped products, published research, and more.">
+  <title>Zelun He | Software Engineer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="retro.css">
+  <script src="script.js" defer></script>
+  <script src="game.js" defer></script>
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="#top" aria-label="Zelun He, back to top"><span class="wordmark-icon" aria-hidden="true">zh<span>.</span></span><span>ZELUN HE</span></a>
+    <nav aria-label="Main navigation">
+      <a href="#work">QUESTS</a>
+      <a href="#about">PLAYER</a>
+      <a class="nav-contact" href="https://www.linkedin.com/in/zelun-he" target="_blank" rel="noopener noreferrer">CONNECT <span aria-hidden="true">↗</span></a>
+    </nav>
+  </header>
+  <main id="main">
+    <section class="hero wrap" id="top" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="eyebrow-line"></span> PLAYER 01 / ST. LOUIS, MO</p>
+        <p class="current-role">✦ CURRENT LEVEL: SOFTWARE ENGINEER @ ARROWS UP</p>
+        <h1 id="hero-title">HEY, I’M<br><span class="muted">ZELUN.</span><span class="hero-period">_</span></h1>
+        <p class="hero-intro"><strong>I build software that works in the real world.</strong><br>My background spans full-stack products and machine learning research. The details between a promising demo and dependable software are where I like to work.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#work">▶ EXPLORE WORK <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href="https://github.com/Zelun-He" target="_blank" rel="noopener noreferrer">GITHUB ↗</a>
+        </div>
+      </div>
+      <div class="hero-art game-frame">
+        <div class="game-screen-bar"><span>ZELUN_QUEST.EXE</span><span>PTS <span id="game-score">000000</span></span></div>
+        <div class="game-scene">
+          <button class="game-stage" id="game-stage" type="button" aria-label="Jump in the animated pixel game">
+            <canvas id="header-game" width="360" height="250">Pixel game: a programmer runs, jumps over bugs, and collects stars.</canvas>
+            <span class="game-instruction">TAP / SPACE TO JUMP</span>
+          </button>
+        </div>
+        <div class="game-screen-bar bottom"><span id="game-status">AUTO PLAY • LEVEL 01</span><button id="game-toggle" class="game-toggle" type="button" aria-label="Pause game">❚❚ PAUSE</button></div>
+      </div>
+      <div class="hero-footer"><span>BUILD // TEST // SHIP</span><span>↓ SCROLL TO SELECT A QUEST</span></div>
+    </section>
+
+    <section class="work section-pad" id="work" aria-labelledby="work-title">
+      <div class="wrap">
+        <div class="section-heading"><div><p class="eyebrow">// LEVEL 01 — SELECTED WORK</p><h2 id="work-title">CHOOSE A<br><em>QUEST.</em></h2></div><p class="section-lede">Three ways I’ve taken an idea beyond the starting screen.</p></div>
+        <div class="project-grid">
+          <article class="project-card card-scribsy">
+            <div class="card-top"><span class="project-index">01 / PRODUCT ENGINEERING</span><span class="project-symbol" aria-hidden="true">✦</span></div>
+            <div class="card-visual scribsy-visual" aria-hidden="true"><div class="visual-window"><div class="window-bar"><i></i><i></i><i></i><span>clinical note / draft</span></div><div class="note-line long"></div><div class="note-line medium"></div><div class="note-label">SOAP</div><div class="note-block"><div></div><div></div><div></div></div></div><div class="sound-wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
+            <div class="card-content"><h3>SCRIBSY</h3><p>Built an AI medical scribe with audio transcription, structured SOAP notes, clinician workflows, and export features during an N-of-1 AI internship.</p><ul class="tags" aria-label="Technologies"><li>FastAPI</li><li>Next.js</li><li>PostgreSQL</li><li>Whisper</li></ul></div>
+          </article>
+          <article class="project-card card-transformer">
+            <div class="card-top"><span class="project-index">02 / PUBLISHED RESEARCH</span><span class="project-symbol" aria-hidden="true">✦</span></div>
+            <div class="card-visual transformer-visual" aria-hidden="true"><div class="chart-label">architecture / ablation study</div><svg viewBox="0 0 440 190" preserveAspectRatio="none"><defs><linearGradient id="lineGradient" x1="0" x2="1"><stop stop-color="#b4b8ff"/><stop offset="1" stop-color="#e4adf8"/></linearGradient></defs><path class="chart-grid" d="M0 30H440M0 75H440M0 120H440M0 165H440"/><path class="chart-line-soft" d="M0 122L22 116 44 136 66 109 88 112 110 89 132 105 154 91 176 112 198 87 220 93 242 80 264 86 286 69 308 85 330 65 352 60 374 67 396 55 418 57 440 45"/><path class="chart-line" d="M0 157L22 151 44 146 66 149 88 133 110 139 132 128 154 125 176 130 198 111 220 120 242 106 264 100 286 98 308 92 330 85 352 82 374 77 396 67 418 62 440 52"/></svg><div class="chart-axis">ENCODER <span>→</span> DECODER</div></div>
+            <div class="card-content"><h3>TRANSFORMER RESEARCH</h3><p>Co-authored a paper on encoder–decoder architecture for time series forecasting, published in Springer’s ITNG 2026 proceedings. Related work earned first place in the Computer Science category at Missouri State’s 2025 CNAS symposium.</p><ul class="tags" aria-label="Technologies"><li>PyTorch</li><li>Time series</li><li>Experiment design</li></ul></div>
+          </article>
+          <article class="project-card card-dna">
+            <div class="card-top"><span class="project-index">03 / APPLIED ML RESEARCH</span><span class="project-symbol" aria-hidden="true">✦</span></div>
+            <div class="card-visual dna-visual" aria-hidden="true"><div class="dna-column dna-left"><span>A</span><span>C</span><span>G</span><span>T</span><span>A</span><span>G</span></div><div class="dna-rungs"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="dna-column dna-right"><span>T</span><span>G</span><span>C</span><span>A</span><span>T</span><span>C</span></div><div class="dna-note">SEQUENCE → SIGNAL</div></div>
+            <div class="card-content"><h3>GENE CLASSIFICATION</h3><p>Explored DNABERT fine-tuning to classify oncogenes and tumor suppressors with limited labeled data in research at Missouri State University.</p><ul class="tags" aria-label="Technologies"><li>DNABERT</li><li>Hugging Face</li><li>PyTorch</li></ul></div>
+          </article>
+        </div>
+        <p class="work-note">QUEST LOG: Browse more code on <a href="https://github.com/Zelun-He" target="_blank" rel="noopener noreferrer">GitHub ↗</a></p>
+      </div>
+    </section>
+
+    <section class="about section-pad" id="about" aria-labelledby="about-title">
+      <div class="wrap about-grid"><div class="about-left"><p class="eyebrow">// LEVEL 02 — PLAYER PROFILE</p><h2 id="about-title">THE<br><em>PLAYER.</em></h2><div class="about-mark" aria-hidden="true">ZH<span>.</span></div></div><div class="about-right"><p class="about-lead">Software engineer at Arrows Up. Machine learning background. Always building.</p><p>I studied computer science at Missouri State University from 2022 to 2025. My work crosses production software, full-stack development, and applied ML research, including a 2026 publication on transformer architecture.</p><p>I served as president of Missouri State’s ACM chapter through 2025. I enjoy helping people learn and build together as much as solving the technical problem itself.</p><div class="focus-row"><span>INVENTORY / MILESTONES</span><p>✦ Springer ITNG 2026 publication<br>✦ 1st place, CNAS Computer Science symposium 2025<br>✦ AWS Certified AI Practitioner, 2026</p></div></div></div>
+      <div class="wrap" id="contact"><div class="contact-panel"><div><p class="eyebrow">// NEXT LEVEL?</p><h2>LET’S BUILD<br>SOMETHING GOOD.</h2><p>Want to connect about software, AI, or a problem worth solving?</p></div><div class="contact-action"><a class="contact-placeholder" href="https://www.linkedin.com/in/zelun-he" target="_blank" rel="noopener noreferrer">▶ CONNECT ON LINKEDIN</a><p>See more work on <a href="https://github.com/Zelun-He" target="_blank" rel="noopener noreferrer">GitHub ↗</a></p></div></div><footer><span>© <span id="year">2026</span> ZELUN HE</span><a href="#top">BACK TO TOP ↑</a><span>MADE WITH CODE + CURIOSITY</span></footer></div>
+    </section>
+  </main>
+</body>
+</html>
