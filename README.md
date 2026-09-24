@@ -1,61 +1,15 @@
-Project Overview
-This website was built using modern web technologies to create a responsive, fast, and visually appealing portfolio. It includes:
+# Zelun He portfolio
 
-A responsive homepage and navigation bar
+The deployed site is the static 8-bit portfolio in [`dist/`](dist/). It includes the animated header game, project highlights, and contact links.
 
-About section with background and fun facts
+## Run locally
 
-Project highlights and technical showcases
+```sh
+python -m http.server 8000 --directory dist
+```
 
-Clean UI/UX styled with Tailwind CSS
+Open `http://localhost:8000`.
 
-Animated components using Framer Motion
+## Deploy
 
-Optimized fonts and images with Next.js features
-
-Technologies Used
-Framework: Next.js 15+
-
-Language: TypeScript / JavaScript
-
-Styling: Tailwind CSS
-
-Animation: Framer Motion
-
-Fonts: Vercel Geist via next/font
-
-Hosting: Vercel
-## Getting Started
-
-First, run the development server:
-
-bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying app/page.js. The page auto-updates as you edit the file.
-
-This project uses [next/font](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Vercel is configured by [`vercel.json`](vercel.json) to serve `dist/` as a static site with no install or build step. Once this GitHub repository is connected to a Vercel project, pushes to the production branch deploy automatically and pull requests receive preview deployments. The older Next.js implementation remains under `src/` for reference; Vercel serves `dist/`.
