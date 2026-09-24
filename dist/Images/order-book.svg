@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 3200" role="img" aria-label="Interactive Limit Order Book Example UI screenshot-style illustration">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0a1736"/>
+      <stop offset="1" stop-color="#08122a"/>
+    </linearGradient>
+    <style>
+      .card{fill:#0d1a38;stroke:#2e3f64;stroke-width:2}
+      .txt{font-family:Inter,system-ui,Arial,sans-serif;fill:#dbe6ff}
+      .muted{fill:#8ea3c9}
+      .head{font-size:54px;font-weight:700}
+      .label{font-size:30px;font-weight:600}
+      .small{font-size:24px}
+      .tiny{font-size:20px}
+    </style>
+  </defs>
+
+  <rect width="1600" height="3200" fill="url(#bg)"/>
+  <text x="120" y="130" class="txt head">Interactive Limit Order Book Example</text>
+  <text x="120" y="185" class="txt small muted">Demo UI preview: matching, resting liquidity, fills, top-of-book, and latency-style stats.</text>
+
+  <rect x="70" y="230" width="1460" height="210" rx="16" class="card"/>
+  <text x="95" y="300" class="txt label">Submit Single Limit Order</text>
+  <rect x="95" y="340" width="360" height="46" rx="8" class="card"/><text x="112" y="372" class="txt tiny">BUY</text>
+  <rect x="470" y="340" width="360" height="46" rx="8" class="card"/><text x="487" y="372" class="txt tiny">100</text>
+  <rect x="845" y="340" width="360" height="46" rx="8" class="card"/><text x="862" y="372" class="txt tiny">10</text>
+  <rect x="1220" y="340" width="285" height="46" rx="8" class="card"/><text x="1320" y="372" class="txt tiny">Submit Order</text>
+
+  <rect x="70" y="460" width="1460" height="160" rx="16" class="card"/>
+  <text x="95" y="530" class="txt label">Run Simulation Burst</text>
+  <rect x="95" y="550" width="735" height="46" rx="8" class="card"/>
+  <rect x="845" y="550" width="660" height="46" rx="8" class="card"/>
+
+  <rect x="70" y="640" width="1460" height="62" rx="12" class="card"/>
+  <text x="95" y="682" class="txt tiny">Processed: 806   Trades: 200   Filled Qty: 22942   Best Bid: 100.24   Best Ask: 100.27   Spread: 0.03</text>
+
+  <rect x="70" y="720" width="1460" height="130" rx="16" class="card"/>
+  <text x="95" y="780" class="txt label">Latency-style Processing Stats (browser-measured)</text>
+  <text x="95" y="820" class="txt tiny muted">min=1ns avg=133995ns p50=100000ns p90=400000ns p99=700000ns max=2200000ns</text>
+
+  <rect x="70" y="870" width="720" height="1900" rx="16" class="card"/>
+  <text x="95" y="930" class="txt label">Order Book (price-time levels)</text>
+  <rect x="90" y="950" width="680" height="1790" rx="12" fill="none" stroke="#31446e"/>
+  <g class="txt tiny muted">
+    <text x="110" y="995">BUY 100.24 22 1</text>
+    <text x="110" y="1035">BUY 100.05 96 1</text>
+    <text x="110" y="1075">BUY 100.02 121 1</text>
+    <text x="110" y="1115">BUY 99.97 137 1</text>
+    <text x="110" y="1155">BUY 99.94 170 1</text>
+    <text x="110" y="1195">...</text>
+    <text x="110" y="2590">SELL 100.50 422 5</text>
+  </g>
+
+  <rect x="810" y="870" width="720" height="1900" rx="16" class="card"/>
+  <text x="835" y="930" class="txt label">Recent Trades</text>
+  <rect x="830" y="950" width="680" height="1790" rx="12" fill="none" stroke="#31446e"/>
+  <g class="txt tiny muted">
+    <text x="850" y="995">T806  M804  100.24  67</text>
+    <text x="850" y="1035">T804  M801  100.14  15</text>
+    <text x="850" y="1075">T804  M799  100.10  60</text>
+    <text x="850" y="1115">T802  M798  100.05  52</text>
+    <text x="850" y="1155">...</text>
+  </g>
+
+  <rect x="70" y="2790" width="1460" height="360" rx="16" class="card"/>
+  <text x="95" y="2850" class="txt label">Event Log</text>
+  <g class="txt tiny muted">
+    <text x="95" y="2895">• Trade: T806 matched M804 at 100.24 x 67</text>
+    <text x="95" y="2935">• Resting: BUY #805 at 99.60 x 56</text>
+    <text x="95" y="2975">• Trade: T804 matched M801 at 100.14 x 15</text>
+    <text x="95" y="3015">• Trade: T804 matched M799 at 100.10 x 60</text>
+    <text x="95" y="3055">• ...</text>
+  </g>
+</svg>
