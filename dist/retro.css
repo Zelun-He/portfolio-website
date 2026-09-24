@@ -165,7 +165,7 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .gallery-card .project-links { padding-top: 17px; }
 
 /* Personal details remain legible and recruiter-facing. */
-.about { color: #e9e8cb; background-color: #193c2a; background-image: linear-gradient(#f4e5a508 1px,transparent 1px),linear-gradient(90deg,#f4e5a508 1px,transparent 1px); background-size: 32px 32px; border-top: 8px solid #af8949; }
+.about, .contact-section { color: #e9e8cb; background-color: #193c2a; background-image: linear-gradient(#f4e5a508 1px,transparent 1px),linear-gradient(90deg,#f4e5a508 1px,transparent 1px); background-size: 32px 32px; border-top: 8px solid #af8949; }
 .about-grid { display: grid; grid-template-columns: minmax(0,.7fr) minmax(0,1fr); gap: 10%; padding-bottom: 65px; }
 .about .eyebrow { color: #c8d9a2; }
 .about h2 { color: #f7efc9; }
@@ -240,7 +240,7 @@ footer a:hover { color: var(--gold); }
   .header-inner { min-height: 72px; }
   .wordmark > span:last-child { display: none; }
   .site-header nav { gap: 13px; }
-  .site-header nav a:first-child, .site-header nav a:nth-child(3) { display: none; }
+  .site-header nav a:nth-child(2) { display: none; }
   .site-header nav .nav-contact { padding: 8px 10px; }
   .hero-inner { padding-block: 53px 69px; }
   .hero h1 { font-size: clamp(38px,9vw,54px); }
