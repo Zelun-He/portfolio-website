@@ -219,9 +219,9 @@
     label(`LEVEL ${String(1 + Math.floor(lines / 10)).padStart(2, '0')}`, 246, 94, '#e7edff', 10);
     label(`LINES ${String(lines).padStart(3, '0')}`, 246, 113, '#e7edff', 10);
     label(mode === 'demo' ? 'DEMO PLAYING' : 'YOU ARE PLAYING', 155, 157, '#ffd176', 9);
-    label('LEFT / RIGHT  MOVE', 155, 175, '#9db4ce', 8);
-    label('UP / TAP      ROTATE', 155, 190, '#9db4ce', 8);
-    label('DOWN          SOFT DROP', 155, 205, '#9db4ce', 8);
+    label('A/D + LEFT/RIGHT MOVE', 155, 175, '#9db4ce', 8);
+    label('W / UP / TAP   ROTATE', 155, 190, '#9db4ce', 8);
+    label('S / DOWN      SOFT DROP', 155, 205, '#9db4ce', 8);
     label('SPACE         HARD DROP', 155, 220, '#9db4ce', 8);
     if (paused || gameOver) {
       ctx.fillStyle = '#08132bd9'; ctx.fillRect(37, 88, 93, 65);
@@ -268,7 +268,13 @@
   stage.addEventListener('click', () => playCommand('rotate'));
   document.addEventListener('keydown', event => {
     if (!frameElement.contains(document.activeElement)) return;
-    const action = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'rotate', ArrowDown: 'down', Space: 'drop' }[event.code];
+    const action = {
+      ArrowLeft: 'left', KeyA: 'left',
+      ArrowRight: 'right', KeyD: 'right',
+      ArrowUp: 'rotate', KeyW: 'rotate',
+      ArrowDown: 'down', KeyS: 'down',
+      Space: 'drop'
+    }[event.code];
     if (!action) return;
     event.preventDefault(); playCommand(action);
   });
