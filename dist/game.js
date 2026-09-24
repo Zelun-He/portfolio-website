@@ -1,190 +1,292 @@
 (() => {
   const canvas = document.getElementById('header-game');
   const stage = document.getElementById('game-stage');
+  const frameElement = document.querySelector('.game-frame');
   const toggle = document.getElementById('game-toggle');
   const scoreLabel = document.getElementById('game-score');
   const statusLabel = document.getElementById('game-status');
-  if (!canvas || !stage || !toggle || !scoreLabel || !statusLabel) return;
+  if (!canvas || !stage || !frameElement || !toggle || !scoreLabel || !statusLabel) return;
 
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
   ctx.imageSmoothingEnabled = false;
-  const W = canvas.width, H = canvas.height, floor = 205, playerX = 82;
-  const worldLength = 940, speed = 66;
-  const coins = [170, 310, 438, 574, 716, 850];
-  const bugs = [250, 516, 782];
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  let playing = !reduceMotion.matches;
-  let visible = true, frame = null, lastTime = 0, distance = 0, score = 0;
-  let height = 0, velocity = 0, pickupFlash = 0;
+  const COLS = 10, ROWS = 20, CELL = 10, BX = 33, BY = 25;
+  const colors = { I: '#55ead6', O: '#ffd36e', T: '#ad8af1', S: '#71db91', Z: '#fa7c9c', J: '#6f9dff', L: '#ffad74' };
+  const shapes = {
+    I: [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],
+    O: [[1, 1], [1, 1]],
+    T: [[0, 1, 0], [1, 1, 1], [0, 0, 0]],
+    S: [[0, 1, 1], [1, 1, 0], [0, 0, 0]],
+    Z: [[1, 1, 0], [0, 1, 1], [0, 0, 0]],
+    J: [[1, 0, 0], [1, 1, 1], [0, 0, 0]],
+    L: [[0, 0, 1], [1, 1, 1], [0, 0, 0]]
+  };
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let board, piece, nextKind, bag = [], seed = 72863;
+  let score = 0, lines = 0, mode = 'demo', paused = reducedMotion.matches;
+  let gameOver = false, gameOverTime = 0, elapsed = 0, gravityTime = 0, aiTime = 0;
+  let visible = true, raf = null, lastFrame = 0;
 
-  function rect(x, y, w, h, color) {
+  const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
+  function takeFromBag() {
+    if (!bag.length) {
+      bag = Object.keys(shapes);
+      for (let i = bag.length - 1; i > 0; i--) {
+        const j = Math.floor(random() * (i + 1));
+        [bag[i], bag[j]] = [bag[j], bag[i]];
+      }
+    }
+    return bag.pop();
+  }
+  const rotate = shape => shape[0].map((_, column) => shape.map(row => row[column]).reverse());
+  const copyBoard = source => source.map(row => [...row]);
+  function fits(shape, x, y, grid = board) {
+    for (let row = 0; row < shape.length; row++) for (let col = 0; col < shape[row].length; col++) {
+      if (!shape[row][col]) continue;
+      const px = x + col, py = y + row;
+      if (px < 0 || px >= COLS || py >= ROWS || (py >= 0 && grid[py][px])) return false;
+    }
+    return true;
+  }
+  function landingY(shape, x, grid = board) {
+    if (!fits(shape, x, 0, grid)) return -1;
+    let y = 0;
+    while (fits(shape, x, y + 1, grid)) y++;
+    return y;
+  }
+  function clearRows(grid) {
+    let removed = 0;
+    for (let y = ROWS - 1; y >= 0; y--) {
+      if (grid[y].every(Boolean)) {
+        grid.splice(y, 1); grid.unshift(Array(COLS).fill(null));
+        removed++; y++;
+      }
+    }
+    return removed;
+  }
+  function rate(grid, cleared) {
+    const heights = [];
+    let holes = 0;
+    for (let x = 0; x < COLS; x++) {
+      let found = false, height = 0;
+      for (let y = 0; y < ROWS; y++) {
+        if (grid[y][x]) { if (!found) height = ROWS - y; found = true; }
+        else if (found) holes++;
+      }
+      heights.push(height);
+    }
+    const bump = heights.slice(1).reduce((sum, h, i) => sum + Math.abs(h - heights[i]), 0);
+    return cleared * 8 - heights.reduce((a, b) => a + b, 0) * .48 - holes * 3.8 - bump * .35;
+  }
+  function planMove() {
+    let best = { value: -Infinity, x: piece.x, rotation: 0 };
+    let shape = shapes[piece.kind];
+    const rotations = piece.kind === 'O' ? 1 : 4;
+    for (let turn = 0; turn < rotations; turn++) {
+      for (let x = -shape.length + 1; x < COLS; x++) {
+        const y = landingY(shape, x);
+        if (y < 0) continue;
+        const trial = copyBoard(board);
+        shape.forEach((row, ry) => row.forEach((cell, cx) => { if (cell && y + ry >= 0) trial[y + ry][x + cx] = piece.kind; }));
+        const cleared = clearRows(trial);
+        const value = rate(trial, cleared) + random() * .02;
+        if (value > best.value) best = { value, x, rotation: turn };
+      }
+      shape = rotate(shape);
+    }
+    piece.targetX = best.x;
+    piece.targetRotation = best.rotation;
+  }
+  function spawn() {
+    const kind = nextKind;
+    nextKind = takeFromBag();
+    const shape = shapes[kind];
+    piece = { kind, shape, x: Math.floor((COLS - shape.length) / 2), y: 0, rotation: 0, targetX: 0, targetRotation: 0 };
+    if (!fits(shape, piece.x, piece.y)) {
+      gameOver = true;
+      gameOverTime = 0;
+      updateStatus();
+      return;
+    }
+    if (mode === 'demo') planMove();
+  }
+  function reset(keepMode = false) {
+    board = Array.from({ length: ROWS }, () => Array(COLS).fill(null));
+    score = 0; lines = 0; elapsed = 0; gravityTime = 0; aiTime = 0;
+    gameOver = false; gameOverTime = 0;
+    if (!keepMode) mode = 'manual';
+    nextKind = takeFromBag();
+    spawn();
+    scoreLabel.textContent = '000000';
+    updateStatus(); render();
+  }
+  function lock() {
+    piece.shape.forEach((row, y) => row.forEach((cell, x) => {
+      if (cell && piece.y + y >= 0) board[piece.y + y][piece.x + x] = piece.kind;
+    }));
+    const cleared = clearRows(board);
+    lines += cleared;
+    score += 10 + ([0, 100, 300, 500, 800][cleared] || 800) * (1 + Math.floor(lines / 10));
+    scoreLabel.textContent = String(score).padStart(6, '0');
+    spawn();
+  }
+  function move(dx) { if (!gameOver && fits(piece.shape, piece.x + dx, piece.y)) piece.x += dx; }
+  function spin() {
+    if (gameOver || piece.kind === 'O') return;
+    const shape = rotate(piece.shape);
+    for (const offset of [0, -1, 1, -2, 2]) {
+      if (fits(shape, piece.x + offset, piece.y)) {
+        piece.shape = shape; piece.x += offset; piece.rotation = (piece.rotation + 1) % 4;
+        return;
+      }
+    }
+  }
+  function descend() {
+    if (gameOver) return;
+    if (fits(piece.shape, piece.x, piece.y + 1)) piece.y++;
+    else lock();
+  }
+  function drop() {
+    if (gameOver) return;
+    piece.y = landingY(piece.shape, piece.x);
+    if (piece.y >= 0) lock();
+  }
+  function updateStatus() {
+    statusLabel.textContent = gameOver ? 'GAME OVER • RESTART TO PLAY' : paused ? 'PAUSED' : mode === 'demo' ? 'AUTO DEMO • SELECT GAME TO PLAY' : 'YOUR TURN • CLEAR THE LINES';
+    toggle.textContent = paused ? '▶ PLAY' : '❚❚ PAUSE';
+    toggle.setAttribute('aria-label', paused ? 'Resume game' : 'Pause game');
+  }
+  function playCommand(action) {
+    if (action === 'reset') { reset(); paused = false; updateStatus(); schedule(); return; }
+    if (gameOver) { reset(); paused = false; }
+    if (mode !== 'manual') mode = 'manual';
+    paused = false;
+    if (action === 'left') move(-1);
+    if (action === 'right') move(1);
+    if (action === 'rotate') spin();
+    if (action === 'down') { descend(); score++; scoreLabel.textContent = String(score).padStart(6, '0'); }
+    if (action === 'drop') drop();
+    updateStatus(); render(); schedule();
+  }
+
+  function block(x, y, color, ghost = false, size = CELL) {
+    const px = Math.round(x), py = Math.round(y);
+    ctx.fillStyle = ghost ? '#4c6981' : color;
+    ctx.fillRect(px, py, size - 1, size - 1);
+    if (!ghost) {
+      ctx.fillStyle = '#ffffff4d'; ctx.fillRect(px + 1, py + 1, size - 3, 1);
+      ctx.fillStyle = '#07142980'; ctx.fillRect(px + size - 3, py + 2, 1, size - 3);
+    }
+  }
+  function label(text, x, y, color = '#c3d6ec', size = 9) {
+    ctx.font = `bold ${size}px monospace`;
     ctx.fillStyle = color;
-    ctx.fillRect(Math.round(x), Math.round(y), w, h);
+    ctx.fillText(text, x, y);
   }
-
-  function jump() {
-    if (height === 0) velocity = 167;
+  function render() {
+    ctx.fillStyle = '#10213e'; ctx.fillRect(0, 0, 360, 250);
+    for (let i = 0; i < 19; i++) {
+      const x = (i * 73 + 17) % 360, y = (i * 47 + 9) % 250;
+      ctx.fillStyle = i % 3 ? '#395777' : '#a784ce'; ctx.fillRect(x, y, 2, 2);
+    }
+    ctx.fillStyle = '#293957'; ctx.fillRect(BX - 4, BY - 4, COLS * CELL + 8, ROWS * CELL + 8);
+    ctx.fillStyle = '#4d7091'; ctx.fillRect(BX - 3, BY - 3, COLS * CELL + 6, ROWS * CELL + 6);
+    ctx.fillStyle = '#0a1329'; ctx.fillRect(BX, BY, COLS * CELL, ROWS * CELL);
+    for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) {
+      ctx.fillStyle = (x + y) % 2 ? '#132039' : '#14223e';
+      ctx.fillRect(BX + x * CELL, BY + y * CELL, CELL - 1, CELL - 1);
+      if (board[y][x]) block(BX + x * CELL, BY + y * CELL, colors[board[y][x]]);
+    }
+    if (piece && !gameOver) {
+      const ghostY = landingY(piece.shape, piece.x);
+      piece.shape.forEach((row, y) => row.forEach((cell, x) => {
+        if (!cell) return;
+        if (ghostY >= 0 && ghostY + y >= 0) block(BX + (piece.x + x) * CELL, BY + (ghostY + y) * CELL, '', true);
+        if (piece.y + y >= 0) block(BX + (piece.x + x) * CELL, BY + (piece.y + y) * CELL, colors[piece.kind]);
+      }));
+    }
+    label('TETRIS', 157, 37, '#5df3d0', 16);
+    label('BUILD MODE', 157, 52, '#94adc9', 9);
+    ctx.fillStyle = '#213653'; ctx.fillRect(151, 64, 185, 72);
+    ctx.strokeStyle = '#6684a8'; ctx.lineWidth = 2; ctx.strokeRect(151, 64, 185, 72);
+    label('NEXT', 163, 80, '#ffd176', 10);
+    if (nextKind) {
+      const shape = shapes[nextKind], size = 11;
+      shape.forEach((row, y) => row.forEach((cell, x) => {
+        if (cell) block(175 + x * size, 89 + y * size, colors[nextKind], false, size);
+      }));
+    }
+    label(`LEVEL ${String(1 + Math.floor(lines / 10)).padStart(2, '0')}`, 246, 94, '#e7edff', 10);
+    label(`LINES ${String(lines).padStart(3, '0')}`, 246, 113, '#e7edff', 10);
+    label(mode === 'demo' ? 'DEMO PLAYING' : 'YOU ARE PLAYING', 155, 157, '#ffd176', 9);
+    label('LEFT / RIGHT  MOVE', 155, 175, '#9db4ce', 8);
+    label('UP / TAP      ROTATE', 155, 190, '#9db4ce', 8);
+    label('DOWN          SOFT DROP', 155, 205, '#9db4ce', 8);
+    label('SPACE         HARD DROP', 155, 220, '#9db4ce', 8);
+    if (paused || gameOver) {
+      ctx.fillStyle = '#08132bd9'; ctx.fillRect(37, 88, 93, 65);
+      ctx.strokeStyle = '#5df3d0'; ctx.lineWidth = 2; ctx.strokeRect(37, 88, 93, 65);
+      label(gameOver ? 'GAME' : 'PAUSED', gameOver ? 62 : 59, 116, '#f6eccc', 12);
+      if (gameOver) label('OVER', 66, 132, '#ff75b9', 12);
+      else label('PRESS PLAY', 54, 134, '#9ddccc', 8);
+    }
   }
-
   function update(dt) {
-    const previous = distance + playerX;
-    distance += speed * dt;
-    const current = distance + playerX;
-    const nextBug = bugs.map(x => x + Math.floor(current / worldLength) * worldLength)
-      .concat(bugs.map(x => x + (Math.floor(current / worldLength) + 1) * worldLength))
-      .find(x => x - current > 38 && x - current < 57);
-    if (nextBug && height === 0) jump();
-
-    height = Math.max(0, height + velocity * dt);
-    velocity -= 430 * dt;
-    if (height === 0) velocity = 0;
-
-    for (let lap = Math.floor(previous / worldLength); lap <= Math.floor(current / worldLength); lap++) {
-      for (const coin of coins) {
-        const x = lap * worldLength + coin;
-        if (previous < x && current >= x) {
-          score += 100;
-          pickupFlash = .38;
-          scoreLabel.textContent = String(score).padStart(6, '0');
-        }
+    elapsed += dt;
+    if (gameOver) {
+      gameOverTime += dt;
+      if (mode === 'demo' && gameOverTime > 2) { reset(true); updateStatus(); }
+      return;
+    }
+    if (mode === 'demo') {
+      aiTime += dt;
+      if (aiTime >= .1) {
+        aiTime = 0;
+        if (piece.rotation !== piece.targetRotation) spin();
+        else if (piece.x < piece.targetX) move(1);
+        else if (piece.x > piece.targetX) move(-1);
       }
     }
-    pickupFlash = Math.max(0, pickupFlash - dt);
-    statusLabel.textContent = `AUTO PLAY • LEVEL ${String(1 + Math.floor(distance / worldLength)).padStart(2, '0')}`;
+    gravityTime += dt;
+    const interval = mode === 'demo' ? .20 : Math.max(.12, .62 - Math.floor(lines / 10) * .05);
+    if (gravityTime >= interval) { gravityTime = 0; descend(); }
   }
-
-  function background() {
-    rect(0, 0, W, H, '#10213e');
-    for (let i = 0; i < 25; i++) {
-      const x = ((i * 79 - distance * .09) % (W + 30) + W + 30) % (W + 30);
-      rect(x, 14 + (i * 37) % 116, i % 5 === 0 ? 3 : 2, 2, i % 3 ? '#536e9c' : '#f9d57c');
-    }
-    rect(282, 31, 30, 30, '#f8d17e');
-    rect(278, 37, 4, 18, '#f8d17e'); rect(312, 37, 4, 18, '#f8d17e');
-    rect(288, 27, 18, 4, '#f8d17e'); rect(288, 61, 18, 4, '#f8d17e');
-    rect(289, 37, 5, 5, '#ffe7a8'); rect(302, 48, 5, 5, '#deaf66');
-    for (let i = -1; i < 9; i++) {
-      const x = Math.floor(i * 54 - (distance * .27) % 54);
-      const top = 122 + (Math.abs(i * 17) % 30);
-      rect(x, top, 43, 64, '#1a3456');
-      rect(x + 8, top - 13, 6, 13, '#1a3456');
-      for (let row = 0; row < 3; row++) for (let col = 0; col < 3; col++) {
-        if ((i + row + col) % 3 !== 0) rect(x + 7 + col * 12, top + 9 + row * 14, 4, 5, '#46708d');
-      }
-    }
-    rect(0, 187, W, 19, '#294764');
-    for (let i = -1; i < 17; i++) {
-      const x = Math.floor(i * 24 - (distance * .6) % 24);
-      rect(x, 195, 13, 3, '#37627c');
-    }
-    rect(0, floor, W, H - floor, '#33486b');
-    rect(0, floor, W, 5, '#5df3d0');
-    for (let i = -1; i < 17; i++) {
-      const x = Math.floor(i * 24 - distance % 24);
-      rect(x, floor + 5, 22, 3, '#516586');
-      rect(x + 6, floor + 17, 4, 4, '#273954');
-      rect(x + 16, floor + 29, 4, 4, '#273954');
-    }
-    ctx.font = 'bold 9px monospace';
-    ctx.fillStyle = '#a8fce3';
-    ctx.fillText('01 / BUILD • TEST • SHIP', 14, 19);
-  }
-
-  function drawCoin(x, y, t) {
-    const wobble = Math.round(Math.sin(t * 7 + x) * 2);
-    rect(x - 2, y - 10 + wobble, 10, 18, '#dc9d4c');
-    rect(x, y - 12 + wobble, 6, 18, '#ffdd78');
-    rect(x + 2, y - 7 + wobble, 2, 8, '#fff2bb');
-    rect(x - 4, y - 6 + wobble, 2, 7, '#f8c769');
-  }
-
-  function drawBug(x) {
-    rect(x - 2, floor - 13, 24, 13, '#7e478b');
-    rect(x + 1, floor - 18, 18, 5, '#b961ae');
-    rect(x + 4, floor - 11, 4, 4, '#fff2bb');
-    rect(x + 13, floor - 11, 4, 4, '#fff2bb');
-    rect(x + 5, floor - 10, 2, 2, '#151327');
-    rect(x + 14, floor - 10, 2, 2, '#151327');
-    rect(x, floor - 3, 4, 5, '#532d66');
-    rect(x + 17, floor - 3, 4, 5, '#532d66');
-  }
-
-  function drawPlayer(t) {
-    const x = playerX - 10, y = floor - 31 - Math.round(height);
-    if (height > 0) {
-      rect(x - 5, floor + 3, 27, 3, '#132846');
-      rect(x + 23, y + 12, 3, 3, '#ffd176');
-    }
-    rect(x + 3, y, 16, 6, '#19152e');
-    rect(x, y + 5, 22, 7, '#19152e');
-    rect(x + 2, y + 12, 19, 10, '#c79276');
-    rect(x + 4, y + 15, 3, 3, '#1e1930');
-    rect(x + 15, y + 15, 3, 3, '#1e1930');
-    rect(x + 6, y + 21, 16, 11, '#7564bd');
-    rect(x + 20, y + 24, 6, 5, '#bc8d76');
-    const step = height > 0 ? 2 : (Math.floor(t * 9) % 2) * 3;
-    rect(x + 7, y + 31, 5, 4 + step, '#d4a17e');
-    rect(x + 17, y + 31, 5, 7 - step, '#d4a17e');
-  }
-
-  function render(t = 0) {
-    background();
-    for (let lap = Math.floor(distance / worldLength); lap <= Math.floor(distance / worldLength) + 1; lap++) {
-      for (const coin of coins) {
-        const worldX = lap * worldLength + coin;
-        const x = Math.round(worldX - distance);
-        if (x > -15 && x < W + 15 && worldX > distance + playerX) drawCoin(x, 165, t);
-      }
-      for (const bug of bugs) {
-        const x = Math.round(lap * worldLength + bug - distance);
-        if (x > -28 && x < W + 20) drawBug(x);
-      }
-    }
-    drawPlayer(t);
-    if (pickupFlash > 0) {
-      ctx.font = 'bold 11px monospace';
-      ctx.fillStyle = '#ffe58e';
-      ctx.fillText('+100!', playerX - 7, floor - 51 - height - (1 - pickupFlash / .38) * 10);
-    }
-    if (!playing) {
-      rect(106, 94, 148, 49, '#0b1731');
-      ctx.strokeStyle = '#5df3d0'; ctx.lineWidth = 2; ctx.strokeRect(106, 94, 148, 49);
-      ctx.font = 'bold 14px monospace'; ctx.fillStyle = '#f6eccf';
-      ctx.fillText('PAUSED', 147, 124);
-    }
-  }
-
   function tick(now) {
-    frame = null;
-    if (!playing || !visible || document.hidden) return;
-    const dt = lastTime ? Math.min((now - lastTime) / 1000, .05) : 0;
-    lastTime = now;
-    update(dt);
-    render(now / 1000);
-    frame = requestAnimationFrame(tick);
+    raf = null;
+    if (paused || !visible || document.hidden) return;
+    const dt = lastFrame ? Math.min((now - lastFrame) / 1000, .06) : 0;
+    lastFrame = now;
+    update(dt); render(); schedule();
   }
   function schedule() {
-    if (playing && visible && !document.hidden && frame === null) {
-      lastTime = 0;
-      frame = requestAnimationFrame(tick);
+    if (!paused && visible && !document.hidden && raf === null) {
+      raf = requestAnimationFrame(tick);
     }
   }
-  function stop() { if (frame !== null) cancelAnimationFrame(frame); frame = null; lastTime = 0; }
-  function setPlaying(value) {
-    playing = value;
-    toggle.textContent = value ? '❚❚ PAUSE' : '▶ PLAY';
-    toggle.setAttribute('aria-label', value ? 'Pause game' : 'Play game');
-    statusLabel.textContent = value ? `AUTO PLAY • LEVEL ${String(1 + Math.floor(distance / worldLength)).padStart(2, '0')}` : 'GAME PAUSED';
-    if (value) schedule(); else { stop(); render(); }
-  }
-  stage.addEventListener('click', jump);
-  stage.addEventListener('keydown', e => { if (e.code === 'Space' || e.code === 'Enter') { e.preventDefault(); jump(); } });
-  toggle.addEventListener('click', () => setPlaying(!playing));
+  function stop() { if (raf !== null) cancelAnimationFrame(raf); raf = null; lastFrame = 0; }
+  frameElement.querySelectorAll('[data-game-action]').forEach(button => button.addEventListener('click', () => playCommand(button.dataset.gameAction)));
+  stage.addEventListener('click', () => playCommand('rotate'));
+  document.addEventListener('keydown', event => {
+    if (!frameElement.contains(document.activeElement)) return;
+    const action = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'rotate', ArrowDown: 'down', Space: 'drop' }[event.code];
+    if (!action) return;
+    event.preventDefault(); playCommand(action);
+  });
+  toggle.addEventListener('click', () => {
+    if (gameOver && mode === 'manual') {
+      reset(); paused = false; updateStatus(); render(); schedule(); return;
+    }
+    paused = !paused; updateStatus();
+    if (paused) { stop(); render(); } else schedule();
+  });
   document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else schedule(); });
-  reduceMotion.addEventListener('change', e => { if (e.matches) setPlaying(false); });
-  const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; if (visible) schedule(); else stop(); });
+  reducedMotion.addEventListener('change', event => {
+    if (event.matches) { paused = true; stop(); updateStatus(); render(); }
+  });
+  const observer = new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    if (visible) schedule(); else stop();
+  });
   observer.observe(canvas);
-  if (!playing) setPlaying(false);
-  else { render(); schedule(); }
+  nextKind = takeFromBag(); reset(true); updateStatus(); render(); schedule();
 })();

@@ -38,36 +38,49 @@
         </div>
       </div>
       <div class="hero-art game-frame">
-        <div class="game-screen-bar"><span>ZELUN_QUEST.EXE</span><span>PTS <span id="game-score">000000</span></span></div>
+        <div class="game-screen-bar"><span>BLOCKS.EXE</span><span>PTS <span id="game-score">000000</span></span></div>
         <div class="game-scene">
-          <button class="game-stage" id="game-stage" type="button" aria-label="Jump in the animated pixel game">
-            <canvas id="header-game" width="360" height="250">Pixel game: a programmer runs, jumps over bugs, and collects stars.</canvas>
-            <span class="game-instruction">TAP / SPACE TO JUMP</span>
+          <button class="game-stage" id="game-stage" type="button" aria-label="Falling-block game. Tap to rotate, then use the game controls or keyboard to play.">
+            <canvas id="header-game" width="360" height="250">A falling-block puzzle game. Move and rotate pieces to clear lines.</canvas>
+            <span class="game-instruction">TAP TO ROTATE</span>
           </button>
         </div>
-        <div class="game-screen-bar bottom"><span id="game-status">AUTO PLAY • LEVEL 01</span><button id="game-toggle" class="game-toggle" type="button" aria-label="Pause game">❚❚ PAUSE</button></div>
+        <div class="tetris-controls" aria-label="Falling-block game controls">
+          <button type="button" data-game-action="left" aria-label="Move left" title="Move left">◀</button>
+          <button type="button" data-game-action="right" aria-label="Move right" title="Move right">▶</button>
+          <button type="button" data-game-action="rotate" aria-label="Rotate piece" title="Rotate">↻</button>
+          <button type="button" data-game-action="down" aria-label="Move down" title="Move down">▼</button>
+          <button type="button" data-game-action="drop" aria-label="Drop piece" title="Hard drop">⤓</button>
+          <button type="button" data-game-action="reset" aria-label="Restart game" title="Restart">↺</button>
+        </div>
+        <div class="game-screen-bar bottom"><span id="game-status" aria-live="polite">AUTO DEMO • SELECT GAME TO PLAY</span><button id="game-toggle" class="game-toggle" type="button" aria-label="Pause game">❚❚ PAUSE</button></div>
       </div>
       <div class="hero-footer"><span>BUILD // TEST // SHIP</span><span>↓ SCROLL TO SELECT A QUEST</span></div>
     </section>
 
     <section class="work section-pad" id="work" aria-labelledby="work-title">
       <div class="wrap">
-        <div class="section-heading"><div><p class="eyebrow">// LEVEL 01 — SELECTED WORK</p><h2 id="work-title">CHOOSE A<br><em>QUEST.</em></h2></div><p class="section-lede">Three ways I’ve taken an idea beyond the starting screen.</p></div>
+        <div class="section-heading"><div><p class="eyebrow">// LEVEL 01 — SELECTED WORK</p><h2 id="work-title">CHOOSE A<br><em>QUEST.</em></h2></div><p class="section-lede">Product work, practical AI, systems engineering, and research—four sides of what I like to build.</p></div>
         <div class="project-grid">
+          <article class="project-card card-oasis">
+            <div class="card-top"><span class="project-index">01 / PRODUCT DEVELOPMENT</span><span class="project-symbol" aria-hidden="true">✦</span></div>
+            <div class="card-visual oasis-visual" aria-hidden="true"><div class="oasis-window"><div class="oasis-nav"><span>✦</span><span>MYOASIS</span><span>···</span></div><div class="oasis-body"><div class="oasis-title">A moment to check in.</div><div class="oasis-line wide"></div><div class="oasis-line"></div><div class="oasis-options"><span>☺</span><span>◡</span><span>☾</span></div><div class="oasis-action">CONTINUE →</div></div></div><div class="oasis-spark">✳</div></div>
+            <div class="card-content"><h3>MYOASIS</h3><p>Contributed front-end components to a mental wellness platform, working with the CTO to align implementation with product specifications and improve responsiveness and consistency.</p><ul class="tags" aria-label="Focus areas"><li>Front end</li><li>Responsive UI</li><li>Product collaboration</li></ul><div class="project-links"><a href="https://www.myoasis.ai/" target="_blank" rel="noopener noreferrer">VISIT SITE ↗</a></div></div>
+          </article>
           <article class="project-card card-scribsy">
-            <div class="card-top"><span class="project-index">01 / PRODUCT ENGINEERING</span><span class="project-symbol" aria-hidden="true">✦</span></div>
+            <div class="card-top"><span class="project-index">02 / PRACTICAL AI</span><span class="project-symbol" aria-hidden="true">✦</span></div>
             <div class="card-visual scribsy-visual" aria-hidden="true"><div class="visual-window"><div class="window-bar"><i></i><i></i><i></i><span>clinical note / draft</span></div><div class="note-line long"></div><div class="note-line medium"></div><div class="note-label">SOAP</div><div class="note-block"><div></div><div></div><div></div></div></div><div class="sound-wave"><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div></div>
-            <div class="card-content"><h3>SCRIBSY</h3><p>Built an AI medical scribe with audio transcription, structured SOAP notes, clinician workflows, and export features during an N-of-1 AI internship.</p><ul class="tags" aria-label="Technologies"><li>FastAPI</li><li>Next.js</li><li>PostgreSQL</li><li>Whisper</li></ul></div>
+            <div class="card-content"><h3>SCRIBSY</h3><p>Built an AI scribe inspired by a doctor’s documentation workload. Its FastAPI backend transcribes uploaded audio with Whisper and can turn transcripts into structured SOAP notes.</p><ul class="tags" aria-label="Technologies"><li>FastAPI</li><li>Whisper</li><li>OpenAI</li></ul><div class="project-links"><a href="https://github.com/Zelun-He/Scribsy" target="_blank" rel="noopener noreferrer">VIEW CODE ↗</a></div></div>
+          </article>
+          <article class="project-card card-lob">
+            <div class="card-top"><span class="project-index">03 / SYSTEMS ENGINEERING</span><span class="project-symbol" aria-hidden="true">✦</span></div>
+            <div class="card-visual lob-visual" aria-hidden="true"><div class="lob-terminal"><div class="lob-header"><span>ORDER BOOK / LIVE SIM</span><span>●</span></div><div class="lob-columns"><span>BID / QTY</span><span>PRICE</span><span>ASK / QTY</span></div><div class="lob-row"><span class="bid">▮▮▮▮ 84</span><span>100.05</span><span class="ask">31 ▮▮</span></div><div class="lob-row"><span class="bid">▮▮▮ 52</span><span>100.04</span><span class="ask">65 ▮▮▮</span></div><div class="lob-row"><span class="bid">▮▮▮▮▮ 98</span><span>100.03</span><span class="ask">42 ▮▮</span></div><div class="lob-status">MATCH → PRICE / TIME</div></div></div>
+            <div class="card-content"><h3>LIMIT ORDER BOOK</h3><p>Built a C++ matching engine with FIFO price-level queues and price-time priority. It accepts simulated or stdin orders, reports per-order latency, and includes a React browser demo.</p><ul class="tags" aria-label="Technologies"><li>C++</li><li>Matching engine</li><li>React demo</li></ul><div class="project-links"><a href="https://github.com/Zelun-He/low_latency_lob" target="_blank" rel="noopener noreferrer">VIEW CODE ↗</a></div></div>
           </article>
           <article class="project-card card-transformer">
-            <div class="card-top"><span class="project-index">02 / PUBLISHED RESEARCH</span><span class="project-symbol" aria-hidden="true">✦</span></div>
+            <div class="card-top"><span class="project-index">04 / PUBLISHED RESEARCH</span><span class="project-symbol" aria-hidden="true">✦</span></div>
             <div class="card-visual transformer-visual" aria-hidden="true"><div class="chart-label">architecture / ablation study</div><svg viewBox="0 0 440 190" preserveAspectRatio="none"><defs><linearGradient id="lineGradient" x1="0" x2="1"><stop stop-color="#b4b8ff"/><stop offset="1" stop-color="#e4adf8"/></linearGradient></defs><path class="chart-grid" d="M0 30H440M0 75H440M0 120H440M0 165H440"/><path class="chart-line-soft" d="M0 122L22 116 44 136 66 109 88 112 110 89 132 105 154 91 176 112 198 87 220 93 242 80 264 86 286 69 308 85 330 65 352 60 374 67 396 55 418 57 440 45"/><path class="chart-line" d="M0 157L22 151 44 146 66 149 88 133 110 139 132 128 154 125 176 130 198 111 220 120 242 106 264 100 286 98 308 92 330 85 352 82 374 77 396 67 418 62 440 52"/></svg><div class="chart-axis">ENCODER <span>→</span> DECODER</div></div>
-            <div class="card-content"><h3>TRANSFORMER RESEARCH</h3><p>Co-authored a paper on encoder–decoder architecture for time series forecasting, published in Springer’s ITNG 2026 proceedings. Related work earned first place in the Computer Science category at Missouri State’s 2025 CNAS symposium.</p><ul class="tags" aria-label="Technologies"><li>PyTorch</li><li>Time series</li><li>Experiment design</li></ul></div>
-          </article>
-          <article class="project-card card-dna">
-            <div class="card-top"><span class="project-index">03 / APPLIED ML RESEARCH</span><span class="project-symbol" aria-hidden="true">✦</span></div>
-            <div class="card-visual dna-visual" aria-hidden="true"><div class="dna-column dna-left"><span>A</span><span>C</span><span>G</span><span>T</span><span>A</span><span>G</span></div><div class="dna-rungs"><span></span><span></span><span></span><span></span><span></span><span></span></div><div class="dna-column dna-right"><span>T</span><span>G</span><span>C</span><span>A</span><span>T</span><span>C</span></div><div class="dna-note">SEQUENCE → SIGNAL</div></div>
-            <div class="card-content"><h3>GENE CLASSIFICATION</h3><p>Explored DNABERT fine-tuning to classify oncogenes and tumor suppressors with limited labeled data in research at Missouri State University.</p><ul class="tags" aria-label="Technologies"><li>DNABERT</li><li>Hugging Face</li><li>PyTorch</li></ul></div>
+            <div class="card-content"><h3>TRANSFORMER RESEARCH</h3><p>Co-authored a study comparing transformer encoder and decoder architectures for time series forecasting through targeted ablations. The work was published in the ITNG 2026 proceedings.</p><ul class="tags" aria-label="Technologies"><li>PyTorch</li><li>Time series</li><li>Ablation studies</li></ul></div>
           </article>
         </div>
         <p class="work-note">QUEST LOG: Browse more code on <a href="https://github.com/Zelun-He" target="_blank" rel="noopener noreferrer">GitHub ↗</a></p>
