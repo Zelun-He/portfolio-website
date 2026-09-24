@@ -23,9 +23,9 @@
     <div class="wrap header-inner">
       <a class="wordmark" href="#top" aria-label="Zelun He, back to top"><span class="wordmark-icon" aria-hidden="true">ZH</span><span>ZELUN HE</span></a>
       <nav aria-label="Main navigation">
+        <a href="#about">ABOUT</a>
         <a href="#experience">EXPERIENCE</a>
         <a href="#projects">PROJECTS</a>
-        <a href="#about">ABOUT</a>
         <a class="nav-contact" href="#contact">CONTACT <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
@@ -36,10 +36,10 @@
       <div class="map-board" id="map-board">
         <svg class="map-route" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="75,66 245,60 420,70 590,56 760,68 925,58"/><polyline class="map-route-complete" id="map-route-complete" points="75,66"/></svg>
         <a class="map-stop" href="#top" data-map-stop="top" style="--x:7.5%;--y:66%" aria-label="Start" aria-current="location"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">START</span></a>
-        <a class="map-stop" href="#experience" data-map-stop="experience" style="--x:24.5%;--y:60%" aria-label="Experience"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">EXPERIENCE</span><span class="map-label-short">EXP</span></span></a>
-        <a class="map-stop" href="#internships" data-map-stop="internships" style="--x:42%;--y:70%" aria-label="Internships"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">INTERNSHIPS</span><span class="map-label-short">INTERN</span></span></a>
-        <a class="map-stop" href="#projects" data-map-stop="projects" style="--x:59%;--y:56%" aria-label="Projects"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">PROJECTS</span><span class="map-label-short">PROJ</span></span></a>
-        <a class="map-stop" href="#about" data-map-stop="about" style="--x:76%;--y:68%" aria-label="About"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">ABOUT</span></a>
+        <a class="map-stop" href="#about" data-map-stop="about" style="--x:24.5%;--y:60%" aria-label="About"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">ABOUT</span></a>
+        <a class="map-stop" href="#experience" data-map-stop="experience" style="--x:42%;--y:70%" aria-label="Experience"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">EXPERIENCE</span><span class="map-label-short">EXP</span></span></a>
+        <a class="map-stop" href="#internships" data-map-stop="internships" style="--x:59%;--y:56%" aria-label="Internships"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">INTERNSHIPS</span><span class="map-label-short">INTERN</span></span></a>
+        <a class="map-stop" href="#projects" data-map-stop="projects" style="--x:76%;--y:68%" aria-label="Projects"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">PROJECTS</span><span class="map-label-short">PROJ</span></span></a>
         <a class="map-stop" href="#contact" data-map-stop="contact" style="--x:92.5%;--y:58%" aria-label="Contact"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">CONTACT</span><span class="map-label-short">MAIL</span></span></a>
         <img class="map-character" id="map-character" src="map-character.png" alt="" width="58" height="104" decoding="async">
       </div>
@@ -77,6 +77,27 @@
         </div>
         <div class="game-screen-bar bottom"><span id="game-status" aria-live="polite">AUTO PLAY • CLICK TO CONTROL</span><button id="game-toggle" class="game-toggle" type="button" aria-label="Pause game">❚❚ PAUSE</button></div>
       </div>
+      </div>
+    </section>
+
+    <section class="about section-pad" id="about" aria-labelledby="about-title">
+      <div class="wrap about-grid">
+        <div class="about-left"><p class="eyebrow">BACKGROUND</p><h2 id="about-title">ABOUT<br><em>ME.</em></h2><div class="about-mark" aria-hidden="true">ZH<span>.</span></div></div>
+        <div class="about-right">
+          <p class="about-lead">I combine web engineering with experience in applied machine learning research.</p>
+          <p>I earned a B.S. in Computer Science with a Mathematics minor from Missouri State University in December 2025. My work spans client web platforms, clinical documentation software, and transformer research for time series forecasting.</p>
+          <p>As president of Missouri State’s ACM chapter, I organized workshops, technical talks, and career events, helping increase engagement by 50%.</p>
+          <div class="focus-row"><span>EDUCATION &amp; RESEARCH</span><p>B.S. Computer Science · Mathematics minor, 2025<br>Springer ITNG 2026 publication<br>First place, 2025 CNAS Computer Science symposium</p></div>
+        </div>
+      </div>
+      <div class="wrap skills-block" aria-labelledby="skills-title">
+        <h3 id="skills-title">TECHNICAL SKILLS</h3>
+        <div class="skills-grid">
+          <div class="skill-category"><h4>LANGUAGES</h4><p>C++, C, Python, JavaScript, TypeScript, Kotlin</p></div>
+          <div class="skill-category"><h4>WEB &amp; BACKEND</h4><p>SvelteKit, React, Next.js, FastAPI, Tailwind CSS</p></div>
+          <div class="skill-category"><h4>DATA &amp; PLATFORMS</h4><p>PostgreSQL, Prisma, Sanity CMS, Cloudflare Workers, Vercel, GitHub Actions</p></div>
+          <div class="skill-category"><h4>MACHINE LEARNING</h4><p>PyTorch, TensorFlow, Pandas</p></div>
+        </div>
       </div>
     </section>
 
@@ -146,27 +167,9 @@
       </div>
     </section>
 
-    <section class="about section-pad" id="about" aria-labelledby="about-title">
-      <div class="wrap about-grid">
-        <div class="about-left"><p class="eyebrow">BACKGROUND</p><h2 id="about-title">ABOUT<br><em>ME.</em></h2><div class="about-mark" aria-hidden="true">ZH<span>.</span></div></div>
-        <div class="about-right">
-          <p class="about-lead">I combine web engineering with experience in applied machine learning research.</p>
-          <p>I earned a B.S. in Computer Science with a Mathematics minor from Missouri State University in December 2025. My work spans client web platforms, clinical documentation software, and transformer research for time series forecasting.</p>
-          <p>As president of Missouri State’s ACM chapter, I organized workshops, technical talks, and career events, helping increase engagement by 50%.</p>
-          <div class="focus-row"><span>EDUCATION &amp; RESEARCH</span><p>B.S. Computer Science · Mathematics minor, 2025<br>Springer ITNG 2026 publication<br>First place, 2025 CNAS Computer Science symposium</p></div>
-        </div>
-      </div>
-      <div class="wrap skills-block" aria-labelledby="skills-title">
-        <h3 id="skills-title">TECHNICAL SKILLS</h3>
-        <div class="skills-grid">
-          <div class="skill-category"><h4>LANGUAGES</h4><p>C++, C, Python, JavaScript, TypeScript, Kotlin</p></div>
-          <div class="skill-category"><h4>WEB &amp; BACKEND</h4><p>SvelteKit, React, Next.js, FastAPI, Tailwind CSS</p></div>
-          <div class="skill-category"><h4>DATA &amp; PLATFORMS</h4><p>PostgreSQL, Prisma, Sanity CMS, Cloudflare Workers, Vercel, GitHub Actions</p></div>
-          <div class="skill-category"><h4>MACHINE LEARNING</h4><p>PyTorch, TensorFlow, Pandas</p></div>
-        </div>
-      </div>
-      <div class="wrap" id="contact">
-        <div class="contact-panel"><div><p class="eyebrow">CONTACT</p><h2>LET’S<br>CONNECT.</h2><p>For software engineering opportunities or collaborations, email me directly.</p></div><div class="contact-action"><a class="contact-placeholder" href="mailto:zelunhe@gmail.com">EMAIL ME ↗</a><p><a href="https://www.linkedin.com/in/zelun-he" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a> · <a href="https://github.com/Zelun-He" target="_blank" rel="noopener noreferrer">GitHub ↗</a></p></div></div>
+    <section class="contact-section section-pad" id="contact" aria-labelledby="contact-title">
+      <div class="wrap">
+        <div class="contact-panel"><div><p class="eyebrow">CONTACT</p><h2 id="contact-title">LET’S<br>CONNECT.</h2><p>For software engineering opportunities or collaborations, email me directly.</p></div><div class="contact-action"><a class="contact-placeholder" href="mailto:zelunhe@gmail.com">EMAIL ME ↗</a><p><a href="https://www.linkedin.com/in/zelun-he" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a> · <a href="https://github.com/Zelun-He" target="_blank" rel="noopener noreferrer">GitHub ↗</a></p></div></div>
         <footer><span>© <span id="year">2026</span> ZELUN HE</span><a href="#top">BACK TO TOP ↑</a><span>SOFTWARE ENGINEERING &amp; RESEARCH</span></footer>
       </div>
     </section>

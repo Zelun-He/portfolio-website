@@ -44,10 +44,10 @@ const mapProgressTrack = document.getElementById('map-progress-track');
 const mapProgressFill = document.getElementById('map-progress-fill');
 const waypoints = [
   { id: 'top', label: 'Start', x: 7.5, y: 66 },
-  { id: 'experience', label: 'Experience', x: 24.5, y: 60 },
-  { id: 'internships', label: 'Internships', x: 42, y: 70 },
-  { id: 'projects', label: 'Projects', x: 59, y: 56 },
-  { id: 'about', label: 'About', x: 76, y: 68 },
+  { id: 'about', label: 'About', x: 24.5, y: 60 },
+  { id: 'experience', label: 'Experience', x: 42, y: 70 },
+  { id: 'internships', label: 'Internships', x: 59, y: 56 },
+  { id: 'projects', label: 'Projects', x: 76, y: 68 },
   { id: 'contact', label: 'Contact', x: 92.5, y: 58 }
 ].map(point => ({
   ...point,
