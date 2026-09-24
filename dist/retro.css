@@ -26,3 +26,32 @@ html{scroll-behavior:smooth}body{background:#0c1024;color:var(--ink);font-family
 /* Resume-backed experience and skills */
 .role-card{display:grid;grid-template-columns:minmax(0,1.7fr) minmax(220px,.55fr);gap:32px;align-items:stretch;padding:28px 30px;background:#1b2947;border:2px solid #69809e;border-top:6px solid var(--cyan);box-shadow:6px 6px 0 #060b1d}.role-kicker{color:var(--cyan);font:10px 'DM Mono',monospace;letter-spacing:.08em;margin:0 0 14px}.role-main h4{color:var(--ink);font:16px/1.55 'Press Start 2P',monospace;letter-spacing:-.05em;margin:0 0 14px}.role-main>p:not(.role-kicker){color:#cad6e4;font-size:15px;line-height:1.65;max-width:760px;margin:0 0 13px}.role-main ul{margin:0;padding-left:19px;color:#b9c9dc;font-size:13px;line-height:1.65}.role-main li+li{margin-top:5px}.role-main li::marker{color:var(--cyan)}.role-stats{display:grid;gap:12px;border-left:2px dashed #4e6888;padding-left:26px}.role-stats>div{display:flex;flex-direction:column;justify-content:center;gap:8px;background:#142440;border:1px solid #455e7a;padding:15px 17px}.role-stats strong{color:var(--gold);font:26px/1.1 'Press Start 2P',monospace}.role-stats span{color:#b8cadd;font:10px/1.4 'DM Mono',monospace;letter-spacing:.06em}.about .about-grid{padding-bottom:56px}.skills-block{padding-bottom:80px}.skills-block h3{color:var(--cyan);font:13px/1.5 'Press Start 2P',monospace;margin:0 0 19px}.skills-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}.skill-category{background:#17243d;border:2px solid #506885;box-shadow:4px 4px 0 #060b1d;padding:18px;min-height:148px}.skill-category h4{color:var(--gold);font:10px/1.5 'DM Mono',monospace;letter-spacing:.08em;margin:0 0 12px}.skill-category p{color:#c5d3e3;font:13px/1.65 'Space Grotesk',sans-serif;margin:0}
 @media(max-width:1000px){.skills-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:760px){.role-card{grid-template-columns:1fr;padding:23px;gap:23px}.role-stats{grid-template-columns:repeat(2,minmax(0,1fr));border-left:0;border-top:2px dashed #4e6888;padding:19px 0 0}.role-main h4{font-size:13px}}@media(max-width:480px){.skills-grid{grid-template-columns:1fr}.skill-category{min-height:0}.skills-block{padding-bottom:55px}.role-stats strong{font-size:20px}.role-stats span{font-size:8px}.role-stats>div{padding:12px}.role-main h4{font-size:12px}}
+
+/* Image-led project gallery */
+.project-showcase{padding-top:19px;border-top:2px solid #3e5574}
+.project-showcase .gallery-heading{text-align:center;margin:0 auto 27px}
+.project-showcase .gallery-heading h3{color:var(--gold);font:15px/1.6 'Press Start 2P',monospace;letter-spacing:-.04em;margin:0 0 14px}
+.project-showcase .gallery-heading p{color:#b8c9dc;font-size:16px;line-height:1.6;margin:0}
+.project-filters{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:0 0 28px}
+.project-filter{appearance:none;border:1.5px solid #6884a5;border-radius:999px;background:#14223c;color:#c3d0df;padding:10px 19px;min-height:44px;font:500 15px/1.2 'Space Grotesk',sans-serif;cursor:pointer;transition:background .2s,color .2s,border-color .2s,transform .2s}
+.project-filter:hover{border-color:var(--cyan);color:#f1fff9;transform:translateY(-2px)}
+.project-filter[aria-pressed="true"]{background:var(--cyan);border-color:var(--cyan);color:#0c1930;font-weight:700}
+.project-filter:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+.visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.project-showcase .gallery-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:22px}
+.project-showcase .gallery-card{background:#1b2947;border:1px solid #4c6684;border-radius:14px;overflow:hidden;min-height:0;box-shadow:0 10px 28px #050b1a5e}
+.project-showcase .gallery-card[hidden]{display:none}
+.project-showcase .gallery-card:before{display:none}
+.project-showcase .gallery-card:hover{transform:translateY(-5px);border-color:#7ba5b2;box-shadow:0 16px 32px #050b1a80}
+.project-showcase .gallery-card .work-image{margin:0;border:0;border-bottom:1px solid #4c6684;background:#0d1a31;border-radius:0;overflow:hidden}
+.project-showcase .gallery-card .work-image:hover{border-color:#4c6684}
+.project-showcase .gallery-card .work-image img{height:clamp(205px,19vw,280px);object-fit:contain;background:#0d1a31}
+.project-showcase .gallery-card .work-image:after{content:'VIEW FULL IMAGE ↗';padding:7px 14px;border:0;border-top:1px solid #405b76;background:#11203a;color:#a9dcd4;text-align:right;font:10px/1.3 'DM Mono',monospace}
+.project-showcase .gallery-card .card-content{padding:19px 20px 22px;gap:0}
+.project-showcase .gallery-category{color:var(--cyan);font:11px/1.4 'DM Mono',monospace;letter-spacing:.07em;margin-bottom:10px}
+.project-showcase .gallery-card .card-content h4{color:#f5eccc;font:700 21px/1.28 'Space Grotesk',sans-serif;letter-spacing:-.035em;margin:0 0 10px}
+.project-showcase .gallery-card .card-content p{color:#c5d1df;font-size:15px;line-height:1.55;margin:0}
+.project-showcase .gallery-card .project-links{margin-top:auto;padding-top:16px;border:0}
+.project-showcase .gallery-card .project-links a{font-size:11px}
+@media(max-width:1080px){.project-showcase .gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.project-showcase .gallery-card .work-image img{height:260px}}
+@media(max-width:680px){.project-showcase .gallery-grid{grid-template-columns:1fr;gap:19px}.project-showcase .gallery-card .work-image img{height:clamp(205px,57vw,330px)}.project-showcase .gallery-card .card-content{padding:18px 18px 21px}.project-showcase .gallery-card .card-content h4{font-size:20px}.project-filters{gap:8px}.project-filter{padding:9px 15px;font-size:14px}}
