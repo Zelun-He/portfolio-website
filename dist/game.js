@@ -11,7 +11,7 @@
   if (!ctx) return;
   ctx.imageSmoothingEnabled = false;
   const COLS = 10, ROWS = 20, CELL = 10, BX = 33, BY = 25;
-  const colors = { I: '#55ead6', O: '#ffd36e', T: '#ad8af1', S: '#71db91', Z: '#fa7c9c', J: '#6f9dff', L: '#ffad74' };
+  const colors = { I: '#77d1bd', O: '#edc66e', T: '#b29bd0', S: '#9aca75', Z: '#d9756b', J: '#85b3c9', L: '#dcaa68' };
   const shapes = {
     I: [[0, 0, 0, 0], [1, 1, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]],
     O: [[1, 1], [1, 1]],
@@ -171,29 +171,29 @@
 
   function block(x, y, color, ghost = false, size = CELL) {
     const px = Math.round(x), py = Math.round(y);
-    ctx.fillStyle = ghost ? '#4c6981' : color;
+    ctx.fillStyle = ghost ? '#607f65' : color;
     ctx.fillRect(px, py, size - 1, size - 1);
     if (!ghost) {
       ctx.fillStyle = '#ffffff4d'; ctx.fillRect(px + 1, py + 1, size - 3, 1);
-      ctx.fillStyle = '#07142980'; ctx.fillRect(px + size - 3, py + 2, 1, size - 3);
+      ctx.fillStyle = '#071b1380'; ctx.fillRect(px + size - 3, py + 2, 1, size - 3);
     }
   }
-  function label(text, x, y, color = '#c3d6ec', size = 9) {
+  function label(text, x, y, color = '#e5e8ca', size = 9) {
     ctx.font = `bold ${size}px monospace`;
     ctx.fillStyle = color;
     ctx.fillText(text, x, y);
   }
   function render() {
-    ctx.fillStyle = '#10213e'; ctx.fillRect(0, 0, 360, 250);
+    ctx.fillStyle = '#142c22'; ctx.fillRect(0, 0, 360, 250);
     for (let i = 0; i < 19; i++) {
       const x = (i * 73 + 17) % 360, y = (i * 47 + 9) % 250;
-      ctx.fillStyle = i % 3 ? '#395777' : '#a784ce'; ctx.fillRect(x, y, 2, 2);
+      ctx.fillStyle = i % 3 ? '#446c48' : '#d2ad60'; ctx.fillRect(x, y, 2, 2);
     }
-    ctx.fillStyle = '#293957'; ctx.fillRect(BX - 4, BY - 4, COLS * CELL + 8, ROWS * CELL + 8);
-    ctx.fillStyle = '#4d7091'; ctx.fillRect(BX - 3, BY - 3, COLS * CELL + 6, ROWS * CELL + 6);
-    ctx.fillStyle = '#0a1329'; ctx.fillRect(BX, BY, COLS * CELL, ROWS * CELL);
+    ctx.fillStyle = '#355c3e'; ctx.fillRect(BX - 4, BY - 4, COLS * CELL + 8, ROWS * CELL + 8);
+    ctx.fillStyle = '#9cab73'; ctx.fillRect(BX - 3, BY - 3, COLS * CELL + 6, ROWS * CELL + 6);
+    ctx.fillStyle = '#0b2118'; ctx.fillRect(BX, BY, COLS * CELL, ROWS * CELL);
     for (let y = 0; y < ROWS; y++) for (let x = 0; x < COLS; x++) {
-      ctx.fillStyle = (x + y) % 2 ? '#132039' : '#14223e';
+      ctx.fillStyle = (x + y) % 2 ? '#193b29' : '#173624';
       ctx.fillRect(BX + x * CELL, BY + y * CELL, CELL - 1, CELL - 1);
       if (board[y][x]) block(BX + x * CELL, BY + y * CELL, colors[board[y][x]]);
     }
@@ -205,30 +205,30 @@
         if (piece.y + y >= 0) block(BX + (piece.x + x) * CELL, BY + (piece.y + y) * CELL, colors[piece.kind]);
       }));
     }
-    label('TETRIS', 157, 37, '#5df3d0', 16);
-    label('FALLING BLOCKS', 157, 52, '#94adc9', 9);
-    ctx.fillStyle = '#213653'; ctx.fillRect(151, 64, 185, 72);
-    ctx.strokeStyle = '#6684a8'; ctx.lineWidth = 2; ctx.strokeRect(151, 64, 185, 72);
-    label('NEXT', 163, 80, '#ffd176', 10);
+    label('TETRIS', 157, 37, '#9ed6b0', 16);
+    label('FALLING BLOCKS', 157, 52, '#bfd3ac', 9);
+    ctx.fillStyle = '#284a32'; ctx.fillRect(151, 64, 185, 72);
+    ctx.strokeStyle = '#91a976'; ctx.lineWidth = 2; ctx.strokeRect(151, 64, 185, 72);
+    label('NEXT', 163, 80, '#f1cf79', 10);
     if (nextKind) {
       const shape = shapes[nextKind], size = 11;
       shape.forEach((row, y) => row.forEach((cell, x) => {
         if (cell) block(175 + x * size, 89 + y * size, colors[nextKind], false, size);
       }));
     }
-    label(`SCORE ${String(score).padStart(5, '0')}`, 246, 94, '#e7edff', 10);
-    label(`LINES ${String(lines).padStart(3, '0')}`, 246, 113, '#e7edff', 10);
-    label(mode === 'demo' ? 'AUTO PLAY' : 'MANUAL PLAY', 155, 157, '#ffd176', 9);
-    label('A/D + LEFT/RIGHT MOVE', 155, 175, '#9db4ce', 8);
-    label('W / UP / TAP   ROTATE', 155, 190, '#9db4ce', 8);
-    label('S / DOWN      SOFT DROP', 155, 205, '#9db4ce', 8);
-    label('SPACE         HARD DROP', 155, 220, '#9db4ce', 8);
+    label(`SCORE ${String(score).padStart(5, '0')}`, 246, 94, '#f2ead0', 10);
+    label(`LINES ${String(lines).padStart(3, '0')}`, 246, 113, '#f2ead0', 10);
+    label(mode === 'demo' ? 'AUTO PLAY' : 'MANUAL PLAY', 155, 157, '#f1cf79', 9);
+    label('A/D + LEFT/RIGHT MOVE', 155, 175, '#d8e0c0', 8);
+    label('W / UP / TAP   ROTATE', 155, 190, '#d8e0c0', 8);
+    label('S / DOWN      SOFT DROP', 155, 205, '#d8e0c0', 8);
+    label('SPACE         HARD DROP', 155, 220, '#d8e0c0', 8);
     if (paused || gameOver) {
-      ctx.fillStyle = '#08132bd9'; ctx.fillRect(37, 88, 93, 65);
-      ctx.strokeStyle = '#5df3d0'; ctx.lineWidth = 2; ctx.strokeRect(37, 88, 93, 65);
-      label(gameOver ? 'GAME' : 'PAUSED', gameOver ? 62 : 59, 116, '#f6eccc', 12);
-      if (gameOver) label('OVER', 66, 132, '#ff75b9', 12);
-      else label('PRESS PLAY', 54, 134, '#9ddccc', 8);
+      ctx.fillStyle = '#0a2018e0'; ctx.fillRect(37, 88, 93, 65);
+      ctx.strokeStyle = '#9ed6b0'; ctx.lineWidth = 2; ctx.strokeRect(37, 88, 93, 65);
+      label(gameOver ? 'GAME' : 'PAUSED', gameOver ? 62 : 59, 116, '#fff0c3', 12);
+      if (gameOver) label('OVER', 66, 132, '#dc8d7a', 12);
+      else label('PRESS PLAY', 54, 134, '#c0e0b0', 8);
     }
   }
   function update(dt) {
