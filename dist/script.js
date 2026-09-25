@@ -62,6 +62,20 @@ const waypoints = [
 
 let mapFrame = null;
 let movementTimeout = null;
+let runFrameInterval = null;
+let runFrame = 0;
+let lastScrollY = window.scrollY;
+const idleSprite = 'map-character-idle.png';
+const runSprites = ['map-character-run-a.png', 'map-character-run-b.png'];
+const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+runSprites.forEach(src => { const image = new Image(); image.src = src; });
+
+function stopCharacterRunning() {
+  clearInterval(runFrameInterval);
+  runFrameInterval = null;
+  mapCharacter.src = idleSprite;
+  mapCharacter.classList.remove('is-traveling');
+}
 
 function updateMap() {
   mapFrame = null;
@@ -108,10 +122,29 @@ function scheduleMapUpdate() {
 
 window.addEventListener('scroll', () => {
   scheduleMapUpdate();
+  const scrollY = window.scrollY;
+  if (scrollY === lastScrollY) return;
+  mapCharacter.style.setProperty('--facing', scrollY < lastScrollY ? -1 : 1);
+  lastScrollY = scrollY;
+  if (reducedMotion.matches) return;
   mapCharacter.classList.add('is-traveling');
+  if (runFrameInterval === null) {
+    runFrame = 0;
+    mapCharacter.src = runSprites[runFrame];
+    runFrameInterval = setInterval(() => {
+      runFrame = (runFrame + 1) % runSprites.length;
+      mapCharacter.src = runSprites[runFrame];
+    }, 110);
+  }
   clearTimeout(movementTimeout);
-  movementTimeout = setTimeout(() => mapCharacter.classList.remove('is-traveling'), 160);
+  movementTimeout = setTimeout(stopCharacterRunning, 180);
 }, { passive: true });
+reducedMotion.addEventListener('change', () => {
+  if (reducedMotion.matches) {
+    clearTimeout(movementTimeout);
+    stopCharacterRunning();
+  }
+});
 window.addEventListener('resize', scheduleMapUpdate);
 window.addEventListener('hashchange', scheduleMapUpdate);
 window.addEventListener('pageshow', scheduleMapUpdate);
