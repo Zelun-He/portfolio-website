@@ -34,16 +34,15 @@
     <div class="wrap journey-map-inner">
       <div class="map-heading"><span class="map-heading-mark" aria-hidden="true">✦</span><span>WORLD MAP</span><strong id="map-current-label">START</strong></div>
       <div class="map-board" id="map-board">
-        <svg class="map-route" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="75,66 245,60 420,70 590,56 760,68 925,58"/><polyline class="map-route-complete" id="map-route-complete" points="75,66"/></svg>
+        <svg class="map-route" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="75,66 245,60 420,70 690,60 925,58"/><polyline class="map-route-complete" id="map-route-complete" points="75,66"/></svg>
         <a class="map-stop" href="#top" data-map-stop="top" style="--x:7.5%;--y:66%" aria-label="Start" aria-current="location"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">START</span></a>
         <a class="map-stop" href="#about" data-map-stop="about" style="--x:24.5%;--y:60%" aria-label="About"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">ABOUT</span></a>
         <a class="map-stop" href="#experience" data-map-stop="experience" style="--x:42%;--y:70%" aria-label="Experience"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">EXPERIENCE</span><span class="map-label-short">EXP</span></span></a>
-        <a class="map-stop" href="#internships" data-map-stop="internships" style="--x:59%;--y:56%" aria-label="Internships"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">INTERNSHIPS</span><span class="map-label-short">INTERN</span></span></a>
-        <a class="map-stop" href="#projects" data-map-stop="projects" style="--x:76%;--y:68%" aria-label="Projects"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">PROJECTS</span><span class="map-label-short">PROJ</span></span></a>
+        <a class="map-stop" href="#projects" data-map-stop="projects" style="--x:69%;--y:60%" aria-label="Projects"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">PROJECTS</span><span class="map-label-short">PROJ</span></span></a>
         <a class="map-stop" href="#contact" data-map-stop="contact" style="--x:92.5%;--y:58%" aria-label="Contact"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">CONTACT</span><span class="map-label-short">MAIL</span></span></a>
         <img class="map-character" id="map-character" src="map-character.png" alt="" width="58" height="104" decoding="async">
       </div>
-      <div class="map-progress"><span id="map-progress-text">01 / 06</span><div class="map-progress-track" id="map-progress-track" role="progressbar" aria-label="Page progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="map-progress-fill"></span></div></div>
+      <div class="map-progress"><span id="map-progress-text">01 / 05</span><div class="map-progress-track" id="map-progress-track" role="progressbar" aria-label="Page progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="map-progress-fill"></span></div></div>
     </div>
   </nav>
   <main id="main">
@@ -126,21 +125,6 @@
             </article>
           </section>
         </div>
-        <div class="work-group" id="internships" aria-labelledby="internships-title">
-          <div class="work-group-heading"><h3 id="internships-title">INTERNSHIPS</h3><span>TEAM EXPERIENCE</span></div>
-          <div class="project-grid">
-            <article class="project-card card-oasis">
-              <div class="card-top"><span class="project-index">SOFTWARE ENGINEERING INTERN · JUN 2025 – MAY 2026</span><span class="project-symbol" aria-hidden="true">✳</span></div>
-              <a class="work-image work-image--oasis" href="Images/myoasis.jpg" target="_blank" rel="noopener noreferrer" aria-label="Open full MyOasis website image"><img src="Images/myoasis.jpg" alt="MyOasis homepage for its mental wellness platform" loading="lazy" decoding="async"></a>
-              <div class="card-content"><h4>MYOASIS.AI</h4><p>Led front-end work on the landing page and improved responsive layouts and React performance across devices.</p><ul class="tags" aria-label="Technologies"><li>React</li><li>TypeScript</li><li>Tailwind CSS</li></ul><div class="project-links"><a href="https://www.myoasis.ai/" target="_blank" rel="noopener noreferrer">VISIT SITE ↗</a></div></div>
-            </article>
-            <article class="project-card card-scribsy">
-              <div class="card-top"><span class="project-index">N-OF-1 AI · INTERN · JUN – AUG 2025</span><span class="project-symbol" aria-hidden="true">✚</span></div>
-              <a class="work-image work-image--light" href="Images/scribsy.png" target="_blank" rel="noopener noreferrer" aria-label="Open full Scribsy dashboard image"><img src="Images/scribsy.png" alt="Scribsy dashboard with note creation and documentation overview" loading="lazy" decoding="async"></a>
-              <div class="card-content"><h4>SCRIBSY</h4><p>Architected a clinical documentation app for audio transcription, SOAP note generation, and secure note management.</p><ul class="tags" aria-label="Technologies"><li>FastAPI</li><li>Next.js</li><li>OpenAI APIs</li></ul><div class="project-links"><a href="https://github.com/Zelun-He/Scribsy" target="_blank" rel="noopener noreferrer">VIEW CODE ↗</a></div></div>
-            </article>
-          </div>
-        </div>
         <div class="work-group project-showcase" id="projects" aria-labelledby="projects-title">
           <div class="gallery-heading"><h3 id="projects-title">PROJECTS</h3><p>Selected software, systems, and research work.</p></div>
           <div class="project-filters" role="group" aria-label="Filter projects">
@@ -150,8 +134,24 @@
             <button class="project-filter" type="button" data-filter="research" aria-pressed="false">Research</button>
             <button class="project-filter" type="button" data-filter="cpp" aria-pressed="false">C++</button>
           </div>
-          <p id="project-filter-status" class="visually-hidden" role="status">Showing all 6 projects.</p>
+          <p id="project-filter-status" class="visually-hidden" role="status">Showing all 9 projects.</p>
           <div class="project-grid gallery-grid">
+            <article class="project-card gallery-card" data-categories="web">
+              <a class="work-image work-image--light" href="holcomb-tree-service.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full Holcomb Tree Service website image"><img src="holcomb-tree-service.webp" alt="Holcomb Tree Service homepage with tree care headline and consultation form" width="2048" height="1180" loading="lazy" decoding="async"></a>
+              <div class="card-content"><span class="gallery-category">WEB · ARROWS UP CLIENT WORK</span><h4>Holcomb Tree Service</h4><p>Built a service website for a Dallas tree care company, with clear navigation and a direct path to request a consultation.</p><div class="project-links"><a href="https://staging-holcomb-tree-service.arbor-alliance.workers.dev/" target="_blank" rel="noopener noreferrer">VIEW WEBSITE ↗</a></div></div>
+            </article>
+            <article class="project-card gallery-card" data-categories="web">
+              <a class="work-image work-image--light" href="Images/scribsy.png" target="_blank" rel="noopener noreferrer" aria-label="Open full Scribsy dashboard image"><img src="Images/scribsy.png" alt="Scribsy clinical documentation dashboard showing notes and calendar" loading="lazy" decoding="async"></a>
+              <div class="card-content"><span class="gallery-category">WEB · N-OF-1 AI INTERNSHIP</span><h4>Scribsy</h4><p>Architected a clinical documentation app for audio transcription, structured SOAP notes, and secure note management.</p><div class="project-links"><a href="https://github.com/Zelun-He/Scribsy" target="_blank" rel="noopener noreferrer">VIEW CODE ↗</a></div></div>
+            </article>
+            <article class="project-card gallery-card" data-categories="web">
+              <a class="work-image work-image--light" href="narrator-upload.webp" target="_blank" rel="noopener noreferrer" aria-label="Open full Narrator manuscript upload screenshot"><img src="narrator-upload.webp" alt="Narrator audiobook app manuscript upload screen" width="1348" height="926" loading="lazy" decoding="async"></a>
+              <div class="card-content"><span class="gallery-category">WEB · AUDIOBOOKS</span><h4>Narrator</h4><p>Built a full-stack app that converts uploaded manuscripts into audiobooks with voice selection, generation progress, and chapter playback.</p><div class="project-links"><a href="https://narrator-eight.vercel.app/" target="_blank" rel="noopener noreferrer">VIEW APP ↗</a><a href="https://github.com/Zelun-He/Narrator" target="_blank" rel="noopener noreferrer">VIEW CODE ↗</a></div></div>
+            </article>
+            <article class="project-card gallery-card" data-categories="web">
+              <a class="work-image work-image--oasis" href="Images/myoasis.jpg" target="_blank" rel="noopener noreferrer" aria-label="Open full MyOasis website image"><img src="Images/myoasis.jpg" alt="MyOasis homepage for its mental wellness platform" loading="lazy" decoding="async"></a>
+              <div class="card-content"><span class="gallery-category">WEB · MYOASIS.AI INTERNSHIP</span><h4>MyOasis.ai</h4><p>Led front-end work on the landing page and improved responsive layouts and React performance across devices.</p><div class="project-links"><a href="https://www.myoasis.ai/" target="_blank" rel="noopener noreferrer">VISIT SITE ↗</a></div></div>
+            </article>
             <article class="project-card gallery-card" data-categories="research">
               <a class="work-image work-image--dark" href="Images/gene-classifier.png" target="_blank" rel="noopener noreferrer" aria-label="Open full gene classifier screenshot"><img src="Images/gene-classifier.png" alt="Terminal output showing DNA sequences, cancer gene classifications, and confidence scores" loading="lazy" decoding="async"></a>
               <div class="card-content"><span class="gallery-category">RESEARCH · MACHINE LEARNING</span><h4>Gene Classifier</h4><p>Fine-tuned DNABERT to classify oncogenes and tumor suppressors from genomic sequences.</p><div class="project-links"><a href="https://github.com/Zelun-He/gene_classifier_project" target="_blank" rel="noopener noreferrer">VIEW CODE ↗</a></div></div>
@@ -167,10 +167,6 @@
             <article class="project-card gallery-card" data-categories="cpp">
               <a class="work-image work-image--dark work-image--portrait" href="Images/space-invaders.png" target="_blank" rel="noopener noreferrer" aria-label="Open full Space Invaders game screenshot"><img src="Images/space-invaders.png" alt="Space Invaders game with pixel art alien rows and player ships" loading="lazy" decoding="async"></a>
               <div class="card-content"><span class="gallery-category">C++ · GAME DEVELOPMENT</span><h4>Space Invaders</h4><p>Recreated the arcade game in C++ and Raylib, including alien waves, player controls, and scoring.</p><div class="project-links"><a href="https://github.com/Zelun-He/Space_Invaders" target="_blank" rel="noopener noreferrer">VIEW CODE ↗</a></div></div>
-            </article>
-            <article class="project-card gallery-card" data-categories="web">
-              <a class="work-image work-image--light" href="Images/scribsy.png" target="_blank" rel="noopener noreferrer" aria-label="Open full Scribsy dashboard image"><img src="Images/scribsy.png" alt="Scribsy clinical documentation dashboard showing notes and calendar" loading="lazy" decoding="async"></a>
-              <div class="card-content"><span class="gallery-category">WEB · HEALTHCARE</span><h4>Scribsy</h4><p>Built a clinical documentation app for transcription, structured SOAP notes, and note management.</p><div class="project-links"><a href="https://github.com/Zelun-He/Scribsy" target="_blank" rel="noopener noreferrer">VIEW CODE ↗</a></div></div>
             </article>
             <article class="project-card gallery-card" data-categories="web cpp">
               <a class="work-image work-image--navy" href="Images/order-book.svg" target="_blank" rel="noopener noreferrer" aria-label="Open full limit order book preview"><img src="Images/order-book.svg" alt="Limit order book demo interface showing bids, asks, and market statistics" loading="lazy" decoding="async"></a>
