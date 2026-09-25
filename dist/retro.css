@@ -56,9 +56,9 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .map-stop[aria-current='location'] .map-stop-label, .map-stop:hover .map-stop-label { background: #dbb569; border-color: #f2dc9a; color: #142e21; }
 .map-stop:focus-visible { outline: 3px solid #f7ce76; outline-offset: 2px; }
 .map-label-short { display: none; }
-.map-character { position: absolute; z-index: 4; left: 7.5%; top: 66%; width: 38px; height: auto; transform: translate(-50%, -90%); image-rendering: pixelated; pointer-events: none; filter: drop-shadow(2px 3px 0 #07190f); }
-.map-character.is-traveling { animation: map-step .23s steps(2,end) infinite; }
-@keyframes map-step { 50% { transform: translate(-50%, -96%); } }
+.map-character { position: absolute; z-index: 4; left: 7.5%; top: 66%; width: 48px; height: auto; transform: translate(-50%, -90%) scaleX(var(--facing, 1)); image-rendering: pixelated; pointer-events: none; filter: drop-shadow(2px 3px 0 #07190f); }
+.map-character.is-traveling { animation: map-step .2s steps(2,end) infinite; }
+@keyframes map-step { 50% { transform: translate(-50%, -96%) scaleX(var(--facing, 1)); } }
 .map-progress { display: flex; flex-direction: column; align-items: stretch; gap: 11px; color: #f4dfad; font: 10px/1.35 'DM Mono', monospace; white-space: nowrap; }
 .map-progress-track { height: 8px; border: 2px solid #a4a278; background: #294b36; }
 .map-progress-track span { display: block; height: 100%; width: 0%; background: #eec46e; }
@@ -272,7 +272,7 @@ footer a:hover { color: var(--gold); }
   .map-stop-label { max-width: 54px; padding: 2px 3px; font-size: 8px; }
   .map-label-full { display: none; }
   .map-label-short { display: inline; }
-  .map-character { width: 29px; }
+  .map-character { width: 36px; }
   .wrap { width: calc(100% - 36px); }
   .header-inner { min-height: 72px; }
   .wordmark > span:last-child { display: none; }
