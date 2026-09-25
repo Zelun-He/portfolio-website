@@ -9,9 +9,37 @@ const observer = new IntersectionObserver((entries) => {
   }
 }, { threshold: 0.08 });
 
-document.querySelectorAll('.section-heading, .project-card, .about-left, .about-right, .contact-panel').forEach(el => {
+document.querySelectorAll('.section-heading, .project-card, .hero-card, .about__story, .inventory, .contact-title, .contact-menu').forEach(el => {
   el.classList.add('reveal');
   observer.observe(el);
+});
+
+const contactOptions = [...document.querySelectorAll('[data-contact-option]')];
+function selectContactOption(index) {
+  contactOptions.forEach((option, optionIndex) => {
+    option.classList.toggle('is-selected', index === optionIndex);
+  });
+}
+contactOptions.forEach((option, index) => {
+  option.addEventListener('pointerenter', () => selectContactOption(index));
+  option.addEventListener('focus', () => selectContactOption(index));
+});
+
+const contactSection = document.getElementById('contact');
+document.addEventListener('keydown', event => {
+  if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+  const active = document.activeElement;
+  if (active?.isContentEditable || active?.matches('input, textarea, select') || active?.closest('.game-frame')) return;
+  const rect = contactSection.getBoundingClientRect();
+  const contactInView = rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
+  if (!contactOptions.includes(active) && !contactInView) return;
+
+  event.preventDefault();
+  const selected = contactOptions.findIndex(option => option.classList.contains('is-selected'));
+  const direction = event.key === 'ArrowDown' ? 1 : -1;
+  const next = ((selected < 0 ? 0 : selected) + direction + contactOptions.length) % contactOptions.length;
+  selectContactOption(next);
+  contactOptions[next].focus({ preventScroll: true });
 });
 
 const filters = document.querySelectorAll('.project-filter');
