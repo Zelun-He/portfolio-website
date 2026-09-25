@@ -164,27 +164,33 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .gallery-card .card-content p { margin: 0; font-size: 16px; line-height: 1.56; }
 .gallery-card .project-links { padding-top: 17px; }
 
-/* Personal details remain legible and recruiter-facing. */
+/* Character profile and skills inventory. */
 .about, .contact-section { color: #e9e8cb; background-color: #193c2a; background-image: linear-gradient(#f4e5a508 1px,transparent 1px),linear-gradient(90deg,#f4e5a508 1px,transparent 1px); background-size: 32px 32px; border-top: 8px solid #af8949; }
-.about-grid { display: grid; grid-template-columns: minmax(0,.7fr) minmax(0,1fr); gap: 10%; padding-bottom: 65px; }
-.about .eyebrow { color: #c8d9a2; }
-.about h2 { color: #f7efc9; }
-.about h2 em { color: #f0c66e; }
-.about-left { position: relative; min-height: 330px; }
-.about-mark { position: absolute; bottom: -28px; left: 0; color: #72926f2b; font: 700 clamp(140px,17vw,235px)/.8 'Space Grotesk', sans-serif; letter-spacing: -.13em; pointer-events: none; }
-.about-mark span { color: #d3ae5b35; }
-.about-right { padding-top: 12px; }
-.about-right p { margin: 0 0 17px; color: #d4e0c6; font-size: 17px; line-height: 1.7; }
-.about-right .about-lead { color: #fcf0c5; font-size: 25px; line-height: 1.43; font-weight: 600; letter-spacing: -.025em; }
-.focus-row { margin-top: 31px; padding-top: 20px; border-top: 2px dashed #84a06e; }
-.focus-row > span { color: #f0cc7e; font: 11px/1.5 'DM Mono', monospace; letter-spacing: .08em; }
-.focus-row p { margin: 11px 0 0; color: #e5e9cd; font-size: 15px; }
-.skills-block { padding-bottom: 81px; }
-.skills-block h3 { margin: 0 0 20px; color: #f0ce87; font: 14px/1.5 'Press Start 2P', monospace; }
-.skills-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 13px; }
-.skill-category { min-height: 145px; padding: 20px 18px; background: #294e36; border: 3px solid #83975f; box-shadow: 5px 5px 0 #0c271b; }
-.skill-category h4 { margin: 0 0 13px; color: #f5d788; font: 11px/1.5 'DM Mono', monospace; letter-spacing: .08em; }
-.skill-category p { margin: 0; color: #e8eed5; font-size: 15px; line-height: 1.6; }
+.about { background: #233a2c; }
+.about__grid { display: grid; grid-template-columns: minmax(0,5fr) minmax(0,7fr); gap: clamp(40px,6vw,96px); }
+.about .about__title { margin: 0 0 40px; color: #f4ecce; font: clamp(36px,4.2vw,62px)/1.35 'Press Start 2P', monospace; letter-spacing: -.06em; text-shadow: 4px 4px 0 #13241a; }
+.about__title span { display: block; color: #e0bb66; }
+.hero-card { width: min(100%,352px); margin: 0; }
+.hero-card__frame { aspect-ratio: 4 / 5; padding: 10px; border: 4px solid #e0bb66; background: #13241a; box-shadow: inset 0 0 0 4px #13241a, inset 0 0 0 6px #8a7440; clip-path: polygon(0 8px,8px 8px,8px 0,calc(100% - 8px) 0,calc(100% - 8px) 8px,100% 8px,100% calc(100% - 8px),calc(100% - 8px) calc(100% - 8px),calc(100% - 8px) 100%,8px 100%,8px calc(100% - 8px),0 calc(100% - 8px)); }
+.hero-card__scene { position: relative; width: 100%; height: 100%; overflow: hidden; background: linear-gradient(#142b22b5,#1e352888),url('hero-overworld.webp') center / cover no-repeat, #2c4634; }
+.hero-card__scene img { position: absolute; left: 50%; bottom: 9%; width: min(40%,140px); height: auto; transform: translateX(-50%); image-rendering: pixelated; filter: drop-shadow(5px 8px 0 #102219); }
+.hero-card__plate { display: grid; gap: 4px; margin-top: 12px; padding: 13px 16px; border: 2px solid #8a7440; background: #13241a; }
+.hero-card__name { color: #e0bb66; font: 17px/1.6 'Press Start 2P', monospace; }
+.hero-card__meta { color: #a9b8a4; font: 14px/1.5 'DM Mono', monospace; }
+.about__lead { max-width: 30ch; margin: 0 0 24px; color: #f4ecce; font-size: clamp(23px,2.4vw,30px); font-weight: 500; line-height: 1.35; }
+.about__body p { max-width: 62ch; margin: 0 0 20px; color: #d9dccb; font-size: 17px; line-height: 1.75; }
+.items { margin-top: 40px; padding-top: 28px; border-top: 2px dotted #8a7440; }
+.items h3 { margin: 0 0 20px; color: #e0bb66; font: 16px/1.6 'Press Start 2P', monospace; }
+.items ul { display: grid; gap: 15px; margin: 0; padding: 0; list-style: none; }
+.items li { display: flex; align-items: center; gap: 16px; color: #d9dccb; font-size: 17px; line-height: 1.5; }
+.items__icon { flex: none; display: grid; place-items: center; width: 44px; height: 44px; border: 2px solid #8a7440; background: #13241a; }
+.items__icon svg { width: 28px; height: 28px; }
+.inventory { margin-top: 80px; }
+.inventory > h3 { margin: 0 0 28px; color: #f4ecce; font: clamp(21px,2.4vw,28px)/1.5 'Press Start 2P', monospace; }
+.inventory__groups { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 32px 28px; }
+.inventory__group h4 { margin: 0 0 12px; color: #e0bb66; font: 14px/1.5 'DM Mono', monospace; }
+.inventory__slots { display: flex; flex-wrap: wrap; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.inventory__slots li { padding: 7px 11px; border: 2px solid #7f9a5a; background: #2c4634; box-shadow: 3px 3px 0 #13241a; color: #f4ecce; font: 14px/1.45 'DM Mono', monospace; }
 .contact-section { background-color: #20382b; background-image: none; border-top-color: #d5aa59; }
 .contact-title { margin: 0 0 clamp(45px,5vw,72px); color: #e6bd6a; font: clamp(31px,4.4vw,65px)/1.34 'Press Start 2P', monospace; letter-spacing: -.055em; text-shadow: 9px 9px 0 #10241b; }
 .contact-title span { white-space: nowrap; }
@@ -209,7 +215,7 @@ footer a:hover { color: var(--gold); }
   .hero-inner { grid-template-columns: minmax(0,1fr) minmax(355px,.9fr); gap: 35px; }
   .gallery-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .gallery-card .work-image img { height: 260px; }
-  .skills-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .inventory__groups { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 @media (max-width: 900px) {
   .journey-map-inner { grid-template-columns: 82px minmax(0,1fr) 58px; gap: 10px; }
@@ -226,6 +232,8 @@ footer a:hover { color: var(--gold); }
   .section-heading h2 { font-size: 32px; }
   .role-card { grid-template-columns: 1fr; }
   .role-stats { grid-template-columns: repeat(2,minmax(0,1fr)); border-left: 0; border-top: 2px dashed #8ea780; padding: 19px 0 0; }
+  .about__grid { grid-template-columns: 1fr; }
+  .hero-card { width: min(100%,288px); }
 }
 @media (max-width: 680px) {
   section, #experience, #internships, #projects, #contact { scroll-margin-top: 150px; }
@@ -254,15 +262,14 @@ footer a:hover { color: var(--gold); }
   .hero-intro strong { font-size: 21px; }
   .section-pad { padding-block: 71px; }
   .section-heading { display: block; margin-bottom: 38px; }
-  .section-heading h2, .about h2 { font-size: 31px; }
+  .section-heading h2 { font-size: 31px; }
   .section-lede { margin-top: 23px; }
   .work-group + .work-group { margin-top: 47px; }
   .project-grid, .gallery-grid { grid-template-columns: 1fr; gap: 21px; }
   .project-card .work-image img, .gallery-card .work-image img { height: clamp(205px,58vw,340px); }
-  .about-grid { display: block; padding-bottom: 50px; }
-  .about-left { min-height: 0; }
-  .about-mark { display: none; }
-  .about-right { padding-top: 38px; }
+  .about .about__title { font-size: clamp(31px,7vw,42px); }
+  .inventory { margin-top: 56px; }
+  .inventory__groups { gap: 28px 16px; }
   .contact-title { line-height: 1.6; }
   .contact-title span { display: block; }
   .contact-menu { padding: 44px 24px 28px; border-width: 5px; box-shadow: inset 0 0 0 5px #294934, 6px 6px 0 #a78442; }
@@ -280,14 +287,14 @@ footer a:hover { color: var(--gold); }
   .current-role { font-size: 10px; }
   .game-screen-bar.bottom { font-size: 9px; }
   .tetris-controls button { min-height: 38px; }
-  .section-heading h2, .about h2 { font-size: 26px; }
+  .section-heading h2 { font-size: 26px; }
   .work-group-heading h3 { font-size: 11px; }
   .work-group-heading span { font-size: 10px; }
   .role-card { padding: 23px 20px; }
   .role-stats strong { font-size: 17px; }
   .role-stats span { font-size: 9px; }
-  .skills-grid { grid-template-columns: 1fr; }
-  .skill-category { min-height: 0; }
+  .inventory__groups { grid-template-columns: 1fr; }
+  .inventory > h3 { font-size: 20px; }
   .contact-title { font-size: clamp(23px,6.7vw,30px); text-shadow: 5px 5px 0 #10241b; }
   .contact-option { font-size: 16px; }
   .contact-option-note { width: 100%; margin-top: -12px; }

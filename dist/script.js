@@ -9,7 +9,7 @@ const observer = new IntersectionObserver((entries) => {
   }
 }, { threshold: 0.08 });
 
-document.querySelectorAll('.section-heading, .project-card, .about-left, .about-right, .contact-title, .contact-menu').forEach(el => {
+document.querySelectorAll('.section-heading, .project-card, .hero-card, .about__story, .inventory, .contact-title, .contact-menu').forEach(el => {
   el.classList.add('reveal');
   observer.observe(el);
 });
