@@ -16,7 +16,7 @@
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
 body { margin: 0; overflow-x: hidden; background: var(--forest); color: var(--ink); font-family: 'Space Grotesk', sans-serif; -webkit-font-smoothing: antialiased; }
-section, #experience, #internships, #projects, #contact { scroll-margin-top: 158px; }
+section, #experience, #projects, #contact { scroll-margin-top: 158px; }
 #top { scroll-margin-top: 230px; }
 a { color: inherit; text-decoration: none; }
 button { font: inherit; }
@@ -181,7 +181,7 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .gallery-category { display: block; margin: 0 0 10px; color: #6a7846; font: 11px/1.4 'DM Mono', monospace; letter-spacing: .06em; }
 .gallery-card .card-content h4 { font-size: 21px; }
 .gallery-card .card-content p { margin: 0; font-size: 16px; line-height: 1.56; }
-.gallery-card .project-links { padding-top: 17px; }
+.gallery-card .project-links { display: flex; flex-wrap: wrap; gap: 8px 18px; padding-top: 17px; }
 
 /* Character profile and skills inventory. */
 .about, .contact-section { color: #e9e8cb; background-color: #193c2a; background-image: linear-gradient(#f4e5a508 1px,transparent 1px),linear-gradient(90deg,#f4e5a508 1px,transparent 1px); background-size: 32px 32px; border-top: 8px solid #af8949; }
@@ -258,7 +258,7 @@ footer a:hover { color: var(--gold); }
   .hero-card { width: min(100%,288px); }
 }
 @media (max-width: 680px) {
-  section, #experience, #internships, #projects, #contact { scroll-margin-top: 150px; }
+  section, #experience, #projects, #contact { scroll-margin-top: 150px; }
   #top { scroll-margin-top: 216px; }
   .journey-map-inner { grid-template-columns: 1fr auto; gap: 7px; padding-block: 7px; }
   .map-heading { grid-column: 1; flex-direction: row; align-items: center; gap: 8px; font-size: 9px; }

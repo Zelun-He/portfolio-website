@@ -74,8 +74,7 @@ const waypoints = [
   { id: 'top', label: 'Start', x: 7.5, y: 66 },
   { id: 'about', label: 'About', x: 24.5, y: 60 },
   { id: 'experience', label: 'Experience', x: 42, y: 70 },
-  { id: 'internships', label: 'Internships', x: 59, y: 56 },
-  { id: 'projects', label: 'Projects', x: 76, y: 68 },
+  { id: 'projects', label: 'Projects', x: 69, y: 60 },
   { id: 'contact', label: 'Contact', x: 92.5, y: 58 }
 ].map(point => ({
   ...point,
@@ -118,7 +117,7 @@ function updateMap() {
     else point.link.removeAttribute('aria-current');
   });
   mapCurrentLabel.textContent = waypoints[active].label.toUpperCase();
-  mapProgressText.textContent = `${String(active + 1).padStart(2, '0')} / 06`;
+  mapProgressText.textContent = `${String(active + 1).padStart(2, '0')} / ${String(waypoints.length).padStart(2, '0')}`;
   const progress = Math.round(((segment + portion) / (waypoints.length - 1)) * 100);
   mapProgressFill.style.width = `${progress}%`;
   mapProgressTrack.setAttribute('aria-valuenow', String(progress));
