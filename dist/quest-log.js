@@ -35,63 +35,63 @@ const QUEST_ENTRIES = {
   ],
   side: [
     {
-      name: 'Holcomb Tree Service', role: 'Client website · Arrows Up', status: 'Selected project',
+      name: 'Holcomb Tree Service', role: 'Client website · Arrows Up', status: 'Selected project', category: 'web', current: true,
       summary: 'A service website for a Dallas tree care company.',
       objectives: ['Created clear navigation across the company’s services.', 'Made it easy for prospective customers to request a consultation.'],
       art: { src: 'holcomb-tree-service.webp', alt: 'Holcomb Tree Service homepage and consultation form' },
       links: [{ href: 'https://staging-holcomb-tree-service.arbor-alliance.workers.dev/', label: 'View website' }]
     },
     {
-      name: 'Scribsy', role: 'Clinical documentation · N-of-1 AI', status: 'Selected project',
+      name: 'Scribsy', role: 'Clinical documentation · N-of-1 AI', status: 'Selected project', category: 'web',
       summary: 'A clinical documentation app for practitioners.',
       objectives: ['Built audio transcription and structured SOAP notes.', 'Implemented note management in a FastAPI and Next.js application.'],
       art: { src: 'Images/scribsy.png', alt: 'Scribsy dashboard with note creation and calendar' },
       links: [{ href: 'https://github.com/Zelun-He/Scribsy', label: 'View code' }]
     },
     {
-      name: 'Narrator', role: 'Full-stack audiobook app', status: 'Selected project',
+      name: 'Narrator', role: 'Full-stack audiobook app', status: 'Selected project', category: 'web', current: true,
       summary: 'Turns uploaded manuscripts into audiobooks with AI narration.',
       objectives: ['Built manuscript upload and voice selection workflows.', 'Added generation progress, chapter playback, and audiobook downloads.'],
       art: { src: 'narrator-dashboard.webp', alt: 'Narrator dashboard showing audiobook progress and playback' },
       links: [{ href: 'https://narrator-eight.vercel.app/', label: 'View app' }, { href: 'https://github.com/Zelun-He/Narrator', label: 'View code' }]
     },
     {
-      name: 'MyOasis.ai', role: 'Wellbeing platform · internship', status: 'Selected project',
+      name: 'MyOasis.ai', role: 'Wellbeing platform · internship', status: 'Selected project', category: 'web',
       summary: 'A responsive landing page for a wellbeing platform.',
       objectives: ['Led front-end development of the landing page.', 'Improved the site’s responsive layouts and React performance.'],
       art: { src: 'Images/myoasis.jpg', alt: 'MyOasis public website homepage' },
       links: [{ href: 'https://www.myoasis.ai/', label: 'Visit website' }]
     },
     {
-      name: 'Gene Classifier', role: 'Machine learning research', status: 'Selected project',
+      name: 'Gene Classifier', role: 'Machine learning research', status: 'Selected project', category: 'research',
       summary: 'Classifies oncogenes and tumor suppressors from genomic sequences.',
       objectives: ['Fine-tuned DNABERT for DNA sequence classification.', 'Presented classification results and confidence scores.'],
       art: { src: 'Images/gene-classifier.png', alt: 'DNA sequence classification output and confidence scores' },
       links: [{ href: 'https://github.com/Zelun-He/gene_classifier_project', label: 'View code' }]
     },
     {
-      name: 'Transformer Research', role: 'Published time series research', dates: '2025 – 2026', status: 'Selected project',
+      name: 'Transformer Research', role: 'Published time series research', dates: '2025 – 2026', status: 'Selected project', category: 'research',
       summary: 'Studied encoder and decoder contributions to time series forecasting for an ITNG 2026 paper.',
       objectives: ['Ran targeted ablation experiments to compare transformer architectures.', 'Won first place in Computer Science at the 2025 CNAS Undergraduate Research Symposium.'],
       rewards: [['1st', 'CNAS symposium']],
       art: { src: 'Images/transformer.png', alt: 'Time series forecasting training and validation plots' }
     },
     {
-      name: 'Real-Time Translation', role: 'Android speech app', status: 'Selected project',
+      name: 'Real-Time Translation', role: 'Android speech app', status: 'Selected project', category: 'mobile',
       summary: 'A mobile app for speech transcription and translation.',
       objectives: ['Built the Android interface in Kotlin.', 'Connected Whisper and Google Cloud APIs through a FastAPI backend.'],
       art: { src: 'translation-screen.webp', alt: 'Translation app language options and speech indicator' },
       links: [{ href: 'https://github.com/Zelun-He/RealTimeTranslationApp', label: 'View code' }]
     },
     {
-      name: 'Space Invaders', role: 'C++ game development', status: 'Selected project',
+      name: 'Space Invaders', role: 'C++ game development', status: 'Selected project', category: 'systems',
       summary: 'A recreation of the arcade game in C++ and Raylib.',
       objectives: ['Built alien waves, player controls, and scoring.', 'Used the project to explore game programming.'],
       art: { src: 'Images/space-invaders.png', alt: 'Space Invaders game with rows of pixel art aliens' },
       links: [{ href: 'https://github.com/Zelun-He/Space_Invaders', label: 'View code' }]
     },
     {
-      name: 'Limit Order Book', role: 'C++ systems project', status: 'Selected project',
+      name: 'Limit Order Book', role: 'C++ systems project', status: 'Selected project', category: 'systems',
       summary: 'A low-latency limit order book and matching engine.',
       objectives: ['Matched orders using FIFO price-time priority.', 'Added latency metrics and a React demo interface.'],
       art: { src: 'Images/order-book.svg', alt: 'Order book interface displaying bids, asks, and market statistics' },
@@ -100,6 +100,10 @@ const QUEST_ENTRIES = {
   ]
 };
 
+const PROJECT_ENTRIES = QUEST_ENTRIES.side;
+QUEST_ENTRIES.side = PROJECT_ENTRIES.filter(entry => entry.current).map(entry => ({ ...entry, status: 'Current project' }));
+const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+
 (() => {
   const list = document.getElementById('quest-list');
   const detail = document.getElementById('quest-detail');
@@ -107,7 +111,6 @@ const QUEST_ENTRIES = {
   const tabs = [...document.querySelectorAll('[data-quest-category]')];
   if (!list || !detail || !body || tabs.length !== 2) return;
 
-  const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
   let category = 'main';
   let selected = 0;
 
@@ -201,13 +204,35 @@ const QUEST_ENTRIES = {
     selectEntry(next, true);
   });
 
-  function syncHash() {
-    if (location.hash === '#projects') selectCategory('side');
-    else if (location.hash === '#experience') selectCategory('main');
-  }
-  window.addEventListener('hashchange', syncHash);
-  document.querySelectorAll('a[href="#projects"], a[href="#experience"]').forEach(link => {
-    link.addEventListener('click', () => selectCategory(link.getAttribute('href') === '#projects' ? 'side' : 'main'));
-  });
-  selectCategory(location.hash === '#projects' ? 'side' : 'main');
+  selectCategory('main');
+})();
+
+(() => {
+  const grid = document.getElementById('project-grid');
+  const filters = [...document.querySelectorAll('[data-project-filter]')];
+  if (!grid || !filters.length) return;
+
+  grid.innerHTML = PROJECT_ENTRIES.map(entry => {
+    const links = entry.links?.map(link => `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHTML(link.label)} ↗</a>`).join('') || '';
+    return `<article class="project-card" data-project-category="${escapeHTML(entry.category)}">
+      <a class="project-card__image" href="${escapeHTML(entry.art.src)}" target="_blank" rel="noopener noreferrer" aria-label="View full image of ${escapeHTML(entry.name)}">
+        <img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async">
+      </a>
+      <div class="project-card__content">
+        <span class="project-card__type">${escapeHTML(entry.role)}</span>
+        <h3>${escapeHTML(entry.name)}</h3>
+        <p>${escapeHTML(entry.summary)}</p>
+        ${links ? `<div class="project-card__links">${links}</div>` : ''}
+      </div>
+    </article>`;
+  }).join('');
+
+  filters.forEach(button => button.addEventListener('click', () => {
+    const filter = button.dataset.projectFilter;
+    filters.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    grid.querySelectorAll('.project-card').forEach(card => {
+      card.hidden = filter !== 'all' && card.dataset.projectCategory !== filter;
+    });
+    window.dispatchEvent(new Event('resize'));
+  }));
 })();
