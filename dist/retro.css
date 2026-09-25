@@ -122,6 +122,18 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .role-stats > div { padding: 14px; background: #e7e9c7; border: 2px solid #a3af83; }
 .role-stats strong { display: block; margin-bottom: 6px; color: #285039; font: 23px/1.4 'Press Start 2P', monospace; }
 .role-stats span { color: #4e654a; font: 10px/1.4 'DM Mono', monospace; letter-spacing: .06em; }
+.client-projects { margin-top: 34px; }
+.client-projects > h4 { margin: 0 0 16px; color: #315942; font: 12px/1.6 'Press Start 2P', monospace; }
+.client-project-card { display: grid; grid-template-columns: minmax(0,1.2fr) minmax(0,.8fr); overflow: hidden; border: 3px solid #315c3b; background: var(--paper); box-shadow: 7px 7px 0 #98a47e; }
+.client-project-media { display: grid; align-items: center; min-width: 0; padding: 14px; border-right: 3px solid #769171; background: #e8e8d5; }
+.client-project-media img { display: block; width: 100%; height: auto; aspect-ratio: 2048 / 1180; object-fit: contain; box-shadow: 0 0 0 1px #bbc6ac; }
+.client-project-media:hover img { box-shadow: 0 0 0 3px #ac813a; }
+.client-project-copy { display: flex; flex-direction: column; justify-content: center; min-width: 0; padding: clamp(24px,3vw,42px); }
+.client-project-copy h5 { margin: 0 0 14px; color: #193c2a; font-size: clamp(22px,2.2vw,29px); line-height: 1.25; }
+.client-project-copy > p:not(.role-kicker) { margin: 0; color: #466049; font-size: 17px; line-height: 1.65; }
+.client-project-links { display: flex; flex-wrap: wrap; gap: 13px 22px; margin-top: 24px; }
+.client-project-links a { color: #255941; font: 700 11px/1.5 'DM Mono', monospace; letter-spacing: .05em; text-underline-offset: 4px; }
+.client-project-links a:hover { text-decoration: underline; }
 
 .project-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px; }
 .project-card { display: flex; flex-direction: column; min-width: 0; overflow: hidden; background: var(--paper); border: 3px solid #315c3b; box-shadow: 7px 7px 0 #98a47e; transition: transform .22s, box-shadow .22s; }
@@ -240,6 +252,8 @@ footer a:hover { color: var(--gold); }
   .section-heading h2 { font-size: 32px; }
   .role-card { grid-template-columns: 1fr; }
   .role-stats { grid-template-columns: repeat(2,minmax(0,1fr)); border-left: 0; border-top: 2px dashed #8ea780; padding: 19px 0 0; }
+  .client-project-card { grid-template-columns: 1fr; }
+  .client-project-media { border-right: 0; border-bottom: 3px solid #769171; }
   .about__grid { grid-template-columns: 1fr; }
   .hero-card { width: min(100%,288px); }
 }
@@ -301,6 +315,8 @@ footer a:hover { color: var(--gold); }
   .work-group-heading h3 { font-size: 11px; }
   .work-group-heading span { font-size: 10px; }
   .role-card { padding: 23px 20px; }
+  .client-project-media { padding: 8px; }
+  .client-project-copy { padding: 22px 19px 24px; }
   .role-stats strong { font-size: 17px; }
   .role-stats span { font-size: 9px; }
   .inventory__groups { grid-template-columns: 1fr; }
