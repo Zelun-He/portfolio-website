@@ -35,14 +35,15 @@
     <div class="wrap journey-map-inner">
       <div class="map-heading"><span class="map-heading-mark" aria-hidden="true">✦</span><span>WORLD MAP</span><strong id="map-current-label">START</strong></div>
       <div class="map-board" id="map-board">
-        <svg class="map-route" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="75,66 300,60 650,70 925,58"/><polyline class="map-route-complete" id="map-route-complete" points="75,66"/></svg>
+        <svg class="map-route" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="75,66 300,60 550,70 780,62 925,58"/><polyline class="map-route-complete" id="map-route-complete" points="75,66"/></svg>
         <a class="map-stop" href="#top" data-map-stop="top" style="--x:7.5%;--y:66%" aria-label="Start" aria-current="location"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">START</span></a>
         <a class="map-stop" href="#about" data-map-stop="about" style="--x:30%;--y:60%" aria-label="About"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">ABOUT</span></a>
-        <a class="map-stop" href="#work" data-map-stop="work" style="--x:65%;--y:70%" aria-label="Work"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">WORK</span></a>
+        <a class="map-stop" href="#work" data-map-stop="work" style="--x:55%;--y:70%" aria-label="Experience"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">WORK</span></a>
+        <a class="map-stop" href="#projects" data-map-stop="projects" style="--x:78%;--y:62%" aria-label="Projects"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">PROJECTS</span></a>
         <a class="map-stop" href="#contact" data-map-stop="contact" style="--x:92.5%;--y:58%" aria-label="Contact"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">CONTACT</span><span class="map-label-short">MAIL</span></span></a>
         <img class="map-character" id="map-character" src="map-character-idle.png" alt="" width="128" height="192" decoding="async">
       </div>
-      <div class="map-progress"><span id="map-progress-text">01 / 04</span><div class="map-progress-track" id="map-progress-track" role="progressbar" aria-label="Page progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="map-progress-fill"></span></div></div>
+      <div class="map-progress"><span id="map-progress-text">01 / 05</span><div class="map-progress-track" id="map-progress-track" role="progressbar" aria-label="Page progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="map-progress-fill"></span></div></div>
     </div>
   </nav>
   <main id="main">
@@ -111,18 +112,31 @@
     <section class="quest-work section-pad" id="work" aria-labelledby="work-title">
       <div class="wrap">
         <span class="quest-anchor" id="experience" aria-hidden="true"></span>
-        <span class="quest-anchor" id="projects" aria-hidden="true"></span>
         <h2 class="quest-work__title" id="work-title">Quest <span>log.</span></h2>
         <div class="quest-frame">
           <div class="quest-tabs" role="tablist" aria-label="Work category">
-            <button class="quest-tab" role="tab" id="quest-tab-main" type="button" data-quest-category="main" aria-selected="true" aria-controls="quest-log-body">Main quests</button>
-            <button class="quest-tab" role="tab" id="quest-tab-side" type="button" data-quest-category="side" aria-selected="false" aria-controls="quest-log-body" tabindex="-1">Side quests</button>
+            <button class="quest-tab" role="tab" id="quest-tab-main" type="button" data-quest-category="main" aria-selected="true" aria-controls="quest-log-body">Experience</button>
+            <button class="quest-tab" role="tab" id="quest-tab-side" type="button" data-quest-category="side" aria-selected="false" aria-controls="quest-log-body" tabindex="-1">Current projects</button>
           </div>
           <div class="quest-log__body" id="quest-log-body" role="tabpanel" aria-labelledby="quest-tab-main">
             <div class="quest-list" id="quest-list" role="tablist" aria-orientation="vertical" aria-label="Work entries"></div>
             <div class="quest-detail" id="quest-detail" role="tabpanel" tabindex="0" aria-live="polite"></div>
           </div>
         </div>
+      </div>
+    </section>
+
+    <section class="projects-section section-pad" id="projects" aria-labelledby="projects-title">
+      <div class="wrap">
+        <h2 class="projects-title" id="projects-title">Selected work.</h2>
+        <div class="project-filters" role="group" aria-label="Filter projects">
+          <button class="project-filter" type="button" data-project-filter="all" aria-pressed="true">All</button>
+          <button class="project-filter" type="button" data-project-filter="web" aria-pressed="false">Web</button>
+          <button class="project-filter" type="button" data-project-filter="mobile" aria-pressed="false">Mobile</button>
+          <button class="project-filter" type="button" data-project-filter="research" aria-pressed="false">Research</button>
+          <button class="project-filter" type="button" data-project-filter="systems" aria-pressed="false">Systems &amp; games</button>
+        </div>
+        <div class="project-grid" id="project-grid"></div>
       </div>
     </section>
 

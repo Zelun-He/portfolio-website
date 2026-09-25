@@ -9,7 +9,7 @@ const observer = new IntersectionObserver((entries) => {
   }
 }, { threshold: 0.08 });
 
-document.querySelectorAll('.quest-frame, .hero-card, .about__story, .inventory, .contact-title, .contact-menu').forEach(el => {
+document.querySelectorAll('.quest-frame, .hero-card, .about__story, .inventory, .projects-title, .contact-title, .contact-menu').forEach(el => {
   el.classList.add('reveal');
   observer.observe(el);
 });
@@ -52,7 +52,8 @@ const mapProgressFill = document.getElementById('map-progress-fill');
 const waypoints = [
   { id: 'top', label: 'Start', x: 7.5, y: 66 },
   { id: 'about', label: 'About', x: 30, y: 60 },
-  { id: 'work', label: 'Work', x: 65, y: 70 },
+  { id: 'work', label: 'Work', x: 55, y: 70 },
+  { id: 'projects', label: 'Projects', x: 78, y: 62 },
   { id: 'contact', label: 'Contact', x: 92.5, y: 58 }
 ].map(point => ({
   ...point,

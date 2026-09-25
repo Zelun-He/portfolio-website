@@ -99,7 +99,7 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .game-toggle { flex: none; padding: 5px 7px; border: 1px solid #bba15d; background: #1b3728; color: #f4d686; cursor: pointer; font: 10px/1.3 'DM Mono', monospace; }
 .game-toggle:hover { background: #385d3c; }
 
-/* Work and projects as a navigable journal, matching the character inventory. */
+/* Experience and current work in a navigable journal. */
 .section-pad { padding-block: 100px; }
 .quest-work {
   --quest-deep: #13241a;
@@ -189,6 +189,33 @@ h1, h2, h3, h4, p { margin-top: 0; }
   .quest-list { grid-template-columns: 1fr; max-height: 255px; }
   .quest-detail h3 { font-size: 19px; }
   .quest-detail__summary { font-size: 16px; }
+}
+
+/* A separate project gallery keeps the full body of work easy to scan. */
+.projects-section { color: #e9e8cb; background: #193c2a; border-top: 8px solid #af8949; }
+.projects-title { margin: 0 0 31px; color: #f4ecce; font: clamp(20px,3.5vw,48px)/1.35 'Press Start 2P',monospace; letter-spacing: -.05em; white-space: nowrap; text-shadow: 4px 4px 0 #10241b; }
+.project-filters { display: flex; flex-wrap: wrap; gap: 9px; margin-bottom: 32px; }
+.project-filter { padding: 9px 15px; border: 2px solid #8a7440; background: #13241a; color: #d9dccb; font: 13px/1.5 'DM Mono',monospace; cursor: pointer; }
+.project-filter:hover, .project-filter[aria-pressed='true'] { border-color: #e0bb66; color: #13241a; background: #e0bb66; }
+.project-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 22px; align-items: stretch; }
+.project-card { display: flex; flex-direction: column; min-width: 0; border: 2px solid #7f9a5a; background: #13241a; box-shadow: 5px 5px 0 #10241b; }
+.project-card[hidden] { display: none; }
+.project-card__image { display: grid; place-items: center; width: 100%; height: 242px; padding: 10px; border-bottom: 2px solid #7f9a5a; background: #263d2d; }
+.project-card__image:hover, .project-card__image:focus-visible { background: #36533d; }
+.project-card__image img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.project-card__content { display: flex; flex: 1; flex-direction: column; padding: 18px 20px 20px; }
+.project-card__type { color: #e0bb66; font: 12px/1.5 'DM Mono',monospace; }
+.project-card h3 { min-height: 2.6em; margin: 9px 0 8px; color: #f4ecce; font-size: 19px; line-height: 1.3; }
+.project-card p { margin: 0 0 19px; color: #c5cfc0; font-size: 15px; line-height: 1.6; }
+.project-card__links { display: flex; flex-wrap: wrap; gap: 10px 16px; margin-top: auto; padding-top: 14px; border-top: 1px dotted #8a7440; }
+.project-card__links a { color: #dcbf79; font: 13px/1.45 'DM Mono',monospace; text-decoration: underline; text-underline-offset: 3px; }
+.project-card__links a:hover { color: #f4ecce; }
+@media (max-width: 1050px) { .project-grid { grid-template-columns: repeat(2,minmax(0,1fr)); } }
+@media (max-width: 680px) {
+  .projects-title { font-size: clamp(17px,5.4vw,25px); }
+  .project-filter { padding: 7px 11px; font-size: 12px; }
+  .project-grid { grid-template-columns: 1fr; gap: 18px; }
+  .project-card__image { height: 230px; }
 }
 
 /* Character profile and skills inventory. */
