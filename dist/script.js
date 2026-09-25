@@ -9,9 +9,28 @@ const observer = new IntersectionObserver((entries) => {
   }
 }, { threshold: 0.08 });
 
-document.querySelectorAll('.section-heading, .project-card, .about-left, .about-right, .contact-panel').forEach(el => {
+document.querySelectorAll('.section-heading, .project-card, .about-left, .about-right, .contact-title, .contact-menu').forEach(el => {
   el.classList.add('reveal');
   observer.observe(el);
+});
+
+const contactOptions = [...document.querySelectorAll('[data-contact-option]')];
+function selectContactOption(index) {
+  contactOptions.forEach((option, optionIndex) => {
+    option.classList.toggle('is-selected', index === optionIndex);
+  });
+}
+contactOptions.forEach((option, index) => {
+  option.addEventListener('pointerenter', () => selectContactOption(index));
+  option.addEventListener('focus', () => selectContactOption(index));
+  option.addEventListener('keydown', event => {
+    if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
+    event.preventDefault();
+    const direction = event.key === 'ArrowDown' ? 1 : -1;
+    const next = (index + direction + contactOptions.length) % contactOptions.length;
+    selectContactOption(next);
+    contactOptions[next].focus();
+  });
 });
 
 const filters = document.querySelectorAll('.project-filter');
