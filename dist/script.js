@@ -9,7 +9,7 @@ const observer = new IntersectionObserver((entries) => {
   }
 }, { threshold: 0.08 });
 
-document.querySelectorAll('.section-heading, .project-card, .hero-card, .about__story, .inventory, .contact-title, .contact-menu').forEach(el => {
+document.querySelectorAll('.quest-frame, .hero-card, .about__story, .inventory, .contact-title, .contact-menu').forEach(el => {
   el.classList.add('reveal');
   observer.observe(el);
 });
@@ -29,7 +29,7 @@ const contactSection = document.getElementById('contact');
 document.addEventListener('keydown', event => {
   if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
   const active = document.activeElement;
-  if (active?.isContentEditable || active?.matches('input, textarea, select') || active?.closest('.game-frame')) return;
+  if (active?.isContentEditable || active?.matches('input, textarea, select') || active?.closest('.game-frame, .quest-work')) return;
   const rect = contactSection.getBoundingClientRect();
   const contactInView = rect.top <= window.innerHeight / 2 && rect.bottom >= window.innerHeight / 2;
   if (!contactOptions.includes(active) && !contactInView) return;
@@ -42,27 +42,6 @@ document.addEventListener('keydown', event => {
   contactOptions[next].focus({ preventScroll: true });
 });
 
-const filters = document.querySelectorAll('.project-filter');
-const galleryCards = document.querySelectorAll('.gallery-card');
-const filterStatus = document.getElementById('project-filter-status');
-
-filters.forEach(button => {
-  button.addEventListener('click', () => {
-    const category = button.dataset.filter;
-    filters.forEach(filter => filter.setAttribute('aria-pressed', String(filter === button)));
-    let visible = 0;
-    galleryCards.forEach(card => {
-      const matches = category === 'all' || card.dataset.categories.split(' ').includes(category);
-      card.hidden = !matches;
-      if (matches) visible++;
-    });
-    filterStatus.textContent = category === 'all'
-      ? `Showing all ${visible} projects.`
-      : `Showing ${visible} ${category === 'cpp' ? 'C++' : category} ${visible === 1 ? 'project' : 'projects'}.`;
-    scheduleMapUpdate();
-  });
-});
-
 const mapBar = document.querySelector('.journey-map');
 const mapCharacter = document.getElementById('map-character');
 const mapRouteComplete = document.getElementById('map-route-complete');
@@ -72,9 +51,8 @@ const mapProgressTrack = document.getElementById('map-progress-track');
 const mapProgressFill = document.getElementById('map-progress-fill');
 const waypoints = [
   { id: 'top', label: 'Start', x: 7.5, y: 66 },
-  { id: 'about', label: 'About', x: 24.5, y: 60 },
-  { id: 'experience', label: 'Experience', x: 42, y: 70 },
-  { id: 'projects', label: 'Projects', x: 69, y: 60 },
+  { id: 'about', label: 'About', x: 30, y: 60 },
+  { id: 'work', label: 'Work', x: 65, y: 70 },
   { id: 'contact', label: 'Contact', x: 92.5, y: 58 }
 ].map(point => ({
   ...point,
