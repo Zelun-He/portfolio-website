@@ -185,15 +185,21 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .skill-category { min-height: 145px; padding: 20px 18px; background: #294e36; border: 3px solid #83975f; box-shadow: 5px 5px 0 #0c271b; }
 .skill-category h4 { margin: 0 0 13px; color: #f5d788; font: 11px/1.5 'DM Mono', monospace; letter-spacing: .08em; }
 .skill-category p { margin: 0; color: #e8eed5; font-size: 15px; line-height: 1.6; }
-.contact-panel { display: flex; align-items: end; justify-content: space-between; gap: 35px; padding: 54px 6%; background: var(--paper); color: var(--forest); border: 5px solid var(--gold); box-shadow: 8px 8px 0 #0b2418; }
-.contact-panel .eyebrow { color: #5e804e; }
-.contact-panel h2 { margin: 13px 0 18px; font: clamp(26px,3vw,39px)/1.55 'Press Start 2P', monospace; letter-spacing: -.05em; }
-.contact-panel p { max-width: 530px; margin: 0; color: #42604a; font-size: 17px; line-height: 1.55; }
-.contact-action { text-align: right; flex: none; }
-.contact-placeholder { display: inline-block; padding: 16px 21px; border: 3px solid #173e2a; color: #ffebba; background: #28583b; box-shadow: 4px 4px 0 #a9a975; font: 12px/1.3 'DM Mono', monospace; letter-spacing: .04em; }
-.contact-placeholder:hover { background: #39734b; }
-.contact-action p { margin: 17px 0 0; font-size: 13px; }
-.contact-action p a:hover { text-decoration: underline; }
+.contact-section { background-color: #20382b; background-image: none; border-top-color: #d5aa59; }
+.contact-title { margin: 0 0 clamp(45px,5vw,72px); color: #e6bd6a; font: clamp(31px,4.4vw,65px)/1.34 'Press Start 2P', monospace; letter-spacing: -.055em; text-shadow: 9px 9px 0 #10241b; }
+.contact-title span { white-space: nowrap; }
+.contact-menu { position: relative; padding: clamp(34px,5vw,70px) clamp(28px,5.4vw,76px) 47px; border: 7px solid #e3ba68; background: #14261c; box-shadow: inset 0 0 0 9px #294934, 9px 9px 0 #a78442; color: #f5f0d7; font-family: 'DM Mono', monospace; }
+.contact-menu-tab { position: absolute; top: -7px; left: clamp(32px,5vw,70px); padding: 0 25px 9px; color: #14261c; background: #e3ba68; font: 13px/1.4 'Press Start 2P', monospace; letter-spacing: -.04em; }
+.contact-intro { max-width: 940px; margin: 6px 0 55px; font-size: clamp(18px,2.15vw,30px); line-height: 1.65; letter-spacing: -.025em; }
+.contact-intro span { color: #e3ba68; white-space: nowrap; }
+.contact-options { display: grid; gap: 3px; margin-bottom: 62px; }
+.contact-option { display: flex; align-items: baseline; gap: 24px; width: fit-content; max-width: 100%; min-height: 69px; padding: 10px 8px 10px 58px; position: relative; color: #f5f0d7; font-size: clamp(19px,2vw,29px); line-height: 1.45; transition: color .15s; }
+.contact-option-pointer { position: absolute; left: 0; top: 10px; color: #bfe6b2; opacity: 0; font-size: .8em; }
+.contact-option-note { color: #b7bfb1; font-size: .74em; overflow-wrap: anywhere; }
+.contact-option.is-selected, .contact-option:hover, .contact-option:focus-visible { color: #bfe6b2; }
+.contact-option.is-selected .contact-option-pointer, .contact-option:hover .contact-option-pointer, .contact-option:focus-visible .contact-option-pointer { opacity: 1; }
+.contact-option:focus-visible { outline-offset: 1px; }
+.contact-menu-footer { display: flex; justify-content: space-between; gap: 20px; border-top: 3px dotted #a8874e; padding-top: 30px; color: #bcc5b6; font-size: clamp(14px,1.5vw,21px); line-height: 1.5; }
 footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; padding: 31px 0 0; color: #c0cda9; font: 11px/1.5 'DM Mono', monospace; letter-spacing: .04em; }
 footer a:hover { color: var(--gold); }
 
@@ -257,8 +263,16 @@ footer a:hover { color: var(--gold); }
   .about-left { min-height: 0; }
   .about-mark { display: none; }
   .about-right { padding-top: 38px; }
-  .contact-panel { display: block; padding: 34px 25px; }
-  .contact-action { margin-top: 27px; text-align: left; }
+  .contact-title { line-height: 1.6; }
+  .contact-title span { display: block; }
+  .contact-menu { padding: 44px 24px 28px; border-width: 5px; box-shadow: inset 0 0 0 5px #294934, 6px 6px 0 #a78442; }
+  .contact-menu-tab { top: -5px; left: 22px; padding: 0 15px 7px; font-size: 11px; }
+  .contact-intro { margin-bottom: 28px; font-size: 18px; }
+  .contact-options { margin-bottom: 35px; }
+  .contact-option { min-height: 57px; padding-left: 32px; gap: 10px; font-size: 18px; flex-wrap: wrap; }
+  .contact-option-pointer { top: 11px; }
+  .contact-option-note { font-size: 14px; }
+  .contact-menu-footer { padding-top: 18px; font-size: 13px; }
 }
 @media (max-width: 460px) {
   .site-header nav a { font-size: 10px; }
@@ -274,7 +288,10 @@ footer a:hover { color: var(--gold); }
   .role-stats span { font-size: 9px; }
   .skills-grid { grid-template-columns: 1fr; }
   .skill-category { min-height: 0; }
-  .contact-panel h2 { font-size: 25px; }
+  .contact-title { font-size: clamp(23px,6.7vw,30px); text-shadow: 5px 5px 0 #10241b; }
+  .contact-option { font-size: 16px; }
+  .contact-option-note { width: 100%; margin-top: -12px; }
+  .contact-menu-footer { flex-wrap: wrap; gap: 5px; }
   footer span:last-child { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
