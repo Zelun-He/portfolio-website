@@ -23,6 +23,17 @@ const QUEST_ENTRIES = {
       links: [{ href: 'https://www.myoasis.ai/', label: 'Visit MyOasis.ai' }]
     },
     {
+      name: 'Missouri State University', role: 'Research assistant · deep learning', dates: 'Jan – Dec 2025', place: 'Springfield, MO', status: 'Research appointment',
+      summary: 'Studied transformer architectures for time series forecasting and applied deep learning to genomic classification.',
+      objectives: [
+        'Ran Dozerformer ablation studies to compare encoder and decoder contributions to forecasting accuracy.',
+        'Applied DNABERT to distinguish oncogenes from tumor suppressor genes.',
+        'Coauthored a paper for ITNG 2026; the forecasting research won first place in Computer Science at the 2025 CNAS symposium.'
+      ],
+      rewards: [['1st', 'CNAS symposium']],
+      art: { src: 'Images/transformer.png', alt: 'Training and validation plots from transformer time series forecasting research' }
+    },
+    {
       name: 'N-of-1 AI', role: 'Software engineering intern · Scribsy', dates: 'Jun – Aug 2025', place: 'Remote', status: 'Internship',
       summary: 'Built clinical documentation software to help practitioners prepare session notes.',
       objectives: [
@@ -103,6 +114,7 @@ const QUEST_ENTRIES = {
 const PROJECT_ENTRIES = QUEST_ENTRIES.side;
 QUEST_ENTRIES.side = PROJECT_ENTRIES.filter(entry => entry.current).map(entry => ({ ...entry, status: 'Current project' }));
 const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+const isPastEntry = entry => entry.status === 'Internship' || entry.status === 'Research appointment';
 
 (() => {
   const list = document.getElementById('quest-list');
@@ -119,7 +131,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&
     const active = list.querySelector(`[data-quest-index="${selected}"]`);
     detail.setAttribute('aria-labelledby', active.id);
     detail.innerHTML = `
-      <span class="quest-detail__status ${entry.status === 'Internship' ? 'quest-detail__status--past' : ''}">${escapeHTML(entry.status)}</span>
+      <span class="quest-detail__status ${isPastEntry(entry) ? 'quest-detail__status--past' : ''}">${escapeHTML(entry.status)}</span>
       <h3>${escapeHTML(entry.name)}</h3>
       <p class="quest-detail__meta">${[entry.role, entry.dates, entry.place].filter(Boolean).map(escapeHTML).join(' · ')}</p>
       <p class="quest-detail__summary">${escapeHTML(entry.summary)}</p>
@@ -152,7 +164,7 @@ const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&
   function renderList() {
     list.innerHTML = QUEST_ENTRIES[category].map((entry, index) => `
       <button class="quest-entry" type="button" role="tab" id="quest-${category}-${index}" aria-selected="${index === 0}" aria-controls="quest-detail" tabindex="${index === 0 ? 0 : -1}" data-quest-index="${index}">
-        <span class="quest-entry__status ${entry.status === 'Internship' ? 'quest-entry__status--past' : ''}">${escapeHTML(entry.status)}</span>
+        <span class="quest-entry__status ${isPastEntry(entry) ? 'quest-entry__status--past' : ''}">${escapeHTML(entry.status)}</span>
         <span class="quest-entry__name">${escapeHTML(entry.name)}</span>
         <span class="quest-entry__meta">${[entry.role, entry.dates].filter(Boolean).map(escapeHTML).join(' · ')}</span>
       </button>`).join('');
