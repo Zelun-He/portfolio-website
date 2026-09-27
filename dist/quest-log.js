@@ -225,16 +225,25 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
   if (!grid || !filters.length) return;
 
   grid.innerHTML = PROJECT_ENTRIES.map(entry => {
-    const links = entry.links?.map(link => `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHTML(link.label)} ↗</a>`).join('') || '';
+    const actions = entry.links?.map(link => {
+      const label = link.href.includes('github.com') ? 'View code' : link.label.toLowerCase().includes('app') ? 'Open app' : 'Visit website';
+      return `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`;
+    }).join('') || '';
     return `<article class="project-card" data-project-category="${escapeHTML(entry.category)}">
-      <a class="project-card__image" href="${escapeHTML(entry.art.src)}" target="_blank" rel="noopener noreferrer" aria-label="View full image of ${escapeHTML(entry.name)}">
-        <img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async">
-      </a>
+      <div class="project-card__media">
+        <div class="project-card__image">
+          <img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async">
+        </div>
+        <div class="project-card__actions" aria-label="${escapeHTML(entry.name)} links">
+          <span class="project-card__actions-label" aria-hidden="true">PROJECT LINKS</span>
+          ${actions}
+          <a class="project-card__action-image" href="${escapeHTML(entry.art.src)}" target="_blank" rel="noopener noreferrer">Full image ↗</a>
+        </div>
+      </div>
       <div class="project-card__content">
         <span class="project-card__type">${escapeHTML(entry.role)}</span>
         <h3>${escapeHTML(entry.name)}</h3>
         <p>${escapeHTML(entry.summary)}</p>
-        ${links ? `<div class="project-card__links">${links}</div>` : ''}
       </div>
     </article>`;
   }).join('');
