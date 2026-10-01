@@ -6,6 +6,7 @@
   const scoreLabel = document.getElementById('game-score');
   const statusLabel = document.getElementById('game-status');
   if (!canvas || !stage || !frameElement || !toggle || !scoreLabel || !statusLabel) return;
+  const gameButtons = [...frameElement.querySelectorAll('.game-mode-switch [data-game-kind]')];
 
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
@@ -26,6 +27,8 @@
   let score = 0, lines = 0, mode = 'demo', paused = reducedMotion.matches;
   let gameOver = false, gameOverTime = 0, elapsed = 0, gravityTime = 0, aiTime = 0;
   let visible = true, raf = null, lastFrame = 0;
+  let gameKind = 'tetris', galagaMode = 'demo', galaga;
+  const heldDirections = new Set();
 
   const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
   function takeFromBag() {
@@ -152,11 +155,21 @@
     if (piece.y >= 0) lock();
   }
   function updateStatus() {
-    statusLabel.textContent = gameOver ? 'GAME OVER • RESTART' : paused ? 'PAUSED' : mode === 'demo' ? 'AUTO PLAY • CLICK TO CONTROL' : 'MANUAL PLAY • WASD / ARROWS';
+    const over = gameKind === 'galaga' ? galaga.over : gameOver;
+    const demo = gameKind === 'galaga' ? galagaMode === 'demo' : mode === 'demo';
+    statusLabel.textContent = over ? 'GAME OVER • RESTART' : paused ? 'PAUSED' : demo ? 'AUTO PLAY • CLICK TO CONTROL' : gameKind === 'galaga' ? 'A/D MOVE · SPACE FIRE' : 'MANUAL PLAY • WASD / ARROWS';
     toggle.textContent = paused ? '▶ PLAY' : '❚❚ PAUSE';
     toggle.setAttribute('aria-label', paused ? 'Resume game' : 'Pause game');
   }
   function playCommand(action) {
+    if (gameKind === 'galaga') {
+      if (action === 'reset' || galaga.over) resetGalaga(false);
+      galagaMode = 'manual'; paused = false;
+      if (action === 'left') galaga.playerX = Math.max(37, galaga.playerX - 13);
+      if (action === 'right') galaga.playerX = Math.min(323, galaga.playerX + 13);
+      if (action === 'fire' || action === 'drop') shootGalaga();
+      updateStatus(); render(); schedule(); return;
+    }
     if (action === 'reset') { reset(); paused = false; updateStatus(); schedule(); return; }
     if (gameOver) { reset(); paused = false; }
     if (mode !== 'manual') mode = 'manual';
@@ -184,6 +197,7 @@
     ctx.fillText(text, x, y);
   }
   function render() {
+    if (gameKind === 'galaga') { renderGalaga(); return; }
     ctx.fillStyle = '#142c22'; ctx.fillRect(0, 0, 360, 250);
     for (let i = 0; i < 19; i++) {
       const x = (i * 73 + 17) % 360, y = (i * 47 + 9) % 250;
@@ -232,6 +246,7 @@
     }
   }
   function update(dt) {
+    if (gameKind === 'galaga') { updateGalaga(dt); return; }
     elapsed += dt;
     if (gameOver) {
       gameOverTime += dt;
@@ -251,6 +266,160 @@
     const interval = mode === 'demo' ? .20 : Math.max(.12, .62 - Math.floor(lines / 10) * .05);
     if (gravityTime >= interval) { gravityTime = 0; descend(); }
   }
+
+  const enemyPixels = [
+    '1000000001', '0100110010', '0011111100', '0112112110',
+    '1111111111', '1011111101', '1001001001', '0010000100'
+  ];
+  const shipPixels = [
+    '000010000', '000111000', '001111100', '011222110',
+    '111222111', '110101011', '100000001'
+  ];
+  function resetGalaga(demo = true) {
+    galagaMode = demo ? 'demo' : 'manual';
+    galaga = {
+      playerX: 180, bullets: [], enemyBullets: [], score: 0, lives: 3, wave: 1,
+      time: 0, offset: 0, direction: 1, fireCooldown: 0, enemyFire: 1.3,
+      diveTimer: 2.7, invulnerable: 0, over: false, overTime: 0, enemies: []
+    };
+    spawnWave();
+    scoreLabel.textContent = '000000';
+  }
+  function spawnWave() {
+    galaga.enemies = Array.from({ length: 18 }, (_, i) => ({
+      col: i % 6, row: Math.floor(i / 6), alive: true, dive: 0
+    }));
+    galaga.offset = 0; galaga.direction = 1;
+    galaga.enemyBullets = []; galaga.diveTimer = 2.7;
+  }
+  function enemyPosition(enemy) {
+    const baseX = 58 + enemy.col * 43 + galaga.offset;
+    const baseY = 45 + enemy.row * 31;
+    return enemy.dive > 0 ? {
+      x: baseX + Math.sin(enemy.dive * 5) * 25,
+      y: baseY + enemy.dive * (67 + galaga.wave * 4)
+    } : { x: baseX, y: baseY + Math.sin(galaga.time * 3 + enemy.col) * 2 };
+  }
+  function shootGalaga() {
+    if (galaga.over || galaga.fireCooldown > 0) return;
+    galaga.bullets.push({ x: galaga.playerX, y: 202 });
+    galaga.fireCooldown = .25;
+  }
+  function hitGalagaShip() {
+    if (galaga.invulnerable > 0 || galaga.over) return;
+    galaga.lives--;
+    galaga.invulnerable = 1.4;
+    galaga.enemyBullets = [];
+    if (galaga.lives <= 0) { galaga.over = true; updateStatus(); }
+  }
+  function updateGalaga(dt) {
+    galaga.time += dt;
+    if (galaga.over) {
+      galaga.overTime += dt;
+      if (galagaMode === 'demo' && galaga.overTime > 2) { resetGalaga(true); updateStatus(); }
+      return;
+    }
+    galaga.fireCooldown = Math.max(0, galaga.fireCooldown - dt);
+    galaga.invulnerable = Math.max(0, galaga.invulnerable - dt);
+    if (galagaMode === 'demo') {
+      const target = galaga.enemies.find(enemy => enemy.alive && enemy.dive === 0);
+      if (target) {
+        const dx = enemyPosition(target).x + 10 - galaga.playerX;
+        galaga.playerX += Math.sign(dx) * Math.min(Math.abs(dx), 120 * dt);
+      }
+      shootGalaga();
+    } else {
+      const direction = Number(heldDirections.has('right')) - Number(heldDirections.has('left'));
+      galaga.playerX = Math.max(37, Math.min(323, galaga.playerX + direction * 165 * dt));
+    }
+    galaga.offset += galaga.direction * (28 + galaga.wave * 3) * dt;
+    if (Math.abs(galaga.offset) > 28) galaga.direction *= -1;
+    galaga.diveTimer -= dt;
+    if (galaga.diveTimer <= 0) {
+      const candidates = galaga.enemies.filter(enemy => enemy.alive && enemy.dive === 0);
+      if (candidates.length) candidates[Math.floor(random() * candidates.length)].dive = .01;
+      galaga.diveTimer = Math.max(1.5, 3.2 - galaga.wave * .12);
+    }
+    galaga.enemies.forEach(enemy => {
+      if (!enemy.alive || !enemy.dive) return;
+      enemy.dive += dt;
+      const pos = enemyPosition(enemy);
+      if (Math.abs(pos.x + 10 - galaga.playerX) < 14 && pos.y > 194 && pos.y < 226) hitGalagaShip();
+      if (pos.y > 240) enemy.dive = 0;
+    });
+    galaga.bullets.forEach(bullet => { bullet.y -= 205 * dt; });
+    galaga.bullets = galaga.bullets.filter(bullet => {
+      if (bullet.y < 24) return false;
+      const enemy = galaga.enemies.find(item => {
+        if (!item.alive) return false;
+        const pos = enemyPosition(item);
+        return bullet.x >= pos.x - 2 && bullet.x <= pos.x + 22 && bullet.y >= pos.y - 2 && bullet.y <= pos.y + 17;
+      });
+      if (!enemy) return true;
+      enemy.alive = false;
+      galaga.score += enemy.dive ? 150 : 100;
+      scoreLabel.textContent = String(galaga.score).padStart(6, '0');
+      return false;
+    });
+    galaga.enemyFire -= dt;
+    if (galaga.enemyFire <= 0) {
+      const candidates = galaga.enemies.filter(enemy => enemy.alive);
+      if (candidates.length) {
+        const pos = enemyPosition(candidates[Math.floor(random() * candidates.length)]);
+        galaga.enemyBullets.push({ x: pos.x + 10, y: pos.y + 17 });
+      }
+      galaga.enemyFire = Math.max(.45, 1.3 - galaga.wave * .08);
+    }
+    galaga.enemyBullets.forEach(bullet => { bullet.y += (85 + galaga.wave * 7) * dt; });
+    galaga.enemyBullets = galaga.enemyBullets.filter(bullet => {
+      if (Math.abs(bullet.x - galaga.playerX) < 10 && bullet.y > 205 && bullet.y < 223) {
+        hitGalagaShip(); return false;
+      }
+      return bullet.y < 235;
+    });
+    if (galaga.enemies.every(enemy => !enemy.alive)) {
+      galaga.wave++; spawnWave();
+    }
+  }
+  function drawPixels(rows, x, y, palette) {
+    rows.forEach((row, ry) => [...row].forEach((cell, rx) => {
+      if (cell === '0') return;
+      ctx.fillStyle = palette[cell];
+      ctx.fillRect(Math.round(x + rx * 2), Math.round(y + ry * 2), 2, 2);
+    }));
+  }
+  function renderGalaga() {
+    ctx.fillStyle = '#071c16'; ctx.fillRect(0, 0, 360, 250);
+    for (let i = 0; i < 42; i++) {
+      const x = (i * 79 + 17) % 354 + 3;
+      const y = (i * 53 + Math.floor(galaga.time * (i % 3 + 1) * 8)) % 220 + 22;
+      ctx.fillStyle = i % 4 ? '#578367' : '#e9c578';
+      ctx.fillRect(x, y, i % 7 ? 1 : 2, i % 7 ? 1 : 2);
+    }
+    ctx.strokeStyle = '#6d8d63'; ctx.lineWidth = 2; ctx.strokeRect(25, 24, 310, 207);
+    label('GALAGA', 31, 16, '#f0d17f', 11);
+    label(`WAVE ${String(galaga.wave).padStart(2, '0')}`, 149, 16, '#bed5ae', 9);
+    label(`LIVES ${galaga.lives}`, 267, 16, '#bed5ae', 9);
+    galaga.enemies.forEach(enemy => {
+      if (!enemy.alive) return;
+      const pos = enemyPosition(enemy);
+      const colors = enemy.row === 0 ? { '1': '#e9bd65', '2': '#a97948' } : enemy.row === 1 ? { '1': '#98c88d', '2': '#48785a' } : { '1': '#bba3d9', '2': '#765c9d' };
+      drawPixels(enemyPixels, pos.x, pos.y, colors);
+    });
+    ctx.fillStyle = '#f8d987';
+    galaga.bullets.forEach(bullet => ctx.fillRect(Math.round(bullet.x), Math.round(bullet.y), 2, 7));
+    ctx.fillStyle = '#eb806f';
+    galaga.enemyBullets.forEach(bullet => ctx.fillRect(Math.round(bullet.x), Math.round(bullet.y), 3, 5));
+    if (!galaga.over && (galaga.invulnerable <= 0 || Math.floor(galaga.time * 12) % 2)) {
+      drawPixels(shipPixels, galaga.playerX - 9, 205, { '1': '#f0cf75', '2': '#85d2b3' });
+    }
+    if (paused || galaga.over) {
+      ctx.fillStyle = '#0a2018e8'; ctx.fillRect(94, 87, 172, 75);
+      ctx.strokeStyle = '#d8bb70'; ctx.lineWidth = 2; ctx.strokeRect(94, 87, 172, 75);
+      label(galaga.over ? 'GAME OVER' : 'PAUSED', galaga.over ? 129 : 149, 116, '#fff0c3', 14);
+      label(galaga.over ? 'PRESS RESTART' : 'PRESS PLAY', galaga.over ? 137 : 143, 140, '#bfe0b4', 9);
+    }
+  }
   function tick(now) {
     raf = null;
     if (paused || !visible || document.hidden) return;
@@ -264,28 +433,67 @@
     }
   }
   function stop() { if (raf !== null) cancelAnimationFrame(raf); raf = null; lastFrame = 0; }
-  frameElement.querySelectorAll('[data-game-action]').forEach(button => button.addEventListener('click', () => playCommand(button.dataset.gameAction)));
-  stage.addEventListener('click', () => playCommand('rotate'));
-  document.addEventListener('keydown', event => {
-    if (!frameElement.contains(document.activeElement)) return;
-    const action = {
-      ArrowLeft: 'left', KeyA: 'left',
-      ArrowRight: 'right', KeyD: 'right',
-      ArrowUp: 'rotate', KeyW: 'rotate',
-      ArrowDown: 'down', KeyS: 'down',
-      Space: 'drop'
-    }[event.code];
-    if (!action) return;
-    event.preventDefault(); playCommand(action);
+  function switchGame(next) {
+    if (next === gameKind || (next !== 'tetris' && next !== 'galaga')) return;
+    stop(); heldDirections.clear();
+    gameKind = next;
+    frameElement.dataset.gameKind = next;
+    gameButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.gameKind === next)));
+    stage.setAttribute('aria-label', next === 'galaga'
+      ? 'Galaga game. Use A and D or arrow keys to move, W, Up, or Space to fire, or tap the controls below.'
+      : 'Falling-block game. Use W A S D or arrow keys to move and rotate, Space to drop, or tap the controls below.');
+    scoreLabel.textContent = String(next === 'galaga' ? galaga.score : score).padStart(6, '0');
+    updateStatus(); render(); schedule();
+  }
+  gameButtons.forEach(button => button.addEventListener('click', () => switchGame(button.dataset.gameKind)));
+  frameElement.querySelectorAll('[data-game-action]').forEach(button => {
+    button.addEventListener('click', () => playCommand(button.dataset.gameAction));
+    if (button.dataset.gameAction === 'left' || button.dataset.gameAction === 'right') {
+      button.addEventListener('pointerdown', () => {
+        if (gameKind !== 'galaga') return;
+        galagaMode = 'manual'; paused = false;
+        heldDirections.add(button.dataset.gameAction);
+        updateStatus(); schedule();
+      });
+      for (const name of ['pointerup', 'pointercancel', 'pointerleave']) {
+        button.addEventListener(name, () => heldDirections.delete(button.dataset.gameAction));
+      }
+    }
   });
+  stage.addEventListener('click', () => playCommand(gameKind === 'galaga' ? 'fire' : 'rotate'));
+  document.addEventListener('keydown', event => {
+    if (!frameElement.contains(document.activeElement) || document.activeElement.closest('.game-mode-switch')) return;
+    const action = (gameKind === 'galaga' ? {
+      ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right',
+      ArrowUp: 'fire', KeyW: 'fire', Space: 'fire'
+    } : {
+      ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right',
+      ArrowUp: 'rotate', KeyW: 'rotate', ArrowDown: 'down', KeyS: 'down', Space: 'drop'
+    })[event.code];
+    if (!action) return;
+    event.preventDefault();
+    if (gameKind === 'galaga' && (action === 'left' || action === 'right')) {
+      heldDirections.add(action);
+      if (event.repeat) return;
+    }
+    playCommand(action);
+  });
+  document.addEventListener('keyup', event => {
+    if (event.code === 'ArrowLeft' || event.code === 'KeyA') heldDirections.delete('left');
+    if (event.code === 'ArrowRight' || event.code === 'KeyD') heldDirections.delete('right');
+  });
+  window.addEventListener('blur', () => heldDirections.clear());
   toggle.addEventListener('click', () => {
-    if (gameOver && mode === 'manual') {
+    if (gameKind === 'galaga' && galaga.over && galagaMode === 'manual') {
+      resetGalaga(false); paused = false; updateStatus(); render(); schedule(); return;
+    }
+    if (gameKind === 'tetris' && gameOver && mode === 'manual') {
       reset(); paused = false; updateStatus(); render(); schedule(); return;
     }
     paused = !paused; updateStatus();
     if (paused) { stop(); render(); } else schedule();
   });
-  document.addEventListener('visibilitychange', () => { if (document.hidden) stop(); else schedule(); });
+  document.addEventListener('visibilitychange', () => { if (document.hidden) { heldDirections.clear(); stop(); } else schedule(); });
   reducedMotion.addEventListener('change', event => {
     if (event.matches) { paused = true; stop(); updateStatus(); render(); }
   });
@@ -294,5 +502,6 @@
     if (visible) schedule(); else stop();
   });
   observer.observe(canvas);
+  resetGalaga(true);
   nextKind = takeFromBag(); reset(true); updateStatus(); render(); schedule();
 })();

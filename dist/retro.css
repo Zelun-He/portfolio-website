@@ -87,6 +87,10 @@ h1, h2, h3, h4, p { margin-top: 0; }
 /* The game is playable and keeps its existing keyboard and touch controls. */
 .game-frame { width: 100%; max-width: 540px; justify-self: end; border: 5px solid #d7ae5c; background: #10261c; box-shadow: 0 0 0 4px #1d4631, 11px 11px 0 #061811; }
 .game-screen-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 42px; padding: 9px 13px; background: #25442e; color: #ffe2a2; border-bottom: 3px solid #a67d3b; font: 11px/1.3 'DM Mono', monospace; letter-spacing: .05em; }
+.game-mode-switch { display: flex; align-items: center; gap: 5px; }
+.game-mode-switch button { padding: 5px 7px; border: 1px solid #a88e52; background: #1b3728; color: #d2dfbd; cursor: pointer; font: 10px/1.3 'DM Mono',monospace; letter-spacing: .04em; }
+.game-mode-switch button[aria-pressed='true'] { border-color: #ffe2a2; background: #d7ae5c; color: #10261c; }
+.game-mode-switch button:hover { border-color: #ffe2a2; }
 .game-screen-bar.bottom { min-height: 44px; border-bottom: 0; border-top: 3px solid #a67d3b; font-size: 10px; color: #d2dfbd; }
 .game-scene { background: #10251c; }
 .game-stage { position: relative; display: block; width: 100%; padding: 0; border: 0; background: transparent; cursor: pointer; }
@@ -96,6 +100,8 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .tetris-controls button { display: grid; place-items: center; min-width: 0; min-height: 42px; padding: 5px; border: 2px solid #a88e52; background: #416746; color: #f4e5ac; box-shadow: inset -3px -3px 0 #27442d; cursor: pointer; font-size: 18px; }
 .tetris-controls button:hover { background: #5d8557; }
 .tetris-controls button:active { transform: translateY(2px); }
+.game-frame:not([data-game-kind='galaga']) [data-game-action='fire'], .game-frame[data-game-kind='galaga'] [data-game-action='rotate'], .game-frame[data-game-kind='galaga'] [data-game-action='down'], .game-frame[data-game-kind='galaga'] [data-game-action='drop'] { display: none; }
+.game-frame[data-game-kind='galaga'] .tetris-controls { grid-template-columns: repeat(4,minmax(0,1fr)); }
 .game-toggle { flex: none; padding: 5px 7px; border: 1px solid #bba15d; background: #1b3728; color: #f4d686; cursor: pointer; font: 10px/1.3 'DM Mono', monospace; }
 .game-toggle:hover { background: #385d3c; }
 
