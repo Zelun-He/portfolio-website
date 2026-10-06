@@ -46,6 +46,13 @@ const QUEST_ENTRIES = {
   ],
   side: [
     {
+      name: 'Eastern Asteria', role: 'Corporate & coffee brand website · Arrows Up', status: 'Selected project', category: 'web',
+      summary: 'A corporate website connecting coffee sourcing, the Deep Thrill brand, hospitality, and technology through a cohesive visual story.',
+      objectives: ['Created a cohesive presentation across the company and its coffee brand.', 'Organized its coffee, hospitality, and technology strategy into clear, responsive pages.'],
+      art: { src: 'Images/eastern-asteria.webp', alt: 'Eastern Asteria strategy page with a teal coffee cup and the heading Coffee, Hospitality, and Technology' },
+      links: [{ href: 'https://staging-eastern-asteria.mtdewulf.workers.dev/our-strategy', label: 'View website' }]
+    },
+    {
       name: 'Holcomb Tree Service', role: 'Client website · Arrows Up', status: 'Selected project', category: 'web', current: true,
       summary: 'A service website for a Dallas tree care company.',
       objectives: ['Created clear navigation across the company’s services.', 'Made it easy for prospective customers to request a consultation.'],
