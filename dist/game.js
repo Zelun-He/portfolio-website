@@ -28,6 +28,9 @@
   let gameOver = false, gameOverTime = 0, elapsed = 0, gravityTime = 0, aiTime = 0;
   let visible = true, raf = null, lastFrame = 0;
   let gameKind = 'tetris', galagaMode = 'demo', galaga;
+  const SNAKE_COLS = 24, SNAKE_ROWS = 16, SNAKE_CELL = 12, SX = 36, SY = 42;
+  const snakeDirections = { left: { x: -1, y: 0 }, right: { x: 1, y: 0 }, up: { x: 0, y: -1 }, down: { x: 0, y: 1 } };
+  let snake;
   const heldDirections = new Set();
 
   const random = () => { seed = (seed * 1664525 + 1013904223) >>> 0; return seed / 4294967296; };
@@ -155,13 +158,23 @@
     if (piece.y >= 0) lock();
   }
   function updateStatus() {
-    const over = gameKind === 'galaga' ? galaga.over : gameOver;
-    const demo = gameKind === 'galaga' ? galagaMode === 'demo' : mode === 'demo';
-    statusLabel.textContent = over ? 'GAME OVER • RESTART' : paused ? 'PAUSED' : demo ? 'AUTO PLAY • CLICK TO CONTROL' : gameKind === 'galaga' ? 'A/D MOVE · SPACE FIRE' : 'MANUAL PLAY • WASD / ARROWS';
+    const over = gameKind === 'snake' ? snake.over : gameKind === 'galaga' ? galaga.over : gameOver;
+    const demo = gameKind === 'snake' ? snake.demo : gameKind === 'galaga' ? galagaMode === 'demo' : mode === 'demo';
+    statusLabel.textContent = over ? (gameKind === 'snake' && snake.won ? 'GARDEN CLEARED • RESTART' : 'GAME OVER • RESTART') : paused ? 'PAUSED' : demo ? 'AUTO PLAY • CLICK TO CONTROL' : gameKind === 'galaga' ? 'A/D MOVE · SPACE FIRE' : 'MANUAL PLAY • WASD / ARROWS';
     toggle.textContent = paused ? '▶ PLAY' : '❚❚ PAUSE';
     toggle.setAttribute('aria-label', paused ? 'Resume game' : 'Pause game');
   }
   function playCommand(action) {
+    if (gameKind === 'snake') {
+      if (action === 'reset' || snake.over || snake.demo) resetSnake(false);
+      paused = false;
+      const direction = snakeDirections[action];
+      // Accept one turn per step, so quick taps cannot reverse into the body.
+      if (direction && !snake.turn && direction.x * snake.direction.x + direction.y * snake.direction.y === 0) {
+        snake.turn = direction;
+      }
+      updateStatus(); render(); schedule(); return;
+    }
     if (gameKind === 'galaga') {
       if (action === 'reset' || galaga.over) resetGalaga(false);
       galagaMode = 'manual'; paused = false;
@@ -197,6 +210,7 @@
     ctx.fillText(text, x, y);
   }
   function render() {
+    if (gameKind === 'snake') { renderSnake(); return; }
     if (gameKind === 'galaga') { renderGalaga(); return; }
     ctx.fillStyle = '#142c22'; ctx.fillRect(0, 0, 360, 250);
     for (let i = 0; i < 19; i++) {
@@ -246,6 +260,7 @@
     }
   }
   function update(dt) {
+    if (gameKind === 'snake') { updateSnake(dt); return; }
     if (gameKind === 'galaga') { updateGalaga(dt); return; }
     elapsed += dt;
     if (gameOver) {
@@ -265,6 +280,107 @@
     gravityTime += dt;
     const interval = mode === 'demo' ? .20 : Math.max(.12, .62 - Math.floor(lines / 10) * .05);
     if (gravityTime >= interval) { gravityTime = 0; descend(); }
+  }
+
+  function resetSnake(demo = true) {
+    snake = {
+      body: [{ x: 8, y: 8 }, { x: 7, y: 8 }, { x: 6, y: 8 }, { x: 5, y: 8 }],
+      direction: snakeDirections.right, turn: null, food: null,
+      score: 0, timer: 0, over: false, overTime: 0, won: false, demo
+    };
+    placeSnakeFood();
+    if (gameKind === 'snake') scoreLabel.textContent = '000000';
+  }
+  function placeSnakeFood() {
+    const occupied = new Set(snake.body.map(cell => cell.y * SNAKE_COLS + cell.x));
+    const empty = [];
+    for (let y = 0; y < SNAKE_ROWS; y++) for (let x = 0; x < SNAKE_COLS; x++) {
+      if (!occupied.has(y * SNAKE_COLS + x)) empty.push({ x, y });
+    }
+    snake.food = empty.length ? empty[Math.floor(random() * empty.length)] : null;
+    if (!snake.food) { snake.over = true; snake.won = true; }
+  }
+  function snakeCanMove(next, growing) {
+    return next.x >= 0 && next.x < SNAKE_COLS && next.y >= 0 && next.y < SNAKE_ROWS
+      && !snake.body.slice(0, growing ? snake.body.length : -1).some(cell => cell.x === next.x && cell.y === next.y);
+  }
+  function demoSnakeDirection() {
+    // Find a path to fruit, then choose a free neighbor if the path is blocked.
+    const head = snake.body[0];
+    const occupied = new Set(snake.body.slice(0, -1).map(cell => cell.y * SNAKE_COLS + cell.x));
+    const queue = [{ ...head, first: null }], seen = new Set([head.y * SNAKE_COLS + head.x]);
+    for (let i = 0; i < queue.length; i++) {
+      const cell = queue[i];
+      if (cell.x === snake.food.x && cell.y === snake.food.y) return cell.first;
+      for (const direction of Object.values(snakeDirections)) {
+        if (!cell.first && direction.x * snake.direction.x + direction.y * snake.direction.y === -1) continue;
+        const next = { x: cell.x + direction.x, y: cell.y + direction.y, first: cell.first || direction };
+        const key = next.y * SNAKE_COLS + next.x;
+        if (next.x < 0 || next.x >= SNAKE_COLS || next.y < 0 || next.y >= SNAKE_ROWS || occupied.has(key) || seen.has(key)) continue;
+        seen.add(key); queue.push(next);
+      }
+    }
+    return Object.values(snakeDirections).find(direction => {
+      const next = { x: head.x + direction.x, y: head.y + direction.y };
+      return direction.x * snake.direction.x + direction.y * snake.direction.y !== -1 && snakeCanMove(next, false);
+    }) || snake.direction;
+  }
+  function stepSnake() {
+    snake.direction = snake.demo ? demoSnakeDirection() : snake.turn || snake.direction;
+    snake.turn = null;
+    const head = snake.body[0];
+    const next = { x: head.x + snake.direction.x, y: head.y + snake.direction.y };
+    const growing = next.x === snake.food.x && next.y === snake.food.y;
+    if (!snakeCanMove(next, growing)) { snake.over = true; updateStatus(); return; }
+    snake.body.unshift(next);
+    if (growing) {
+      snake.score += 10;
+      scoreLabel.textContent = String(snake.score).padStart(6, '0');
+      placeSnakeFood();
+      if (snake.over) updateStatus();
+    } else snake.body.pop();
+  }
+  function updateSnake(dt) {
+    if (snake.over) {
+      snake.overTime += dt;
+      if (snake.demo && snake.overTime > 2) { resetSnake(true); updateStatus(); }
+      return;
+    }
+    snake.timer += dt;
+    const interval = snake.demo ? .1 : Math.max(.09, .18 - Math.floor(snake.score / 50) * .01);
+    if (snake.timer >= interval) { snake.timer -= interval; stepSnake(); }
+  }
+  function renderSnake() {
+    ctx.fillStyle = '#142c22'; ctx.fillRect(0, 0, 360, 250);
+    label('SNAKE', SX, 23, '#9ed6b0', 15);
+    label(`LENGTH ${String(snake.body.length).padStart(3, '0')}`, 227, 23, '#f1cf79', 10);
+    ctx.fillStyle = '#9cab73'; ctx.fillRect(SX - 3, SY - 3, SNAKE_COLS * SNAKE_CELL + 6, SNAKE_ROWS * SNAKE_CELL + 6);
+    for (let y = 0; y < SNAKE_ROWS; y++) for (let x = 0; x < SNAKE_COLS; x++) {
+      ctx.fillStyle = (x + y) % 2 ? '#193b29' : '#173624';
+      ctx.fillRect(SX + x * SNAKE_CELL, SY + y * SNAKE_CELL, SNAKE_CELL, SNAKE_CELL);
+    }
+    if (snake.food) {
+      const x = SX + snake.food.x * SNAKE_CELL, y = SY + snake.food.y * SNAKE_CELL;
+      block(x + 2, y + 3, '#e9bd65', false, 9);
+      ctx.fillStyle = '#9ed6b0'; ctx.fillRect(x + 6, y + 1, 3, 2);
+    }
+    snake.body.forEach((cell, i) => block(SX + cell.x * SNAKE_CELL, SY + cell.y * SNAKE_CELL, i ? '#77ad70' : '#b9e391', false, SNAKE_CELL));
+    const head = snake.body[0], hx = SX + head.x * SNAKE_CELL, hy = SY + head.y * SNAKE_CELL;
+    ctx.fillStyle = '#10261c';
+    if (snake.direction.x) {
+      const x = hx + (snake.direction.x > 0 ? 8 : 2);
+      ctx.fillRect(x, hy + 2, 2, 2); ctx.fillRect(x, hy + 7, 2, 2);
+    } else {
+      const y = hy + (snake.direction.y > 0 ? 8 : 2);
+      ctx.fillRect(hx + 2, y, 2, 2); ctx.fillRect(hx + 7, y, 2, 2);
+    }
+    label('EAT FRUIT · WASD / ARROWS TO STEER', SX, 247, '#d8e0c0', 8);
+    if (paused || snake.over) {
+      ctx.fillStyle = '#0a2018e8'; ctx.fillRect(88, 99, 184, 68);
+      ctx.strokeStyle = '#d8bb70'; ctx.lineWidth = 2; ctx.strokeRect(88, 99, 184, 68);
+      label(snake.over ? (snake.won ? 'GARDEN CLEARED' : 'GAME OVER') : 'PAUSED', snake.won ? 99 : snake.over ? 129 : 149, 125, '#fff0c3', 14);
+      label(snake.over ? 'PRESS RESTART' : 'PRESS PLAY', snake.over ? 137 : 143, 148, '#bfe0b4', 9);
+    }
   }
 
   const enemyPixels = [
@@ -434,15 +550,19 @@
   }
   function stop() { if (raf !== null) cancelAnimationFrame(raf); raf = null; lastFrame = 0; }
   function switchGame(next) {
-    if (next === gameKind || (next !== 'tetris' && next !== 'galaga')) return;
+    if (next === gameKind || !['tetris', 'galaga', 'snake'].includes(next)) return;
     stop(); heldDirections.clear();
     gameKind = next;
     frameElement.dataset.gameKind = next;
     gameButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.gameKind === next)));
-    stage.setAttribute('aria-label', next === 'galaga'
+    stage.setAttribute('aria-label', next === 'snake'
+      ? 'Snake game. Click to play, then use W A S D, arrow keys, or the direction buttons to steer. Eat fruit and avoid walls and your tail.'
+      : next === 'galaga'
       ? 'Galaga game. Use A and D or arrow keys to move, W, Up, or Space to fire, or tap the controls below.'
       : 'Falling-block game. Use W A S D or arrow keys to move and rotate, Space to drop, or tap the controls below.');
-    scoreLabel.textContent = String(next === 'galaga' ? galaga.score : score).padStart(6, '0');
+    scoreLabel.textContent = String(next === 'snake' ? snake.score : next === 'galaga' ? galaga.score : score).padStart(6, '0');
+    frameElement.querySelector('.game-instruction').textContent = next === 'snake' ? 'TAP TO PLAY' : next === 'galaga' ? 'TAP TO FIRE' : 'TAP TO ROTATE';
+    canvas.textContent = next === 'snake' ? 'Snake. Eat fruit and avoid walls and your tail.' : next === 'galaga' ? 'Galaga. Move and fire to clear enemy waves.' : 'A falling-block puzzle game. Move and rotate pieces to clear lines.';
     updateStatus(); render(); schedule();
   }
   gameButtons.forEach(button => button.addEventListener('click', () => switchGame(button.dataset.gameKind)));
@@ -460,10 +580,13 @@
       }
     }
   });
-  stage.addEventListener('click', () => playCommand(gameKind === 'galaga' ? 'fire' : 'rotate'));
+  stage.addEventListener('click', () => playCommand(gameKind === 'snake' ? 'start' : gameKind === 'galaga' ? 'fire' : 'rotate'));
   document.addEventListener('keydown', event => {
     if (!frameElement.contains(document.activeElement) || document.activeElement.closest('.game-mode-switch')) return;
-    const action = (gameKind === 'galaga' ? {
+    const action = (gameKind === 'snake' ? {
+      ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right',
+      ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down'
+    } : gameKind === 'galaga' ? {
       ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right',
       ArrowUp: 'fire', KeyW: 'fire', Space: 'fire'
     } : {
@@ -472,6 +595,7 @@
     })[event.code];
     if (!action) return;
     event.preventDefault();
+    if (gameKind === 'snake' && event.repeat) return;
     if (gameKind === 'galaga' && (action === 'left' || action === 'right')) {
       heldDirections.add(action);
       if (event.repeat) return;
@@ -484,6 +608,9 @@
   });
   window.addEventListener('blur', () => heldDirections.clear());
   toggle.addEventListener('click', () => {
+    if (gameKind === 'snake' && snake.over && !snake.demo) {
+      resetSnake(false); paused = false; updateStatus(); render(); schedule(); return;
+    }
     if (gameKind === 'galaga' && galaga.over && galagaMode === 'manual') {
       resetGalaga(false); paused = false; updateStatus(); render(); schedule(); return;
     }
@@ -502,6 +629,7 @@
     if (visible) schedule(); else stop();
   });
   observer.observe(canvas);
+  resetSnake(true);
   resetGalaga(true);
   nextKind = takeFromBag(); reset(true); updateStatus(); render(); schedule();
 })();
