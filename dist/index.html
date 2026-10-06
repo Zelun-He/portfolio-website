@@ -60,7 +60,7 @@
         </div>
       </div>
       <div class="hero-art game-frame" data-game-kind="tetris">
-        <div class="game-screen-bar"><div class="game-mode-switch" role="group" aria-label="Choose arcade game"><button type="button" data-game-kind="tetris" aria-pressed="true">TETRIS</button><button type="button" data-game-kind="galaga" aria-pressed="false">GALAGA</button></div><span>SCORE <span id="game-score">000000</span></span></div>
+        <div class="game-screen-bar"><div class="game-mode-switch" role="group" aria-label="Choose arcade game"><button type="button" data-game-kind="tetris" aria-pressed="true">TETRIS</button><button type="button" data-game-kind="galaga" aria-pressed="false">GALAGA</button><button type="button" data-game-kind="snake" aria-pressed="false">SNAKE</button></div><span>SCORE <span id="game-score">000000</span></span></div>
         <div class="game-scene">
           <button class="game-stage" id="game-stage" type="button" aria-label="Falling-block game. Use W A S D or arrow keys to move and rotate, Space to drop, or tap the controls below.">
             <canvas id="header-game" width="360" height="250">A falling-block puzzle game. Move and rotate pieces to clear lines.</canvas>
@@ -71,6 +71,7 @@
           <button type="button" data-game-action="left" aria-label="Move left" title="Move left">◀</button>
           <button type="button" data-game-action="right" aria-label="Move right" title="Move right">▶</button>
           <button type="button" data-game-action="rotate" aria-label="Rotate piece" title="Rotate">↻</button>
+          <button type="button" data-game-action="up" aria-label="Move up" title="Move up">▲</button>
           <button type="button" data-game-action="down" aria-label="Move down" title="Move down">▼</button>
           <button type="button" data-game-action="drop" aria-label="Drop piece" title="Hard drop">⤓</button>
           <button type="button" data-game-action="fire" aria-label="Fire" title="Fire">✦</button>
