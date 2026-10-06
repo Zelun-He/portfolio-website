@@ -47,13 +47,15 @@ const QUEST_ENTRIES = {
   side: [
     {
       name: 'Eastern Asteria', role: 'Corporate & coffee brand website · Arrows Up', status: 'Selected project', category: 'web',
+      addedAt: '2026-10-06T20:10:33Z',
       summary: 'A corporate website connecting coffee sourcing, the Deep Thrill brand, hospitality, and technology through a cohesive visual story.',
       objectives: ['Created a cohesive presentation across the company and its coffee brand.', 'Organized its coffee, hospitality, and technology strategy into clear, responsive pages.'],
-      art: { src: 'Images/eastern-asteria.webp', alt: 'Eastern Asteria strategy page with a teal coffee cup and the heading Coffee, Hospitality, and Technology' },
-      links: [{ href: 'https://staging-eastern-asteria.mtdewulf.workers.dev/our-strategy', label: 'View website' }]
+      art: { src: 'Images/eastern-asteria-home.webp', alt: 'Eastern Asteria homepage with the heading From Source to Sip above green coffee fields' },
+      links: [{ href: 'https://staging-eastern-asteria.mtdewulf.workers.dev/', label: 'View website' }]
     },
     {
       name: 'Holcomb Tree Service', role: 'Client website · Arrows Up', status: 'Selected project', category: 'web', current: true,
+      addedAt: '2026-09-25T06:40:50Z',
       summary: 'A service website for a Dallas tree care company.',
       objectives: ['Created clear navigation across the company’s services.', 'Made it easy for prospective customers to request a consultation.'],
       art: { src: 'holcomb-tree-service.webp', alt: 'Holcomb Tree Service homepage and consultation form' },
@@ -61,6 +63,7 @@ const QUEST_ENTRIES = {
     },
     {
       name: 'Scribsy', role: 'Clinical documentation · N-of-1 AI', status: 'Selected project', category: 'web',
+      addedAt: '2026-09-25T06:40:50Z',
       summary: 'A clinical documentation app for practitioners.',
       objectives: ['Built audio transcription and structured SOAP notes.', 'Implemented note management in a FastAPI and Next.js application.'],
       art: { src: 'Images/scribsy.png', alt: 'Scribsy dashboard with note creation and calendar' },
@@ -68,6 +71,7 @@ const QUEST_ENTRIES = {
     },
     {
       name: 'Narrator', role: 'Full-stack audiobook app', status: 'Selected project', category: 'web', current: true,
+      addedAt: '2026-09-25T06:40:50Z',
       summary: 'Turns uploaded manuscripts into audiobooks with AI narration.',
       objectives: ['Built manuscript upload and voice selection workflows.', 'Added generation progress, chapter playback, and audiobook downloads.'],
       art: { src: 'narrator-dashboard.webp', alt: 'Narrator dashboard showing audiobook progress and playback' },
@@ -75,6 +79,7 @@ const QUEST_ENTRIES = {
     },
     {
       name: 'MyOasis.ai', role: 'Wellbeing platform · internship', status: 'Selected project', category: 'web',
+      addedAt: '2026-09-25T06:40:50Z',
       summary: 'A responsive landing page for a wellbeing platform.',
       objectives: ['Led front-end development of the landing page.', 'Improved the site’s responsive layouts and React performance.'],
       art: { src: 'Images/myoasis.jpg', alt: 'MyOasis public website homepage' },
@@ -118,8 +123,16 @@ const QUEST_ENTRIES = {
   ]
 };
 
-const PROJECT_ENTRIES = QUEST_ENTRIES.side;
-QUEST_ENTRIES.side = PROJECT_ENTRIES.filter(entry => entry.current).map(entry => ({ ...entry, status: 'Current project' }));
+// Give new website entries an addedAt timestamp; the gallery places the latest
+// websites first regardless of their position in the source list. Keep the
+// experience/current-project quest log in its existing order.
+const PROJECT_ENTRIES = [...QUEST_ENTRIES.side].sort((a, b) => {
+  const websiteOrder = Number(b.category === 'web') - Number(a.category === 'web');
+  if (websiteOrder) return websiteOrder;
+  if (a.category !== 'web') return 0;
+  return (Date.parse(b.addedAt) || 0) - (Date.parse(a.addedAt) || 0);
+});
+QUEST_ENTRIES.side = QUEST_ENTRIES.side.filter(entry => entry.current).map(entry => ({ ...entry, status: 'Current project' }));
 const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const isPastEntry = entry => entry.status === 'Internship' || entry.status === 'Research appointment';
 
