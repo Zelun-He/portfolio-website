@@ -74,7 +74,7 @@ const QUEST_ENTRIES = {
       addedAt: '2026-09-25T06:40:50Z',
       summary: 'Turns uploaded manuscripts into audiobooks with AI narration.',
       objectives: ['Built manuscript upload and voice selection workflows.', 'Added generation progress, chapter playback, and audiobook downloads.'],
-      art: { src: 'narrator-dashboard.webp', alt: 'Narrator dashboard showing audiobook progress and playback' },
+      art: { src: 'narrator-dashboard.webp', alt: 'Narrator author studio dashboard showing the library and audiobook creation' },
       links: [{ href: 'https://narrator-eight.vercel.app/', label: 'View app' }, { href: 'https://github.com/Zelun-He/Narrator', label: 'View code' }]
     },
     {
