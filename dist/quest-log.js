@@ -5,12 +5,12 @@ const QUEST_ENTRIES = {
       summary: 'Modernizing client web platforms for service businesses.',
       objectives: [
         'Rebuilt more than 21 client sites with SvelteKit, including routing, CMS integrations, and SEO migrations.',
-        'Built reusable templates that cut delivery time by 50%.',
+        'Built reusable client-site templates that reduced delivery time by 50%.',
         'Configured Sanity CMS, Cloudflare Workers, analytics, and GitHub Actions deployment pipelines.'
       ],
-      rewards: [['21+', 'client sites'], ['50%', 'faster delivery']],
+      rewards: [['21+', 'client sites'], ['50%', 'shorter delivery']],
       art: { src: 'holcomb-tree-service.webp', alt: 'Holcomb Tree Service website designed for a Dallas tree care company' },
-      links: [{ href: 'https://staging-holcomb-tree-service.arbor-alliance.workers.dev/', label: 'View Holcomb client website' }]
+      links: [{ href: 'https://staging-holcomb-tree-service.arbor-alliance.workers.dev/', label: 'View Holcomb client preview' }]
     },
     {
       name: 'MyOasis.ai', role: 'Software engineering intern', dates: 'Jun 2025 – May 2026', place: 'Remote', status: 'Internship',
@@ -51,7 +51,7 @@ const QUEST_ENTRIES = {
       summary: 'A corporate website connecting coffee sourcing, the Deep Thrill brand, hospitality, and technology through a cohesive visual story.',
       objectives: ['Created a cohesive presentation across the company and its coffee brand.', 'Organized its coffee, hospitality, and technology strategy into clear, responsive pages.'],
       art: { src: 'Images/eastern-asteria-home.webp', alt: 'Eastern Asteria homepage with the heading From Source to Sip above green coffee fields' },
-      links: [{ href: 'https://staging-eastern-asteria.mtdewulf.workers.dev/', label: 'View website' }]
+      links: [{ href: 'https://staging-eastern-asteria.mtdewulf.workers.dev/', label: 'View preview' }]
     },
     {
       name: 'Holcomb Tree Service', role: 'Client website · Arrows Up', status: 'Selected project', category: 'web', current: true,
@@ -59,7 +59,7 @@ const QUEST_ENTRIES = {
       summary: 'A service website for a Dallas tree care company.',
       objectives: ['Created clear navigation across the company’s services.', 'Made it easy for prospective customers to request a consultation.'],
       art: { src: 'holcomb-tree-service.webp', alt: 'Holcomb Tree Service homepage and consultation form' },
-      links: [{ href: 'https://staging-holcomb-tree-service.arbor-alliance.workers.dev/', label: 'View website' }]
+      links: [{ href: 'https://staging-holcomb-tree-service.arbor-alliance.workers.dev/', label: 'View preview' }]
     },
     {
       name: 'Scribsy', role: 'Clinical documentation · N-of-1 AI', status: 'Selected project', category: 'web',
@@ -155,11 +155,13 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
       <h3>${escapeHTML(entry.name)}</h3>
       <p class="quest-detail__meta">${[entry.role, entry.dates, entry.place].filter(Boolean).map(escapeHTML).join(' · ')}</p>
       <p class="quest-detail__summary">${escapeHTML(entry.summary)}</p>
-      <h4>Objectives</h4>
+      <h4>Contributions</h4>
       <ul class="quest-objectives">${entry.objectives.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>
       ${entry.rewards?.length ? `<h4>Results</h4><div class="quest-rewards">${entry.rewards.map(([number, label]) => `<div class="quest-reward"><b>${escapeHTML(number)}</b><span>${escapeHTML(label)}</span></div>`).join('')}</div>` : ''}
       ${entry.links?.length ? `<div class="quest-detail__links">${entry.links.map(link => `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHTML(link.label)} ↗</a>`).join('')}</div>` : ''}
-      <a class="quest-art" href="${escapeHTML(entry.art.src)}" target="_blank" rel="noopener noreferrer" aria-label="Open full image: ${escapeHTML(entry.name)}"><img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"><span>VIEW FULL IMAGE ↗</span></a>`;
+      ${category === 'main' ? '<details class="quest-preview"><summary>View project image</summary>' : ''}
+      <a class="quest-art" href="${escapeHTML(entry.art.src)}" target="_blank" rel="noopener noreferrer" aria-label="Open full image: ${escapeHTML(entry.name)}"><img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"><span>VIEW FULL IMAGE ↗</span></a>
+      ${category === 'main' ? '</details>' : ''}`;
     detail.querySelector('img')?.addEventListener('load', () => window.dispatchEvent(new Event('resize')), { once: true });
   }
 
@@ -244,9 +246,13 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
   const filters = [...document.querySelectorAll('[data-project-filter]')];
   if (!grid || !filters.length) return;
 
-  grid.innerHTML = PROJECT_ENTRIES.map(entry => {
+  const featuredNames = new Set([...document.querySelectorAll('[data-featured-project]')].map(card => card.dataset.featuredProject));
+  const archiveEntries = PROJECT_ENTRIES.filter(entry => !featuredNames.has(entry.name));
+  const archiveCount = document.getElementById('project-archive-count');
+  if (archiveCount) archiveCount.textContent = String(archiveEntries.length);
+  grid.innerHTML = archiveEntries.map(entry => {
     const actions = entry.links?.map(link => {
-      const label = link.href.includes('github.com') ? 'View code' : link.label.toLowerCase().includes('app') ? 'Open app' : 'Visit website';
+      const label = link.href.includes('github.com') ? 'View code' : link.href.includes('staging-') ? 'View preview' : link.label.toLowerCase().includes('app') ? 'Open app' : 'Visit website';
       return `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`;
     }).join('') || '';
     return `<article class="project-card" data-project-category="${escapeHTML(entry.category)}">
@@ -264,6 +270,7 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
         <span class="project-card__type">${escapeHTML(entry.role)}</span>
         <h3>${escapeHTML(entry.name)}</h3>
         <p>${escapeHTML(entry.summary)}</p>
+        <nav class="project-links" aria-label="${escapeHTML(entry.name)} quick links">${actions}<a href="${escapeHTML(entry.art.src)}" target="_blank" rel="noopener noreferrer">Screenshot ↗</a></nav>
       </div>
     </article>`;
   }).join('');

@@ -50,11 +50,11 @@ const mapProgressText = document.getElementById('map-progress-text');
 const mapProgressTrack = document.getElementById('map-progress-track');
 const mapProgressFill = document.getElementById('map-progress-fill');
 const waypoints = [
-  { id: 'top', label: 'Start', x: 7.5, y: 66 },
-  { id: 'about', label: 'About', x: 30, y: 60 },
-  { id: 'work', label: 'Work', x: 55, y: 70 },
-  { id: 'projects', label: 'Projects', x: 78, y: 62 },
-  { id: 'contact', label: 'Contact', x: 92.5, y: 58 }
+  { id: 'top', label: 'Start', x: 10, y: 60 },
+  { id: 'work', label: 'Experience', x: 30, y: 58 },
+  { id: 'projects', label: 'Projects', x: 50, y: 64 },
+  { id: 'about', label: 'About', x: 70, y: 60 },
+  { id: 'contact', label: 'Contact', x: 90, y: 58 }
 ].map(point => ({
   ...point,
   element: document.getElementById(point.id),
@@ -150,3 +150,9 @@ window.addEventListener('resize', scheduleMapUpdate);
 window.addEventListener('hashchange', scheduleMapUpdate);
 window.addEventListener('pageshow', scheduleMapUpdate);
 scheduleMapUpdate();
+
+// Expanded previews, filters, image loads, and fonts can change the route lengths.
+if ('ResizeObserver' in window) {
+  const mapSectionObserver = new ResizeObserver(scheduleMapUpdate);
+  waypoints.forEach(point => { if (point.element) mapSectionObserver.observe(point.element); });
+}
