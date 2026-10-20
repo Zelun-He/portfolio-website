@@ -63,10 +63,10 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .map-progress-track { height: 8px; border: 2px solid #a4a278; background: #294b36; }
 .map-progress-track span { display: block; height: 100%; width: 0%; background: #eec46e; }
 
-.hero { position: relative; isolation: isolate; min-height: 610px; color: #f7efd4; background: #173625 url('hero-overworld.webp') center 47% / cover no-repeat; }
+.hero { position: relative; isolation: isolate; min-height: 520px; color: #f7efd4; background: #173625 url('hero-overworld.webp') center 47% / cover no-repeat; }
 .hero::before { content: ''; position: absolute; z-index: 0; inset: 0; background: linear-gradient(90deg, #0d271ed9 0%, #0c271cbe 42%, #0d281e82 100%); }
 .hero::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 14px; background: repeating-linear-gradient(90deg, #aa853b 0 22px, #e2ba69 22px 44px, #173827 44px 55px); border-top: 3px solid #0d251b; }
-.hero-inner { position: relative; z-index: 1; min-height: 610px; display: grid; grid-template-columns: minmax(0,1.08fr) minmax(390px,.92fr); align-items: center; gap: clamp(30px,5vw,86px); padding-block: 46px 56px; }
+.hero-inner { position: relative; z-index: 1; min-height: 520px; display: grid; grid-template-columns: minmax(0,1fr); align-items: center; padding-block: 46px 56px; }
 .hero-copy { position: relative; padding: 16px 0; }
 .eyebrow { display: flex; align-items: center; gap: 10px; color: var(--pine); font: 12px/1.5 'DM Mono', monospace; letter-spacing: .1em; text-transform: uppercase; }
 .hero .eyebrow { color: #e8dcae; }
@@ -106,6 +106,13 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .game-frame[data-game-kind='galaga'] .tetris-controls { grid-template-columns: repeat(4,minmax(0,1fr)); }
 .game-toggle { flex: none; padding: 5px 7px; border: 1px solid #bba15d; background: #1b3728; color: #f4d686; cursor: pointer; font: 10px/1.3 'DM Mono', monospace; }
 .game-toggle:hover { background: #385d3c; }
+
+/* Keep the optional arcade after the portfolio's professional work. */
+.arcade-section { color: #f4ecce; background: #142e21; border-top: 4px solid #8a7440; }
+.arcade-inner { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1fr); align-items: center; gap: clamp(32px,6vw,96px); }
+.arcade-copy { max-width: 440px; }
+.arcade-copy h2 { margin: 20px 0 24px; color: #f4ecce; font: clamp(25px,3vw,40px)/1.4 'Press Start 2P',monospace; letter-spacing: -.05em; }
+.arcade-copy > p:last-child { margin: 0; color: #c5cfc0; font-size: 17px; line-height: 1.7; }
 
 /* Experience and current work in a navigable journal. */
 .section-pad { padding-block: 100px; }
@@ -285,7 +292,6 @@ footer a:hover { color: var(--gold); }
 .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s, transform .6s; }
 .reveal.is-visible { opacity: 1; transform: translateY(0); }
 @media (max-width: 1100px) {
-  .hero-inner { grid-template-columns: minmax(0,1fr) minmax(355px,.9fr); gap: 35px; }
   .inventory__groups { grid-template-columns: repeat(2,minmax(0,1fr)); }
 }
 @media (max-width: 900px) {
@@ -296,10 +302,12 @@ footer a:hover { color: var(--gold); }
   .map-stop-label { font-size: 8px; }
 }
 @media (max-width: 850px) {
+  .hero { min-height: 0; }
   .hero-inner { display: flex; flex-direction: column; align-items: stretch; min-height: 0; padding-block: 50px 62px; }
   .hero-copy { max-width: 660px; }
   .hero h1 { font-size: clamp(34px,7vw,56px); }
-  .hero-art { align-self: center; max-width: 570px; margin-top: 9px; }
+  .arcade-inner { grid-template-columns: minmax(0,1fr); gap: 30px; }
+  .arcade-section .game-frame { justify-self: center; }
   .about__grid { grid-template-columns: 1fr; }
   .hero-card { width: min(100%,288px); }
 }
