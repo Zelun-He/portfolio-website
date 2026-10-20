@@ -215,7 +215,7 @@
     ctx.fillStyle = '#142c22'; ctx.fillRect(0, 0, 360, 250);
     for (let i = 0; i < 19; i++) {
       const x = (i * 73 + 17) % 360, y = (i * 47 + 9) % 250;
-      ctx.fillStyle = i % 3 ? '#446c48' : '#d2ad60'; ctx.fillRect(x, y, 2, 2);
+      ctx.fillStyle = i % 3 ? '#446c48' : '#8da382'; ctx.fillRect(x, y, 2, 2);
     }
     ctx.fillStyle = '#355c3e'; ctx.fillRect(BX - 4, BY - 4, COLS * CELL + 8, ROWS * CELL + 8);
     ctx.fillStyle = '#9cab73'; ctx.fillRect(BX - 3, BY - 3, COLS * CELL + 6, ROWS * CELL + 6);
@@ -237,7 +237,7 @@
     label('FALLING BLOCKS', 157, 52, '#bfd3ac', 9);
     ctx.fillStyle = '#284a32'; ctx.fillRect(151, 64, 185, 72);
     ctx.strokeStyle = '#91a976'; ctx.lineWidth = 2; ctx.strokeRect(151, 64, 185, 72);
-    label('NEXT', 163, 80, '#f1cf79', 10);
+    label('NEXT', 163, 80, '#b7c6a5', 10);
     if (nextKind) {
       const shape = shapes[nextKind], size = 11;
       shape.forEach((row, y) => row.forEach((cell, x) => {
@@ -246,7 +246,7 @@
     }
     label(`SCORE ${String(score).padStart(5, '0')}`, 246, 94, '#f2ead0', 10);
     label(`LINES ${String(lines).padStart(3, '0')}`, 246, 113, '#f2ead0', 10);
-    label(mode === 'demo' ? 'AUTO PLAY' : 'MANUAL PLAY', 155, 157, '#f1cf79', 9);
+    label(mode === 'demo' ? 'AUTO PLAY' : 'MANUAL PLAY', 155, 157, '#b7c6a5', 9);
     label('A/D + LEFT/RIGHT MOVE', 155, 175, '#d8e0c0', 8);
     label('W / UP / TAP   ROTATE', 155, 190, '#d8e0c0', 8);
     label('S / DOWN      SOFT DROP', 155, 205, '#d8e0c0', 8);
@@ -254,7 +254,7 @@
     if (paused || gameOver) {
       ctx.fillStyle = '#0a2018e0'; ctx.fillRect(37, 88, 93, 65);
       ctx.strokeStyle = '#9ed6b0'; ctx.lineWidth = 2; ctx.strokeRect(37, 88, 93, 65);
-      label(gameOver ? 'GAME' : 'PAUSED', gameOver ? 62 : 59, 116, '#fff0c3', 12);
+      label(gameOver ? 'GAME' : 'PAUSED', gameOver ? 62 : 59, 116, '#e1e5d4', 12);
       if (gameOver) label('OVER', 66, 132, '#dc8d7a', 12);
       else label('PRESS PLAY', 54, 134, '#c0e0b0', 8);
     }
@@ -353,7 +353,7 @@
   function renderSnake() {
     ctx.fillStyle = '#142c22'; ctx.fillRect(0, 0, 360, 250);
     label('SNAKE', SX, 23, '#9ed6b0', 15);
-    label(`LENGTH ${String(snake.body.length).padStart(3, '0')}`, 227, 23, '#f1cf79', 10);
+    label(`LENGTH ${String(snake.body.length).padStart(3, '0')}`, 227, 23, '#b7c6a5', 10);
     ctx.fillStyle = '#9cab73'; ctx.fillRect(SX - 3, SY - 3, SNAKE_COLS * SNAKE_CELL + 6, SNAKE_ROWS * SNAKE_CELL + 6);
     for (let y = 0; y < SNAKE_ROWS; y++) for (let x = 0; x < SNAKE_COLS; x++) {
       ctx.fillStyle = (x + y) % 2 ? '#193b29' : '#173624';
@@ -377,8 +377,8 @@
     label('EAT FRUIT · WASD / ARROWS TO STEER', SX, 247, '#d8e0c0', 8);
     if (paused || snake.over) {
       ctx.fillStyle = '#0a2018e8'; ctx.fillRect(88, 99, 184, 68);
-      ctx.strokeStyle = '#d8bb70'; ctx.lineWidth = 2; ctx.strokeRect(88, 99, 184, 68);
-      label(snake.over ? (snake.won ? 'GARDEN CLEARED' : 'GAME OVER') : 'PAUSED', snake.won ? 99 : snake.over ? 129 : 149, 125, '#fff0c3', 14);
+      ctx.strokeStyle = '#657e5e'; ctx.lineWidth = 2; ctx.strokeRect(88, 99, 184, 68);
+      label(snake.over ? (snake.won ? 'GARDEN CLEARED' : 'GAME OVER') : 'PAUSED', snake.won ? 99 : snake.over ? 129 : 149, 125, '#e1e5d4', 14);
       label(snake.over ? 'PRESS RESTART' : 'PRESS PLAY', snake.over ? 137 : 143, 148, '#bfe0b4', 9);
     }
   }
@@ -509,11 +509,11 @@
     for (let i = 0; i < 42; i++) {
       const x = (i * 79 + 17) % 354 + 3;
       const y = (i * 53 + Math.floor(galaga.time * (i % 3 + 1) * 8)) % 220 + 22;
-      ctx.fillStyle = i % 4 ? '#578367' : '#e9c578';
+      ctx.fillStyle = i % 4 ? '#578367' : '#b7c6a5';
       ctx.fillRect(x, y, i % 7 ? 1 : 2, i % 7 ? 1 : 2);
     }
     ctx.strokeStyle = '#6d8d63'; ctx.lineWidth = 2; ctx.strokeRect(25, 24, 310, 207);
-    label('GALAGA', 31, 16, '#f0d17f', 11);
+    label('GALAGA', 31, 16, '#b7c6a5', 11);
     label(`WAVE ${String(galaga.wave).padStart(2, '0')}`, 149, 16, '#bed5ae', 9);
     label(`LIVES ${galaga.lives}`, 267, 16, '#bed5ae', 9);
     galaga.enemies.forEach(enemy => {
@@ -531,8 +531,8 @@
     }
     if (paused || galaga.over) {
       ctx.fillStyle = '#0a2018e8'; ctx.fillRect(94, 87, 172, 75);
-      ctx.strokeStyle = '#d8bb70'; ctx.lineWidth = 2; ctx.strokeRect(94, 87, 172, 75);
-      label(galaga.over ? 'GAME OVER' : 'PAUSED', galaga.over ? 129 : 149, 116, '#fff0c3', 14);
+      ctx.strokeStyle = '#657e5e'; ctx.lineWidth = 2; ctx.strokeRect(94, 87, 172, 75);
+      label(galaga.over ? 'GAME OVER' : 'PAUSED', galaga.over ? 129 : 149, 116, '#e1e5d4', 14);
       label(galaga.over ? 'PRESS RESTART' : 'PRESS PLAY', galaga.over ? 137 : 143, 140, '#bfe0b4', 9);
     }
   }
