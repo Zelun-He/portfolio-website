@@ -111,6 +111,7 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .arcade-section { color: #f4ecce; background: #142e21; border-top: 4px solid #8a7440; }
 .arcade-inner { display: grid; grid-template-columns: minmax(0,.85fr) minmax(0,1fr); align-items: center; gap: clamp(32px,6vw,96px); }
 .arcade-copy { max-width: 440px; }
+.arcade-copy .eyebrow { color: #c6dcae; }
 .arcade-copy h2 { margin: 20px 0 24px; color: #f4ecce; font: clamp(25px,3vw,40px)/1.4 'Press Start 2P',monospace; letter-spacing: -.05em; }
 .arcade-copy > p:last-child { margin: 0; color: #c5cfc0; font-size: 17px; line-height: 1.7; }
 
