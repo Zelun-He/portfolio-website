@@ -46,6 +46,17 @@ const QUEST_ENTRIES = {
   ],
   side: [
     {
+      name: 'Orbit Image Converter', role: 'Browser image converter · Personal project', dates: 'Oct 2026 – present', status: 'In progress', category: 'web', current: true,
+      addedAt: '2026-10-20T00:00:00Z',
+      summary: 'Building a faster image conversion workflow: drop in photos, choose a format from a radial wheel, and export them locally.',
+      objectives: [
+        'Implemented PNG, WebP, JPG, BMP, and ICO exports using browser-native image encoding and custom BMP and ICO encoders.',
+        'Added quality controls, resizing, transparency handling, and individual or batch ZIP downloads.',
+        'Keep image processing on the user’s device with JavaScript, the Canvas API, and the File API.'
+      ],
+      art: { src: 'Images/orbit-image-converter.svg', alt: 'Orbit interface preview with a drag-and-drop image area and radial format picker' }
+    },
+    {
       name: 'Eastern Asteria', role: 'Corporate & coffee brand website · Arrows Up', status: 'Selected project', category: 'web',
       addedAt: '2026-10-06T20:10:33Z',
       summary: 'A corporate website connecting coffee sourcing, the Deep Thrill brand, hospitality, and technology through a cohesive visual story.',
@@ -132,7 +143,7 @@ const PROJECT_ENTRIES = [...QUEST_ENTRIES.side].sort((a, b) => {
   if (a.category !== 'web') return 0;
   return (Date.parse(b.addedAt) || 0) - (Date.parse(a.addedAt) || 0);
 });
-QUEST_ENTRIES.side = QUEST_ENTRIES.side.filter(entry => entry.current).map(entry => ({ ...entry, status: 'Current project' }));
+QUEST_ENTRIES.side = QUEST_ENTRIES.side.filter(entry => entry.current).map(entry => ({ ...entry, status: entry.status === 'Selected project' ? 'Current project' : entry.status }));
 const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const isPastEntry = entry => entry.status === 'Internship' || entry.status === 'Research appointment';
 
@@ -217,6 +228,15 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
         event.preventDefault();
         selectCategory(tabs[event.key === 'Home' ? 0 : tabs.length - 1].dataset.questCategory, true);
       }
+    });
+  });
+
+  document.querySelectorAll('[data-current-project]').forEach(link => {
+    link.addEventListener('click', () => {
+      const index = QUEST_ENTRIES.side.findIndex(entry => entry.name === link.dataset.currentProject);
+      if (index < 0) return;
+      selectCategory('side');
+      selectEntry(index, true);
     });
   });
 

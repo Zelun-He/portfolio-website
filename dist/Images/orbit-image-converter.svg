@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" role="img" aria-labelledby="title description">
+  <title id="title">Orbit Image Converter interface preview</title>
+  <desc id="description">An image conversion workspace with a drop area, a wheel for WebP, PNG, JPG, ICO, and BMP, and local conversion controls.</desc>
+  <rect width="960" height="620" fill="#f7f6f2"/>
+  <g font-family="Arial, sans-serif">
+    <g transform="translate(37 36)" stroke="#cf5230" stroke-width="4" stroke-linecap="square"><path d="M0-10V10M-10 0H10M-7-7 7 7M-7 7 7-7"/><circle r="3" fill="#f7f6f2" stroke="none"/></g>
+    <text x="60" y="45" fill="#292d28" font-size="30" font-weight="700" letter-spacing="-1.5">orbit.</text>
+    <rect x="746" y="23" width="183" height="27" rx="13.5" fill="#ecf0e6" stroke="#dce3d3"/>
+    <circle cx="762" cy="36.5" r="3" fill="#7d936b"/>
+    <text x="775" y="40" font-size="11" fill="#6e7b64">On your device. Always.</text>
+    <path d="M30 69H930" stroke="#e0e2d7"/>
+    <text x="31" y="109" fill="#848c7a" font-size="9" letter-spacing="1.7">LESS FRICTION. MORE CREATING.</text>
+    <text x="30" y="157" fill="#292d28" font-size="43" font-weight="600" letter-spacing="-1.5">A little spin.</text>
+    <text x="318" y="157" fill="#cf5230" font-family="Georgia, serif" font-size="43" font-style="italic" letter-spacing="-1.5">A new format.</text>
+    <text x="31" y="197" fill="#838b79" font-size="10">01</text><text x="54" y="197" fill="#414b3a" font-size="12">Your images</text>
+    <text x="547" y="197" fill="#838b79" font-size="10">02</text><text x="570" y="197" fill="#414b3a" font-size="12">Give it a new spin</text>
+    <rect x="30" y="216" width="454" height="292" rx="13" fill="#fffefa" stroke="#c8cebd" stroke-dasharray="5 5"/>
+    <g transform="translate(222 252) rotate(-7 36 32)"><rect x="-9" y="-5" width="77" height="65" rx="7" fill="#dce3d1" stroke="#fff" stroke-width="4"/><rect x="4" y="6" width="80" height="64" rx="7" fill="#e9e3d4" stroke="#fff" stroke-width="4"/><circle cx="63" cy="24" r="10" fill="#db7452"/><path d="m6 58 22-27 24 23 12-12 18 16v10H6Z" fill="#8c9c7f"/></g>
+    <text x="257" y="365" text-anchor="middle" fill="#292d28" font-size="21">Drop something good.</text>
+    <text x="257" y="388" text-anchor="middle" fill="#959b8c" font-size="11">A photo, a whole batch, or a fresh start.</text>
+    <rect x="179" y="409" width="156" height="38" rx="7" fill="#292d28"/>
+    <text x="197" y="433" fill="#fffdf6" font-size="12">Choose images</text><path d="M314 421v14m-7-7h14" stroke="#fffdf6" stroke-width="1.5"/>
+    <text x="257" y="468" text-anchor="middle" fill="#a2a795" font-size="9">or drag them anywhere on this window</text>
+    <path d="M30 482H484" stroke="#ebede4"/>
+    <text x="45" y="499" fill="#969e88" font-size="7" letter-spacing=".8">PNG, JPG, WEBP, SVG, GIF, AVIF + MORE</text>
+    <g transform="translate(736 344)">
+      <circle r="137" fill="none" stroke="#e4e7dc"/>
+      <g stroke="#f7f6f2" stroke-width="5" stroke-linejoin="round">
+        <path d="M-70.534-97.082A120 120 0 0 1 70.534-97.082L36.443-50.159A62 62 0 0 0-36.443-50.159Z" fill="#cf5230"/>
+        <path d="M-70.534-97.082A120 120 0 0 1 70.534-97.082L36.443-50.159A62 62 0 0 0-36.443-50.159Z" fill="#e2e8dd" transform="rotate(72)"/>
+        <path d="M-70.534-97.082A120 120 0 0 1 70.534-97.082L36.443-50.159A62 62 0 0 0-36.443-50.159Z" fill="#eee4d4" transform="rotate(144)"/>
+        <path d="M-70.534-97.082A120 120 0 0 1 70.534-97.082L36.443-50.159A62 62 0 0 0-36.443-50.159Z" fill="#e4e8e5" transform="rotate(216)"/>
+        <path d="M-70.534-97.082A120 120 0 0 1 70.534-97.082L36.443-50.159A62 62 0 0 0-36.443-50.159Z" fill="#e7e7df" transform="rotate(288)"/>
+      </g>
+      <g text-anchor="middle" font-size="14" font-weight="600"><text y="-85" fill="#fff9ed">.WEBP</text><text x="87" y="-22" fill="#75806a">.PNG</text><text x="53" y="76" fill="#918167">.JPG</text><text x="-53" y="76" fill="#74816f">.ICO</text><text x="-87" y="-22" fill="#828575">.BMP</text></g>
+      <text y="-15" text-anchor="middle" fill="#a0a58f" font-size="6" letter-spacing="1.5">CONVERT TO</text><text y="13" text-anchor="middle" fill="#292d28" font-size="28" letter-spacing="-1">.webp</text><circle cy="29" r="2.5" fill="#cf5230"/>
+    </g>
+    <text x="547" y="502" fill="#88927b" font-size="10">Quality</text><path d="M743 498H906" stroke="#dedfd5" stroke-width="3"/><path d="M743 498H867" stroke="#cf5230" stroke-width="3"/><circle cx="867" cy="498" r="5" fill="#cf5230"/><text x="931" y="502" text-anchor="end" fill="#7c876f" font-size="10">85%</text>
+    <path d="M30 534H930" stroke="#e0e2d7"/>
+    <circle cx="36" cy="569" r="3" fill="#91a57b"/><text x="50" y="573" fill="#818c71" font-size="11">Local conversion. Originals untouched.</text>
+    <rect x="737" y="549" width="193" height="45" rx="7" fill="#cf5230"/><text x="759" y="577" fill="#fff9ed" font-size="12">Convert images</text><path d="M896 571h15m-6-6 6 6-6 6" fill="none" stroke="#fff9ed" stroke-width="1.5"/>
+  </g>
+</svg>
