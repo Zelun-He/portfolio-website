@@ -41,7 +41,7 @@ const QUEST_ENTRIES = {
         'Built the product with FastAPI and Next.js.'
       ],
       art: { src: 'Images/scribsy.png', alt: 'Scribsy clinical documentation dashboard with notes and calendar' },
-      links: [{ href: 'https://github.com/Zelun-He/Scribsy', label: 'View Scribsy code' }]
+      links: [{ href: 'https://scribsy.vercel.app/sample-visit', label: 'Try a sample visit · no signup' }, { href: 'https://github.com/Zelun-He/Scribsy', label: 'View Scribsy code' }]
     }
   ],
   side: [
@@ -78,7 +78,7 @@ const QUEST_ENTRIES = {
       summary: 'A clinical documentation app for practitioners.',
       objectives: ['Built audio transcription and structured SOAP notes.', 'Implemented note management in a FastAPI and Next.js application.'],
       art: { src: 'Images/scribsy.png', alt: 'Scribsy dashboard with note creation and calendar' },
-      links: [{ href: 'https://github.com/Zelun-He/Scribsy', label: 'View code' }]
+      links: [{ href: 'https://scribsy.vercel.app/sample-visit', label: 'Try a sample visit · no signup' }, { href: 'https://github.com/Zelun-He/Scribsy', label: 'View code' }]
     },
     {
       name: 'Narrator', role: 'Full-stack audiobook app', status: 'Selected project', category: 'web', current: true,
@@ -86,7 +86,7 @@ const QUEST_ENTRIES = {
       summary: 'Turns uploaded manuscripts into audiobooks with AI narration.',
       objectives: ['Built manuscript upload and voice selection workflows.', 'Added generation progress, chapter playback, and audiobook downloads.'],
       art: { src: 'narrator-dashboard.webp', alt: 'Narrator author studio dashboard showing the library and audiobook creation' },
-      links: [{ href: 'https://narrator-eight.vercel.app/', label: 'View app' }, { href: 'https://github.com/Zelun-He/Narrator', label: 'View code' }]
+      links: [{ href: 'https://narrator-eight.vercel.app/demo/library', label: 'Explore the demo · no signup' }, { href: 'https://github.com/Zelun-He/Narrator', label: 'View code' }]
     },
     {
       name: 'MyOasis.ai', role: 'Wellbeing platform · internship', status: 'Selected project', category: 'web',
