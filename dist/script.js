@@ -187,6 +187,19 @@ if ('ResizeObserver' in window) {
   });
 
   viewer.querySelector('.image-viewer__close').addEventListener('click', () => viewer.close());
+  viewer.addEventListener('keydown', event => {
+    if (event.key !== 'Tab') return;
+    const controls = [...viewer.querySelectorAll('button:not([disabled]), a[href]')];
+    const first = controls[0];
+    const last = controls[controls.length - 1];
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  });
   viewer.addEventListener('click', event => {
     if (event.target !== viewer) return;
     const rect = viewer.getBoundingClientRect();
