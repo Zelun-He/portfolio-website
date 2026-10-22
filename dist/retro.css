@@ -228,7 +228,19 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .project-card[hidden] { display: none; }
 .project-card__media { position: relative; flex: none; min-width: 0; }
 .project-card__image { position: relative; display: block; flex: none; width: 100%; height: auto; aspect-ratio: 16 / 10; overflow: hidden; border-bottom: 1px solid var(--line-subtle); background: #263d2d; }
-.project-card__image img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+.project-card__viewport { position: absolute; inset: 0; overflow: hidden; }
+.project-card__image img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; object-position: center top; }
+/* Compose each screenshot around its useful content, keeping equal card frames. */
+.project-card__image[data-preview-frame='charts'] img { inset: -12% 0 auto auto; width: auto; height: 112%; max-width: none; }
+.project-card__image[data-preview-frame='phone'], .project-card__image[data-preview-frame='game'] { background: radial-gradient(ellipse at center,#263d2d,#10231a); }
+.project-card__image[data-preview-frame='phone'] .project-card__viewport,
+.project-card__image[data-preview-frame='game'] .project-card__viewport { inset: 14px auto 14px 50%; width: auto; transform: translateX(-50%); box-shadow: 0 6px 16px #0005; }
+/* Trim the phone's empty lower area, retaining language choices and the indicator. */
+.project-card__image[data-preview-frame='phone'] .project-card__viewport { aspect-ratio: 9 / 16; border: 3px solid #34443c; border-radius: 14px; background: #000; }
+.project-card__image[data-preview-frame='phone'] img { object-position: center top; }
+/* Fit the complete game window and crop out the editor behind it. */
+.project-card__image[data-preview-frame='game'] .project-card__viewport { aspect-ratio: 669 / 688; border: 1px solid #59634e; border-radius: 4px; background: #1e1e1c; }
+.project-card__image[data-preview-frame='game'] img { inset: -7.56% auto auto -2.4%; width: 107.93%; height: 117.15%; max-width: none; object-fit: fill; }
 .project-card__actions { position: absolute; inset: auto 0 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px; padding: 8px 10px; border-top: 1px solid var(--line-subtle); background: #10271ff2; opacity: 0; pointer-events: none; transform: translateY(8px); transition: opacity .2s,transform .2s; }
 .project-card__media:hover .project-card__actions, .project-card__media:focus-within .project-card__actions { opacity: 1; pointer-events: auto; transform: none; }
 .project-card__actions a { display: inline-flex; align-items: center; justify-content: center; min-height: 44px; padding: 9px 13px; border: 1px solid var(--stone); background: var(--stone); color: #13241a; font: 13px/1.35 'DM Mono',monospace; text-align: center; }
@@ -247,7 +259,6 @@ h1, h2, h3, h4, p { margin-top: 0; }
   .projects-title { font-size: clamp(22px,5.2vw,30px); }
   .project-filter { padding: 7px 11px; font-size: 12px; }
   .project-grid { gap: 18px; }
-  .project-card[data-project-category='mobile'] .project-card__image { height: 360px; aspect-ratio: auto; }
 }
 
 /* Recruiter-facing highlights and readable project case studies. */

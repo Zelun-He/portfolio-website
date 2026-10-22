@@ -108,20 +108,20 @@ const QUEST_ENTRIES = {
       summary: 'Studied encoder and decoder contributions to time series forecasting for an ITNG 2026 paper.',
       objectives: ['Ran targeted ablation experiments to compare transformer architectures.', 'Won first place in Computer Science at the 2025 CNAS Undergraduate Research Symposium.'],
       rewards: [['1st', 'CNAS symposium']],
-      art: { src: 'Images/transformer.png', alt: 'Time series forecasting training and validation plots' }
+      art: { src: 'Images/transformer.png', alt: 'Time series forecasting training and validation plots', frame: 'charts' }
     },
     {
       name: 'Real-Time Translation', role: 'Android speech app', status: 'Selected project', category: 'mobile',
       summary: 'A mobile app for speech transcription and translation.',
       objectives: ['Built the Android interface in Kotlin.', 'Connected Whisper and Google Cloud APIs through a FastAPI backend.'],
-      art: { src: 'translation-screen.webp', alt: 'Translation app language options and speech indicator' },
+      art: { src: 'translation-screen.webp', alt: 'Translation app language options and speech indicator', frame: 'phone' },
       links: [{ href: 'https://github.com/Zelun-He/RealTimeTranslationApp', label: 'View code' }]
     },
     {
       name: 'Space Invaders', role: 'C++ game development', status: 'Selected project', category: 'systems',
       summary: 'A recreation of the arcade game in C++ and Raylib.',
       objectives: ['Built alien waves, player controls, and scoring.', 'Used the project to explore game programming.'],
-      art: { src: 'Images/space-invaders.png', alt: 'Space Invaders game with rows of pixel art aliens' },
+      art: { src: 'Images/space-invaders.png', alt: 'Space Invaders game with rows of pixel art aliens', frame: 'game' },
       links: [{ href: 'https://github.com/Zelun-He/Space_Invaders', label: 'View code' }]
     },
     {
@@ -278,8 +278,8 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
     }).join('') || '';
     return `<article class="project-card" data-project-category="${escapeHTML(entry.category)}">
       <div class="project-card__media">
-        <div class="project-card__image">
-          <img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async">
+        <div class="project-card__image" data-preview-frame="${escapeHTML(entry.art.frame || 'screen')}">
+          <div class="project-card__viewport"><img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"></div>
         </div>
         <nav class="project-card__actions" aria-label="${escapeHTML(entry.name)} preview actions">
           ${actions}
