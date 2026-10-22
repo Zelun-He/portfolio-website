@@ -6,10 +6,29 @@
   const message = document.getElementById('forest-message');
   const hint = blade?.querySelector('.hero-secret__hint');
   const jake = document.getElementById('jake-brick');
+  const conversation = document.getElementById('jake-conversation');
+  const jakeTrigger = document.getElementById('jake-trigger');
+  const jakeBubble = document.getElementById('jake-bubble');
+  const jakeLine = document.getElementById('jake-line');
   if (!hero || !copy || !relic || !blade || !message || !hint) return;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let pendingOutcome = null;
   let attemptTimer = null;
+  const introKey = 'portfolio-jake-introduced';
+  let introduced = false;
+  let lastQuote = -1;
+  const quotes = [
+    'Dude, suckin’ at somethin’ is the first step towards bein’ sorta good at somethin’.',
+    'To live life, you need problems.',
+    'Bad, bad biscuits make the baker broke, bro.'
+  ];
+  try { introduced = window.localStorage.getItem(introKey) === '1'; } catch { /* Keep the first-click state in memory when storage is unavailable. */ }
+
+  function closeJakeBubble() {
+    if (!jakeBubble || !jakeTrigger) return;
+    jakeBubble.hidden = true;
+    jakeTrigger.setAttribute('aria-expanded', 'false');
+  }
 
   function positionScene() {
     const area = hero.getBoundingClientRect();
@@ -32,6 +51,45 @@
       jake.style.width = `${112 * scale}px`;
       jake.hidden = false;
     }
+    if (conversation && jakeTrigger && jakeBubble) {
+      // The transparent hit target follows the yellow brick, not the whole pillar.
+      const x = offsetX + 1457 * scale;
+      const y = offsetY + 279 * scale;
+      const visible = x >= 22 && x <= area.width - 22 && y >= 22 && y <= area.height - 22;
+      conversation.style.left = `${x}px`;
+      conversation.style.top = `${y}px`;
+      conversation.style.setProperty('--scene-unit', `${scale}px`);
+      conversation.hidden = !visible;
+      if (!visible) closeJakeBubble();
+      const width = Math.min(300, Math.max(0, area.width - 32));
+      const left = Math.max(16, Math.min(x - width / 2, area.width - width - 16));
+      jakeBubble.style.width = `${width}px`;
+      jakeBubble.style.left = `${left - x}px`;
+      jakeBubble.style.setProperty('--tail-left', `${Math.max(22, Math.min(width - 22, x - left))}px`);
+      jakeBubble.dataset.placement = y - 38 - jakeBubble.getBoundingClientRect().height >= 12 ? 'above' : 'below';
+    }
+  }
+  if (conversation && jakeTrigger && jakeBubble && jakeLine) {
+    jakeTrigger.addEventListener('click', () => {
+      if (!introduced) {
+        jakeLine.textContent = 'Whoa, dude. I’m load-bearing.';
+        introduced = true;
+        try { window.localStorage.setItem(introKey, '1'); } catch { /* The in-memory flag still prevents repeating the introduction. */ }
+      } else {
+        const choices = quotes.map((_, index) => index).filter(index => index !== lastQuote);
+        lastQuote = choices[Math.floor(Math.random() * choices.length)];
+        jakeLine.textContent = quotes[lastQuote];
+      }
+      jakeBubble.hidden = false;
+      jakeTrigger.setAttribute('aria-expanded', 'true');
+      positionScene();
+    });
+    document.addEventListener('click', event => {
+      if (!conversation.contains(event.target)) closeJakeBubble();
+    });
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeJakeBubble();
+    });
   }
   function finishAttempt() {
     if (pendingOutcome === null) return;
