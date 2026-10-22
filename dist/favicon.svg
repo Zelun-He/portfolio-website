@@ -1,5 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 32 32" role="img" aria-label="Zelun He initial" shape-rendering="crispEdges">
-  <title>Z — Zelun He</title>
-  <path d="M6 0H26L32 6V26L26 32H6L0 26V6Z" fill="#142e21"/>
-  <path d="M6 6H26V10H24V12H22V14H20V16H18V18H16V20H14V22H26V26H6V22H8V20H10V18H12V16H14V14H16V12H18V10H6Z" fill="#e1e5d4"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 32 32" role="img" aria-label="Zelun He — Z.">
+  <title>Z. — Zelun He</title>
+  <path d="M2.3389149363697257 5.0H20.83188211654387V8.43335565974548L9.028801071667782 22.71198928332217H21.170797052913596V27.0H2.0V23.56664434025452L13.803081044876087 9.288010716677832H2.3389149363697257Z" fill="#000000"/>
+  <circle cx="27.5" cy="24.5" r="2.5" fill="#000000"/>
 </svg>
