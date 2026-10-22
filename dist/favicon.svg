@@ -1,6 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 32 32" role="img" aria-label="Zelun He monogram">
-  <title>Zelun He</title>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 32 32" role="img" aria-label="Zelun He initial" shape-rendering="crispEdges">
+  <title>Z — Zelun He</title>
   <path d="M6 0H26L32 6V26L26 32H6L0 26V6Z" fill="#142e21"/>
-  <path d="M4 7H16V11L9 21H16V25H4V21L11 11H4Z" fill="#e1e5d4"/>
-  <path d="M18 7H21V14H25V7H28V25H25V18H21V25H18Z" fill="#a5c394"/>
+  <path d="M6 6H26V10H24V12H22V14H20V16H18V18H16V20H14V22H26V26H6V22H8V20H10V18H12V16H14V14H16V12H18V10H6Z" fill="#e1e5d4"/>
 </svg>
