@@ -1,63 +1,37 @@
-/* A small discovery in the existing forest, with a focused view of the grove. */
+/* Quiet discoveries anchored to the header's forest artwork. */
 .hero-bottom-row { display: flex; align-items: center; gap: 16px; margin-top: 14px; }
 .hero-bottom-row .hero-socials { margin-top: 0; }
-.hero-secret { --scene-unit: 1px; position: absolute; z-index: 3; width: max(44px,calc(64 * var(--scene-unit))); height: max(64px,calc(112 * var(--scene-unit))); padding: 0; border: 0; background: transparent; color: var(--paper); transform: translate(-50%,-100%); cursor: pointer; }
-.hero-secret[hidden] { display: none; }
-.hero-secret__mask { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+.hero-relic-art { position: absolute; z-index: -1; inset: 0; overflow: hidden; pointer-events: none; }
+.hero-jake { position: absolute; max-width: none; transform: translate(-50%,-100%); image-rendering: pixelated; }
+.hero-jake[hidden],.hero-relic[hidden] { display: none; }
+.hero-relic { --scene-unit: 1px; position: absolute; z-index: 3; width: max(44px,calc(64 * var(--scene-unit))); height: calc(180 * var(--scene-unit)); transform: translate(-50%,-100%); pointer-events: none; }
+.hero-secret { position: absolute; inset: auto 0 0; width: 100%; height: max(44px,calc(88 * var(--scene-unit))); padding: 0; border: 0; background: transparent; color: var(--paper); cursor: pointer; pointer-events: auto; }
+.hero-secret__mask { position: absolute; inset: auto 0 0; height: calc(180 * var(--scene-unit)); overflow: hidden; pointer-events: none; }
 .hero-secret__mask img { position: absolute; left: 50%; bottom: 0; width: calc(64 * var(--scene-unit)); height: calc(128 * var(--scene-unit)); max-width: none; transform: translate(-50%,calc(50 * var(--scene-unit))); image-rendering: pixelated; filter: drop-shadow(1px 2px 0 #10251c); }
 .hero-secret::before { content: ''; position: absolute; z-index: 2; bottom: -1px; left: 50%; width: calc(12 * var(--scene-unit)); height: 3px; transform: translateX(-50%); background: #10271b; border-radius: 50%; pointer-events: none; }
-.hero-secret__glint { position: absolute; left: 56%; bottom: calc(63 * var(--scene-unit)); width: 8px; height: 8px; background: #ecf2d4; clip-path: polygon(50% 0,62% 37%,100% 50%,62% 62%,50% 100%,37% 62%,0 50%,37% 37%); filter: drop-shadow(0 0 5px #d3e8b5); animation: sanctuary-glint 6s ease-in-out infinite; pointer-events: none; }
-.hero-secret__hint { position: absolute; left: 50%; bottom: calc(100% + 5px); padding: 8px 11px; border: 1px solid var(--line-subtle); background: #11291ff5; color: var(--paper); font: 12px/1.4 'DM Mono',monospace; white-space: nowrap; opacity: 0; transform: translate(-50%,4px); transition: opacity .2s,transform .2s; pointer-events: none; }
+.hero-secret__glint { position: absolute; left: 56%; bottom: calc(63 * var(--scene-unit)); width: 7px; height: 7px; background: #ecf2d4; clip-path: polygon(50% 0,62% 37%,100% 50%,62% 62%,50% 100%,37% 62%,0 50%,37% 37%); filter: drop-shadow(0 0 5px #d3e8b5); animation: sanctuary-glint 6s ease-in-out infinite; pointer-events: none; }
+.hero-secret__hint { position: absolute; left: 50%; bottom: calc(84 * var(--scene-unit)); padding: 7px 10px; border: 1px solid var(--line-subtle); background: #11291ff5; color: var(--paper); font: 12px/1.4 'DM Mono',monospace; white-space: nowrap; opacity: 0; transform: translate(-50%,4px); transition: opacity .2s,transform .2s; pointer-events: none; }
 .hero-secret:hover .hero-secret__hint,.hero-secret:focus-visible .hero-secret__hint { opacity: 1; transform: translate(-50%,0); }
-.hero-secret:hover .hero-secret__mask img { filter: drop-shadow(0 0 5px #c9dfb066); }
+.hero-relic__message { position: absolute; z-index: 3; width: max-content; max-width: 220px; margin: 0; padding: 9px 12px; border: 1px solid #6b8062; background: #10291ff5; color: #e1e5d4; font: 13px/1.5 'DM Mono',monospace; text-align: center; transform: translateX(-50%); pointer-events: none; }
+.hero-relic__message:empty { display: none; }
+.hero-relic__runes { position: absolute; left: 50%; bottom: -7px; width: calc(90 * var(--scene-unit)); height: calc(22 * var(--scene-unit)); border: 1px dashed #c6d8a9; border-radius: 50%; transform: translateX(-50%); opacity: 0; box-shadow: 0 0 14px #c2d7a233; transition: opacity .6s; }
+.hero-relic[data-state='tugging'] .hero-secret__mask img { animation: sanctuary-tug .65s ease-in-out both; }
+.hero-relic[data-state='drawing'] .hero-secret__mask img { animation: sanctuary-draw 1.4s cubic-bezier(.3,0,.2,1) both; }
+.hero-relic[data-state='drawing'] .hero-secret__hint,.hero-relic[data-state='tugging'] .hero-secret__hint { opacity: 0; }
+.hero-relic[data-state='revealed'] .hero-secret__mask img { transform: translate(-50%,calc(-12 * var(--scene-unit))); filter: drop-shadow(0 0 8px #cfe5b4aa); }
+.hero-relic[data-state='revealed'] .hero-secret { height: calc(160 * var(--scene-unit)); }
+.hero-relic[data-state='revealed'] .hero-relic__runes { opacity: .7; }
+.hero-relic[data-state='revealed'] .hero-secret__glint { bottom: calc(125 * var(--scene-unit)); }
+.hero-relic[data-state='revealed'] .hero-secret__hint { bottom: calc(146 * var(--scene-unit)); }
 @keyframes sanctuary-glint { 0%,40%,65%,100% { opacity: .2; transform: scale(.6); } 52% { opacity: 1; transform: scale(1); } }
-
-body.sanctuary-open { overflow: hidden; }
-.sanctuary { width: min(1020px,calc(100% - 24px)); max-width: none; max-height: calc(100dvh - 24px); margin: auto; padding: 0; overflow: auto; border: 2px solid var(--stone-deep); background: #11291e; color: var(--paper); box-shadow: 0 24px 100px #0008; }
-.sanctuary::backdrop { background: #061810e8; backdrop-filter: blur(4px); }
-.sanctuary__header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 17px 22px; border-bottom: 1px solid var(--line-subtle); }
-.sanctuary__eyebrow { margin: 0 0 5px; color: var(--stone); font: 12px/1.4 'DM Mono',monospace; letter-spacing: .06em; }
-.sanctuary h2 { margin: 0; color: var(--paper); font-size: clamp(19px,2.5vw,25px); line-height: 1.3; }
-.sanctuary__close,.sanctuary__action { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 44px; padding: 10px 15px; border: 1px solid var(--stone-deep); background: #18382a; color: var(--paper); font: 13px/1.4 'DM Mono',monospace; cursor: pointer; }
-.sanctuary__close:hover { background: #2b4b36; }
-.sanctuary__action { border-color: var(--stone); background: var(--stone); color: var(--forest); }
-.sanctuary__action:hover { background: var(--stone-light); }
-.sanctuary__action:disabled { cursor: progress; opacity: .7; }
-.sanctuary__action[hidden] { display: none; }
-.sanctuary-stage { --scene-unit: .8px; position: relative; isolation: isolate; width: min(100%,calc((100dvh - 220px) * 1.6)); aspect-ratio: 8 / 5; margin-inline: auto; overflow: hidden; background: #183827; }
-.sanctuary-stage__world { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
-.sanctuary-stage::after { content: ''; position: absolute; z-index: 1; inset: 0; background: radial-gradient(ellipse at 52% 36%,transparent 15%,#071c1438 80%); pointer-events: none; }
-.sanctuary-blade { position: absolute; z-index: 3; left: 51.4%; top: 31.84%; width: max(44px,calc(96 * var(--scene-unit))); height: calc(180 * var(--scene-unit)); min-height: 44px; padding: 0; border: 0; background: transparent; transform: translate(-50%,-100%); cursor: pointer; }
-.sanctuary-blade:disabled { cursor: default; }
-.sanctuary-blade__mask { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
-.sanctuary-blade__mask img { position: absolute; left: 50%; bottom: 0; display: block; width: calc(64 * var(--scene-unit)); height: calc(128 * var(--scene-unit)); max-width: none; transform: translate(-50%,calc(50 * var(--scene-unit))); image-rendering: pixelated; filter: drop-shadow(1px 2px 0 #0c201d); }
-.sanctuary-slit { position: absolute; z-index: 2; left: 51.4%; top: 31.84%; width: calc(13 * var(--scene-unit)); height: max(2px,calc(4 * var(--scene-unit))); background: #142b21; border-radius: 50%; transform: translate(-50%,-50%); }
-.sanctuary-beam { position: absolute; z-index: 2; left: 51.4%; top: -13%; width: 22%; height: 45%; background: linear-gradient(90deg,transparent,#e0e9bf77,transparent); clip-path: polygon(12% 0,88% 0,53% 100%,47% 100%); transform: translateX(-50%); opacity: 0; transition: opacity 1s; pointer-events: none; }
-.sanctuary-runes { position: absolute; z-index: 2; left: 51.4%; top: 33.2%; width: 20%; height: auto; transform: translate(-50%,-50%); opacity: 0; transition: opacity .8s; filter: drop-shadow(0 0 6px #d5e6aa); pointer-events: none; }
-.sanctuary-stage[data-state='drawing'] .sanctuary-blade__mask img { animation: sanctuary-draw 1.6s cubic-bezier(.3,0,.2,1) both; }
-.sanctuary-stage[data-state='revealed'] .sanctuary-blade__mask img { transform: translate(-50%,calc(-28 * var(--scene-unit))); filter: drop-shadow(0 0 9px #cfe5b477); }
-.sanctuary-stage[data-state='drawing'] .sanctuary-beam,.sanctuary-stage[data-state='revealed'] .sanctuary-beam { opacity: .9; }
-.sanctuary-stage[data-state='drawing'] .sanctuary-runes,.sanctuary-stage[data-state='revealed'] .sanctuary-runes { opacity: .75; }
-@keyframes sanctuary-draw { 0%,12% { transform: translate(-50%,calc(50 * var(--scene-unit))); } 20% { transform: translate(calc(-50% - 1px),calc(48 * var(--scene-unit))); } 30% { transform: translate(calc(-50% + 1px),calc(47 * var(--scene-unit))); } 42% { transform: translate(-50%,calc(44 * var(--scene-unit))); } 83%,100% { transform: translate(-50%,calc(-28 * var(--scene-unit))); } }
-.sanctuary-firefly { position: absolute; z-index: 2; left: var(--x); top: var(--y); width: 3px; height: 3px; background: #d2e1ad; box-shadow: 0 0 9px #c2dc8b; opacity: .5; pointer-events: none; animation: sanctuary-drift 5s ease-in-out var(--delay) infinite alternate; animation-play-state: paused; }
-.sanctuary[open] .sanctuary-firefly { animation-play-state: running; }
-@keyframes sanctuary-drift { from { opacity: .2; transform: translate(0,0); } to { opacity: .8; transform: translate(12px,-18px); } }
-.sanctuary__panel { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 19px 22px; border-top: 1px solid var(--line-subtle); }
-.sanctuary__status { margin: 0 0 5px; color: var(--paper); font-size: 19px; font-weight: 600; line-height: 1.35; }
-.sanctuary__note { margin: 0; color: var(--stone); font-size: 14px; line-height: 1.5; }
+@keyframes sanctuary-tug { 0%,100% { transform: translate(-50%,calc(50 * var(--scene-unit))); } 25%,65% { transform: translate(calc(-50% - 2px),calc(47 * var(--scene-unit))); } 45%,80% { transform: translate(calc(-50% + 2px),calc(48 * var(--scene-unit))); } }
+@keyframes sanctuary-draw { 0%,12% { transform: translate(-50%,calc(50 * var(--scene-unit))); } 20% { transform: translate(calc(-50% - 1px),calc(48 * var(--scene-unit))); } 30% { transform: translate(calc(-50% + 1px),calc(47 * var(--scene-unit))); } 42% { transform: translate(-50%,calc(44 * var(--scene-unit))); } 90%,100% { transform: translate(-50%,calc(-12 * var(--scene-unit))); } }
 @media (max-width: 850px) {
-  .hero-secret { --scene-unit: .5px; position: relative; flex: none; left: auto !important; top: auto !important; width: 44px; height: 44px; min-height: 44px; transform: none; }
-  .hero-secret::before { bottom: 0; width: 30px; height: 8px; border-radius: 0; background: #6d8264; box-shadow: inset 0 2px #a0ad85,0 2px #132b20; }
-  .hero-secret__hint { left: auto; right: 0; transform: translateY(4px); }
-  .hero-secret:hover .hero-secret__hint,.hero-secret:focus-visible .hero-secret__hint { transform: none; }
-}
-@media (max-width: 560px) {
-  .sanctuary__header { padding: 14px; }
-  .sanctuary__panel { align-items: stretch; flex-direction: column; gap: 14px; padding: 16px; }
-  .sanctuary__status { font-size: 18px; }
-  .sanctuary__close { padding-inline: 11px; }
+  .hero-relic { --scene-unit: .5px !important; position: relative; flex: none; left: auto !important; top: auto !important; width: 44px; height: 76px; transform: none; }
+  .hero-secret::before { bottom: -2px; width: 30px; height: 8px; border-radius: 0; background: #6d8264; box-shadow: inset 0 2px #a0ad85,0 2px #132b20; }
+  .hero-relic__message { position: static; max-width: 100%; width: fit-content; margin-top: 10px; transform: none; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .hero-secret__glint,.sanctuary-firefly { animation: none; }
-  .sanctuary-beam,.sanctuary-runes { transition: none; }
+  .hero-secret__glint,.hero-secret__mask img { animation: none !important; }
+  .hero-secret__hint,.hero-relic__runes { transition: none; }
 }
