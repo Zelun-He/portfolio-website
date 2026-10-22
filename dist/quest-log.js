@@ -62,7 +62,7 @@ const QUEST_ENTRIES = {
       summary: 'A corporate website connecting coffee sourcing, the Deep Thrill brand, hospitality, and technology through a cohesive visual story.',
       objectives: ['Created a cohesive presentation across the company and its coffee brand.', 'Organized its coffee, hospitality, and technology strategy into clear, responsive pages.'],
       art: { src: 'Images/eastern-asteria-home.webp', alt: 'Eastern Asteria homepage with the heading From Source to Sip above green coffee fields' },
-      links: [{ href: 'https://staging-eastern-asteria.mtdewulf.workers.dev/', label: 'View preview' }]
+      links: [{ href: 'https://www.easternasteriainc.com/', label: 'Visit website' }]
     },
     {
       name: 'Holcomb Tree Service', role: 'Client website · Arrows Up', status: 'Selected project', category: 'web', current: true,
