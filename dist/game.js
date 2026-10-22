@@ -169,10 +169,7 @@
       if (action === 'reset' || snake.over || snake.demo) resetSnake(false);
       paused = false;
       const direction = snakeDirections[action];
-      // Accept one turn per step, so quick taps cannot reverse into the body.
-      if (direction && !snake.turn && direction.x * snake.direction.x + direction.y * snake.direction.y === 0) {
-        snake.turn = direction;
-      }
+      if (direction) queueSnakeTurn(direction);
       updateStatus(); render(); schedule(); return;
     }
     if (gameKind === 'galaga') {
@@ -285,11 +282,23 @@
   function resetSnake(demo = true) {
     snake = {
       body: [{ x: 8, y: 8 }, { x: 7, y: 8 }, { x: 6, y: 8 }, { x: 5, y: 8 }],
-      direction: snakeDirections.right, turn: null, food: null,
+      previousBody: [], direction: snakeDirections.right, turns: [], food: null, previousFood: null,
       score: 0, timer: 0, over: false, overTime: 0, won: false, demo
     };
     placeSnakeFood();
+    snake.previousBody = [...snake.body];
+    snake.previousFood = snake.food;
     if (gameKind === 'snake') scoreLabel.textContent = '000000';
+  }
+  function queueSnakeTurn(direction) {
+    // Validate against the last queued turn, so quick corners stay in order.
+    const previous = snake.turns[snake.turns.length - 1] || snake.direction;
+    if (snake.turns.length < 2 && direction.x * previous.x + direction.y * previous.y === 0) {
+      snake.turns.push(direction);
+    }
+  }
+  function snakeStepInterval() {
+    return snake.demo ? .1 : Math.max(.09, .18 - Math.floor(snake.score / 50) * .01);
   }
   function placeSnakeFood() {
     const occupied = new Set(snake.body.map(cell => cell.y * SNAKE_COLS + cell.x));
@@ -326,12 +335,13 @@
     }) || snake.direction;
   }
   function stepSnake() {
-    snake.direction = snake.demo ? demoSnakeDirection() : snake.turn || snake.direction;
-    snake.turn = null;
+    snake.direction = snake.demo ? demoSnakeDirection() : snake.turns.shift() || snake.direction;
     const head = snake.body[0];
     const next = { x: head.x + snake.direction.x, y: head.y + snake.direction.y };
     const growing = next.x === snake.food.x && next.y === snake.food.y;
     if (!snakeCanMove(next, growing)) { snake.over = true; updateStatus(); return; }
+    snake.previousBody = [...snake.body];
+    snake.previousFood = snake.food;
     snake.body.unshift(next);
     if (growing) {
       snake.score += 10;
@@ -347,8 +357,20 @@
       return;
     }
     snake.timer += dt;
-    const interval = snake.demo ? .1 : Math.max(.09, .18 - Math.floor(snake.score / 50) * .01);
-    if (snake.timer >= interval) { snake.timer -= interval; stepSnake(); }
+    let interval = snakeStepInterval();
+    while (!snake.over && snake.timer >= interval) {
+      snake.timer -= interval;
+      stepSnake();
+      interval = snakeStepInterval();
+    }
+  }
+  function snakeRenderPosition(index, progress) {
+    const cell = snake.body[index];
+    const previous = snake.previousBody[Math.min(index, snake.previousBody.length - 1)] || cell;
+    return {
+      x: SX + (previous.x + (cell.x - previous.x) * progress) * SNAKE_CELL,
+      y: SY + (previous.y + (cell.y - previous.y) * progress) * SNAKE_CELL
+    };
   }
   function renderSnake() {
     ctx.fillStyle = '#142c22'; ctx.fillRect(0, 0, 360, 250);
@@ -359,13 +381,19 @@
       ctx.fillStyle = (x + y) % 2 ? '#193b29' : '#173624';
       ctx.fillRect(SX + x * SNAKE_CELL, SY + y * SNAKE_CELL, SNAKE_CELL, SNAKE_CELL);
     }
-    if (snake.food) {
-      const x = SX + snake.food.x * SNAKE_CELL, y = SY + snake.food.y * SNAKE_CELL;
+    const progress = snake.over || reducedMotion.matches ? 1 : Math.min(1, snake.timer / snakeStepInterval());
+    // Keep fruit visible until the animated head reaches its cell.
+    const food = snake.over || reducedMotion.matches ? snake.food : snake.previousFood;
+    if (food) {
+      const x = SX + food.x * SNAKE_CELL, y = SY + food.y * SNAKE_CELL;
       block(x + 2, y + 3, '#e9bd65', false, 9);
       ctx.fillStyle = '#9ed6b0'; ctx.fillRect(x + 6, y + 1, 3, 2);
     }
-    snake.body.forEach((cell, i) => block(SX + cell.x * SNAKE_CELL, SY + cell.y * SNAKE_CELL, i ? '#77ad70' : '#b9e391', false, SNAKE_CELL));
-    const head = snake.body[0], hx = SX + head.x * SNAKE_CELL, hy = SY + head.y * SNAKE_CELL;
+    snake.body.forEach((cell, i) => {
+      const position = snakeRenderPosition(i, progress);
+      block(position.x, position.y, i ? '#77ad70' : '#b9e391', false, SNAKE_CELL);
+    });
+    const head = snakeRenderPosition(0, progress), hx = Math.round(head.x), hy = Math.round(head.y);
     ctx.fillStyle = '#10261c';
     if (snake.direction.x) {
       const x = hx + (snake.direction.x > 0 ? 8 : 2);
@@ -552,6 +580,7 @@
   function switchGame(next) {
     if (next === gameKind || !['tetris', 'galaga', 'snake'].includes(next)) return;
     stop(); heldDirections.clear();
+    snake.turns.length = 0;
     gameKind = next;
     frameElement.dataset.gameKind = next;
     gameButtons.forEach(button => button.setAttribute('aria-pressed', String(button.dataset.gameKind === next)));
