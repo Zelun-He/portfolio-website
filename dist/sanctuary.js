@@ -26,10 +26,10 @@
     message.style.left = relic.style.left;
     message.style.top = `${area.top - origin.top + offsetY + 329 * scale + 14}px`;
     if (jake) {
-      jake.style.left = `${offsetX + 1155 * scale}px`;
-      jake.style.top = `${offsetY + 535 * scale}px`;
-      jake.style.width = `${72 * scale}px`;
-      jake.style.height = `${72 * scale}px`;
+      // Replace the right-hand pillar; Jake is a full yellow masonry course.
+      jake.style.left = `${offsetX + 1465 * scale}px`;
+      jake.style.top = `${offsetY + 427 * scale}px`;
+      jake.style.width = `${112 * scale}px`;
       jake.hidden = false;
     }
   }
