@@ -170,9 +170,7 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
       <ul class="quest-objectives">${entry.objectives.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>
       ${entry.rewards?.length ? `<h4>Results</h4><div class="quest-rewards">${entry.rewards.map(([number, label]) => `<div class="quest-reward"><b>${escapeHTML(number)}</b><span>${escapeHTML(label)}</span></div>`).join('')}</div>` : ''}
       ${entry.links?.length ? `<div class="quest-detail__links">${entry.links.map(link => `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHTML(link.label)} ↗</a>`).join('')}</div>` : ''}
-      ${category === 'main' ? '<details class="quest-preview"><summary>View project image</summary>' : ''}
-      <a class="quest-art" href="${escapeHTML(entry.art.src)}" target="_blank" rel="noopener noreferrer" aria-label="Open full image: ${escapeHTML(entry.name)}"><img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"><span>VIEW FULL IMAGE ↗</span></a>
-      ${category === 'main' ? '</details>' : ''}`;
+      <a class="quest-art" href="${escapeHTML(entry.art.src)}" target="_blank" rel="noopener noreferrer" aria-label="Open full image: ${escapeHTML(entry.name)}"><img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"><span>VIEW FULL IMAGE ↗</span></a>`;
     detail.querySelector('img')?.addEventListener('load', () => window.dispatchEvent(new Event('resize')), { once: true });
   }
 

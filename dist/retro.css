@@ -256,9 +256,6 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .hero-proof dt { margin-bottom: 5px; color: var(--stone-light); font: 22px/1.5 'DM Mono', monospace; font-weight: 500; }
 .hero-proof dd { margin: 0; max-width: 32ch; color: #c5cfc0; font-size: 13px; line-height: 1.5; }
 .section-kicker { margin: 0 0 13px; color: var(--stone); font: 11px/1.5 'DM Mono', monospace; letter-spacing: .12em; }
-.quest-preview { margin-top: 22px; border-top: 1px solid var(--stone-deep); }
-.quest-preview summary { padding: 13px 0; color: var(--stone-light); cursor: pointer; font: 12px/1.6 'DM Mono', monospace; }
-.quest-preview .quest-art { margin-top: 5px; }
 .featured-projects { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 22px; align-items: stretch; }
 .featured-projects:has(.featured-card__details[open]) { align-items: start; }
 .projects-intro { max-width: 62ch; margin: -15px 0 28px; color: #c5cfc0; font-size: 16px; line-height: 1.6; }
@@ -324,7 +321,7 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .project-archive { margin-top: 32px; border: 2px solid var(--stone); background: #274a34; box-shadow: 6px 6px 0 #10241b; }
 .project-archive > summary { display: grid; grid-template-columns: minmax(0,1fr) minmax(240px,.85fr) auto; align-items: center; gap: 28px; padding: 28px; color: var(--paper); list-style: none; cursor: pointer; }
 .project-archive > summary::-webkit-details-marker { display: none; }
-.project-archive > summary:focus-visible, .quest-preview > summary:focus-visible { outline: 3px solid var(--teal); outline-offset: 4px; }
+.project-archive > summary:focus-visible { outline: 3px solid var(--teal); outline-offset: 4px; }
 .project-archive__copy { display: grid; gap: 10px; min-width: 0; }
 .project-archive__kicker { color: var(--sage); font: 10px/1.5 'DM Mono', monospace; letter-spacing: .1em; }
 .project-archive__title { color: var(--paper); font: clamp(17px,1.6vw,22px)/1.55 'Press Start 2P', monospace; letter-spacing: -.04em; text-shadow: 3px 3px 0 #13241a; }
