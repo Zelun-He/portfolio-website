@@ -15,9 +15,11 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="preload" as="image" href="hero-forest-sanctuary.webp" fetchpriority="high">
   <link rel="stylesheet" href="retro.css">
+  <link rel="stylesheet" href="sanctuary.css">
   <script src="script.js" defer></script>
   <script src="quest-log.js" defer></script>
   <script src="game.js" defer></script>
+  <script src="sanctuary.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
@@ -65,7 +67,10 @@
           <a class="button button-primary" href="resume.pdf" target="_blank" rel="noopener noreferrer">VIEW RÉSUMÉ <span aria-hidden="true">↗</span></a>
           <a class="text-link" href="#work">EXPLORE WORK <span aria-hidden="true">→</span></a>
         </div>
-        <nav class="hero-socials" aria-label="Professional profiles"><a href="https://github.com/Zelun-He" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/zelun-he" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></nav>
+        <div class="hero-bottom-row">
+          <nav class="hero-socials" aria-label="Professional profiles"><a href="https://github.com/Zelun-He" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/zelun-he" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></nav>
+          <button class="hero-secret" id="forest-secret" type="button" aria-label="Explore the hidden forest sanctuary" aria-haspopup="dialog" aria-controls="sanctuary-dialog" hidden><span class="hero-secret__mask" aria-hidden="true"><img src="Images/master-sword.svg" alt="" width="64" height="128"></span><span class="hero-secret__glint" aria-hidden="true"></span><span class="hero-secret__hint" aria-hidden="true">Explore the grove</span></button>
+        </div>
       </div>
       </div>
       <div class="hero-proof">
@@ -306,6 +311,17 @@
       <figcaption id="image-viewer-caption"></figcaption>
     </figure>
     <div class="image-viewer__footer"><a id="image-viewer-original" target="_blank" rel="noopener noreferrer">Open original <span aria-hidden="true">↗</span></a><span>Esc to close</span></div>
+  </dialog>
+  <dialog class="sanctuary" id="sanctuary-dialog" aria-labelledby="sanctuary-title" aria-describedby="sanctuary-status sanctuary-note">
+    <header class="sanctuary__header"><div><p class="sanctuary__eyebrow">A HIDDEN SIDE QUEST</p><h2 id="sanctuary-title">The forest sanctuary</h2></div><button class="sanctuary__close" type="button" aria-label="Close sanctuary">Close <span aria-hidden="true">×</span></button></header>
+    <div class="sanctuary-stage" data-state="resting">
+      <svg class="sanctuary-stage__world" viewBox="774 130 1000 625" aria-hidden="true"><image href="hero-forest-sanctuary.webp" width="1774" height="887"/></svg>
+      <span class="sanctuary-beam" aria-hidden="true"></span><span class="sanctuary-slit" aria-hidden="true"></span>
+      <svg class="sanctuary-runes" viewBox="0 0 180 60" fill="none" stroke="#d7e4b5" stroke-width="2" aria-hidden="true"><ellipse cx="90" cy="30" rx="76" ry="22" stroke-dasharray="8 8"/><path d="M90 2V10M90 50V58M4 30H12M168 30H176M32 9L38 15M142 45L148 51M32 51L38 45M142 15L148 9"/></svg>
+      <button class="sanctuary-blade" id="sanctuary-blade" type="button" aria-label="Draw the Master Sword from the stone"><span class="sanctuary-blade__mask" aria-hidden="true"><img src="Images/master-sword.svg" alt="" width="64" height="128"></span></button>
+      <span class="sanctuary-firefly" style="--x:23%;--y:66%;--delay:-1s" aria-hidden="true"></span><span class="sanctuary-firefly" style="--x:39%;--y:24%;--delay:-3s" aria-hidden="true"></span><span class="sanctuary-firefly" style="--x:67%;--y:43%;--delay:-2s" aria-hidden="true"></span><span class="sanctuary-firefly" style="--x:77%;--y:76%;--delay:-4s" aria-hidden="true"></span><span class="sanctuary-firefly" style="--x:49%;--y:73%;--delay:0s" aria-hidden="true"></span>
+    </div>
+    <div class="sanctuary__panel"><div aria-live="polite" aria-atomic="true"><p class="sanctuary__status" id="sanctuary-status">An old blade rests in the stone.</p><p class="sanctuary__note" id="sanctuary-note">Click the sword or choose “Draw the blade.”</p></div><button class="sanctuary__action" id="sanctuary-draw" type="button">Draw the blade</button><button class="sanctuary__action" id="sanctuary-restore" type="button" hidden>Return the blade</button></div>
   </dialog>
 </body>
 </html>

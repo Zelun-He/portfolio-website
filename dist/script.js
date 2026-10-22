@@ -27,7 +27,7 @@ contactOptions.forEach((option, index) => {
 
 const contactSection = document.getElementById('contact');
 document.addEventListener('keydown', event => {
-  if (document.querySelector('.image-viewer[open]')) return;
+  if (document.querySelector('dialog[open]')) return;
   if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
   const active = document.activeElement;
   if (active?.isContentEditable || active?.matches('input, textarea, select') || active?.closest('.game-frame, .quest-work')) return;

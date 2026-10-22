@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="128" viewBox="0 0 64 128" shape-rendering="crispEdges">
+  <title>Master Sword</title>
+  <g stroke="#192c30" stroke-width="2" stroke-linejoin="miter">
+    <path d="M26 48H38V106L32 122L26 106Z" fill="#9bb6b1"/>
+    <path d="M28 52H32V115L28 105Z" fill="#e0e8d7" stroke="none"/>
+    <path d="M32 52H36V105L32 115Z" fill="#789a99" stroke="none"/>
+    <path d="M28 10H36V42H28Z" fill="#4e5682"/>
+    <path d="M28 4H36V8H38V14H26V8H28Z" fill="#727aa0"/>
+    <path d="M29 17H35M29 23H35M29 29H35M29 35H35" fill="none" stroke="#a7b4af"/>
+    <path d="M26 38H38V42H42V44H48V42H52V46H58V50H54V54H44V50H38V54H26V50H20V54H10V50H6V46H12V42H16V44H22V42H26Z" fill="#555e8a"/>
+    <path d="M10 47H20V45H26V42H38V45H44V47H54" fill="none" stroke="#8c94ba"/>
+    <path d="M32 42L36 49H28Z" fill="#c7b97d" stroke="none"/>
+    <path d="M30 60H34V62H30ZM31 65H33V71H31Z" fill="#d2dbbd" stroke="none"/>
+  </g>
+</svg>
