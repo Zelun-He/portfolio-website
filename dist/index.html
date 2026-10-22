@@ -172,24 +172,24 @@
             </div>
           </article>
         </div>
-        <details class="project-archive" id="more-projects">
-          <summary>
-            <span class="project-archive__copy">
+        <div class="project-archive" id="more-projects" role="region" aria-labelledby="project-archive-title">
+          <div class="project-archive__header">
+            <div class="project-archive__copy">
               <span class="project-archive__kicker">MORE TO EXPLORE</span>
-              <span class="project-archive__title">More projects.</span>
+              <h3 class="project-archive__title" id="project-archive-title">More projects.</h3>
               <span class="project-archive__description">Web applications, research, systems, and games.</span>
-            </span>
-            <span class="project-archive__previews" aria-hidden="true">
-              <span class="project-archive__preview"><img src="Images/eastern-asteria-home.webp" alt="" width="160" height="100" loading="lazy" decoding="async"><span>WEB</span></span>
-              <span class="project-archive__preview"><img src="Images/gene-classifier.png" alt="" width="160" height="100" loading="lazy" decoding="async"><span>RESEARCH</span></span>
-              <span class="project-archive__preview"><img src="Images/space-invaders.png" alt="" width="160" height="100" loading="lazy" decoding="async"><span>SYSTEMS &amp; GAMES</span></span>
-            </span>
-            <span class="project-archive__action">
+            </div>
+            <div class="project-archive__previews" role="group" aria-label="Open projects by specialty">
+              <button class="project-archive__preview" type="button" data-project-shortcut="web" aria-controls="project-gallery"><img src="Images/eastern-asteria-home.webp" alt="" width="160" height="100" loading="lazy" decoding="async"><span>WEB</span></button>
+              <button class="project-archive__preview" type="button" data-project-shortcut="research" aria-controls="project-gallery"><img src="Images/gene-classifier.png" alt="" width="160" height="100" loading="lazy" decoding="async"><span>RESEARCH</span></button>
+              <button class="project-archive__preview" type="button" data-project-shortcut="systems" aria-controls="project-gallery"><img src="Images/space-invaders.png" alt="" width="160" height="100" loading="lazy" decoding="async"><span>SYSTEMS &amp; GAMES</span></button>
+            </div>
+            <div class="project-archive__action">
               <span class="project-archive__count"><span id="project-archive-count">7</span> more projects</span>
-              <span class="project-archive__button"><span class="project-archive__show">Explore projects</span><span class="project-archive__hide">Close gallery</span><svg class="project-archive__chevron" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="m3 6 5 5 5-5" stroke="currentColor" stroke-width="2"/></svg></span>
-            </span>
-          </summary>
-          <div class="project-archive__body">
+              <button class="project-archive__button" id="project-gallery-toggle" type="button" aria-expanded="false" aria-controls="project-gallery"><span class="project-archive__show">Explore projects</span><span class="project-archive__hide">Close gallery</span><svg class="project-archive__chevron" aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="m3 6 5 5 5-5" stroke="currentColor" stroke-width="2"/></svg></button>
+            </div>
+          </div>
+          <div class="project-archive__body" id="project-gallery" hidden>
         <div class="project-filters" role="group" aria-label="Filter projects">
           <button class="project-filter" type="button" data-project-filter="all" aria-pressed="true">All</button>
           <button class="project-filter" type="button" data-project-filter="web" aria-pressed="false">Web</button>
@@ -199,7 +199,7 @@
         </div>
         <div class="project-grid" id="project-grid"></div>
           </div>
-        </details>
+        </div>
         <article class="next-project" data-featured-project="Orbit Image Converter" aria-labelledby="next-project-title">
           <div class="next-project__body">
             <div class="next-project__heading"><p class="section-kicker">CURRENTLY BUILDING</p><span class="next-project__status">IN PROGRESS</span></div>

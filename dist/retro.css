@@ -319,33 +319,34 @@ h1, h2, h3, h4, p { margin-top: 0; }
   .next-project__visual { padding: 18px; border-left: 0; border-top: 1px solid var(--stone-deep); }
 }
 .project-archive { margin-top: 32px; border: 2px solid var(--stone); background: #274a34; box-shadow: 6px 6px 0 #10241b; }
-.project-archive > summary { display: grid; grid-template-columns: minmax(0,1fr) minmax(240px,.85fr) auto; align-items: center; gap: 28px; padding: 28px; color: var(--paper); list-style: none; cursor: pointer; }
-.project-archive > summary::-webkit-details-marker { display: none; }
-.project-archive > summary:focus-visible { outline: 3px solid var(--teal); outline-offset: 4px; }
+.project-archive__header { display: grid; grid-template-columns: minmax(0,1fr) minmax(240px,.85fr) auto; align-items: center; gap: 28px; padding: 28px; color: var(--paper); }
+.project-archive__preview:focus-visible, .project-archive__button:focus-visible { outline: 3px solid var(--teal); outline-offset: 4px; }
 .project-archive__copy { display: grid; gap: 10px; min-width: 0; }
 .project-archive__kicker { color: var(--sage); font: 10px/1.5 'DM Mono', monospace; letter-spacing: .1em; }
-.project-archive__title { color: var(--paper); font: clamp(17px,1.6vw,22px)/1.55 'Press Start 2P', monospace; letter-spacing: -.04em; text-shadow: 3px 3px 0 #13241a; }
+.project-archive__title { margin: 0; color: var(--paper); font: clamp(17px,1.6vw,22px)/1.55 'Press Start 2P', monospace; letter-spacing: -.04em; text-shadow: 3px 3px 0 #13241a; }
 .project-archive__description { max-width: 40ch; color: var(--paper-2); font-size: 14px; line-height: 1.6; }
 .project-archive__previews { display: flex; gap: 8px; min-width: 0; }
-.project-archive__preview { display: grid; flex: 1; min-width: 0; padding: 5px; border: 1px solid var(--stone-deep); background: #132d20; }
+.project-archive__preview { display: grid; flex: 1; min-width: 0; padding: 5px; border: 1px solid var(--stone-deep); background: #132d20; color: inherit; font: inherit; cursor: pointer; }
+.project-archive__preview:hover { border-color: var(--stone-light); background: #274a34; }
 .project-archive__preview img { display: block; width: 100%; height: 65px; object-fit: contain; background: #1d3829; }
-.project-archive__preview > span { padding: 7px 0 3px; color: var(--stone-light); font: 8px/1.5 'DM Mono', monospace; text-align: center; white-space: nowrap; }
+.project-archive__preview > span { padding: 7px 0 3px; color: var(--stone-light); font: 9px/1.5 'DM Mono', monospace; text-align: center; }
 .project-archive__action { display: grid; justify-items: center; gap: 12px; }
 .project-archive__count { color: var(--paper-2); font: 12px/1.5 'DM Mono', monospace; white-space: nowrap; }
 .project-archive__count > span { color: var(--stone-light); font-weight: 700; }
-.project-archive__button { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 48px; padding: 12px 16px; border: 2px solid var(--stone-light); background: var(--stone); color: var(--forest); box-shadow: 4px 4px 0 #10241b; font: 12px/1.5 'DM Mono', monospace; white-space: nowrap; transition: background .2s, box-shadow .2s; }
-.project-archive > summary:hover .project-archive__button, .project-archive > summary:focus-visible .project-archive__button { background: var(--stone-light); box-shadow: 2px 2px 0 #10241b; }
+.project-archive__button { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 48px; padding: 12px 16px; border: 2px solid var(--stone-light); background: var(--stone); color: var(--forest); box-shadow: 4px 4px 0 #10241b; font: 12px/1.5 'DM Mono', monospace; white-space: nowrap; cursor: pointer; transition: background .2s, box-shadow .2s; }
+.project-archive__button:hover, .project-archive__button:focus-visible { background: var(--stone-light); box-shadow: 2px 2px 0 #10241b; }
 .project-archive__hide { display: none; }
-.project-archive[open] .project-archive__show { display: none; }
-.project-archive[open] .project-archive__hide { display: inline; }
-.project-archive[open] .project-archive__chevron { transform: rotate(180deg); }
-.project-archive__body { padding: 24px; border-top: 2px solid var(--stone-deep); background: #193c2a; }
+.project-archive__button[aria-expanded='true'] .project-archive__show { display: none; }
+.project-archive__button[aria-expanded='true'] .project-archive__hide { display: inline; }
+.project-archive__button[aria-expanded='true'] .project-archive__chevron { transform: rotate(180deg); }
+.project-archive__body { padding: 24px; border-top: 2px solid var(--stone-deep); background: #193c2a; scroll-margin-top: 110px; }
+.project-archive__body[hidden] { display: none; }
 .project-card__content .project-links { padding-top: 1px; }
 @media (max-width: 1050px) {
   .featured-projects { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .featured-card:last-child { grid-column: 1/-1; display: grid; grid-template-columns: minmax(0,.9fr) minmax(0,1.1fr); }
   .featured-card:last-child .featured-card__media { height: 100%; min-height: 250px; aspect-ratio: auto; border-bottom: 0; border-right: 2px solid #7f9a5a; }
-  .project-archive > summary { grid-template-columns: minmax(0,1fr) auto; gap: 22px; }
+  .project-archive__header { grid-template-columns: minmax(0,1fr) auto; gap: 22px; }
   .project-archive__previews { grid-column: 1/-1; grid-row: 2; }
   .project-archive__preview img { height: 80px; }
   .project-archive__action { grid-column: 2; grid-row: 1; }
@@ -360,7 +361,7 @@ h1, h2, h3, h4, p { margin-top: 0; }
   .featured-card:last-child { display: flex; grid-column: auto; }
   .featured-card:last-child .featured-card__media { height: auto; min-height: 0; aspect-ratio: 16 / 9; border-right: 0; border-bottom: 2px solid #7f9a5a; }
   .featured-card__body { padding: 21px; }
-  .project-archive > summary { grid-template-columns: minmax(0,1fr); gap: 20px; padding: 22px; }
+  .project-archive__header { grid-template-columns: minmax(0,1fr); gap: 20px; padding: 22px; }
   .project-archive__previews, .project-archive__action { grid-column: auto; grid-row: auto; }
   .project-archive__preview img { height: 62px; }
   .project-archive__action { justify-items: stretch; gap: 10px; }

@@ -262,6 +262,9 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
 (() => {
   const grid = document.getElementById('project-grid');
   const filters = [...document.querySelectorAll('[data-project-filter]')];
+  const gallery = document.getElementById('project-gallery');
+  const galleryToggle = document.getElementById('project-gallery-toggle');
+  const shortcuts = [...document.querySelectorAll('[data-project-shortcut]')];
   if (!grid || !filters.length) return;
 
   const featuredNames = new Set([...document.querySelectorAll('[data-featured-project]')].map(card => card.dataset.featuredProject));
@@ -293,12 +296,36 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
     </article>`;
   }).join('');
 
-  filters.forEach(button => button.addEventListener('click', () => {
-    const filter = button.dataset.projectFilter;
+  function selectFilter(filter) {
+    const button = filters.find(item => item.dataset.projectFilter === filter);
+    if (!button) return;
     filters.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
     grid.querySelectorAll('.project-card').forEach(card => {
       card.hidden = filter !== 'all' && card.dataset.projectCategory !== filter;
     });
     window.dispatchEvent(new Event('resize'));
-  }));
+    return button;
+  }
+
+  filters.forEach(button => button.addEventListener('click', () => selectFilter(button.dataset.projectFilter)));
+
+  if (gallery && galleryToggle) {
+    function setGalleryOpen(open) {
+      gallery.hidden = !open;
+      galleryToggle.setAttribute('aria-expanded', String(open));
+      window.dispatchEvent(new Event('resize'));
+    }
+
+    galleryToggle.addEventListener('click', () => setGalleryOpen(gallery.hidden));
+    shortcuts.forEach(shortcut => shortcut.addEventListener('click', () => {
+      const selectedFilter = selectFilter(shortcut.dataset.projectShortcut);
+      if (!selectedFilter) return;
+      setGalleryOpen(true);
+      selectedFilter.focus({ preventScroll: true });
+      gallery.scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'start'
+      });
+    }));
+  }
 })();
