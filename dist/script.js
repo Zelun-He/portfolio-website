@@ -206,6 +206,8 @@ if ('ResizeObserver' in window) {
     if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) viewer.close();
   });
   viewer.addEventListener('close', () => {
+    // A queued close event must not clear a newly opened screenshot.
+    if (viewer.open) return;
     document.body.classList.remove('image-viewer-open');
     image.removeAttribute('src');
     if (trigger?.isConnected) trigger.focus({ preventScroll: true });
