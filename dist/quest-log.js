@@ -295,14 +295,18 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
       </div>
     </article>`;
   }).join('');
+  grid.dataset.resultCount = String(archiveEntries.length);
 
   function selectFilter(filter) {
     const button = filters.find(item => item.dataset.projectFilter === filter);
     if (!button) return;
     filters.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+    let visibleCount = 0;
     grid.querySelectorAll('.project-card').forEach(card => {
       card.hidden = filter !== 'all' && card.dataset.projectCategory !== filter;
+      if (!card.hidden) visibleCount += 1;
     });
+    grid.dataset.resultCount = String(visibleCount);
     window.dispatchEvent(new Event('resize'));
     return button;
   }
