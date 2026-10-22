@@ -20,7 +20,7 @@
   const quotes = [
     'Dude, suckin’ at somethin’ is the first step towards bein’ sorta good at somethin’.',
     'To live life, you need problems.',
-    'Bad, bad biscuits make the baker broke, bro.'
+    'Bad biscuits make the baker broke, bro.'
   ];
   try { introduced = window.localStorage.getItem(introKey) === '1'; } catch { /* Keep the first-click state in memory when storage is unavailable. */ }
 
