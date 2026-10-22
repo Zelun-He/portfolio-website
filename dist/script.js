@@ -27,6 +27,7 @@ contactOptions.forEach((option, index) => {
 
 const contactSection = document.getElementById('contact');
 document.addEventListener('keydown', event => {
+  if (document.querySelector('.image-viewer[open]')) return;
   if (event.key !== 'ArrowDown' && event.key !== 'ArrowUp') return;
   const active = document.activeElement;
   if (active?.isContentEditable || active?.matches('input, textarea, select') || active?.closest('.game-frame, .quest-work')) return;
@@ -156,3 +157,45 @@ if ('ResizeObserver' in window) {
   const mapSectionObserver = new ResizeObserver(scheduleMapUpdate);
   waypoints.forEach(point => { if (point.element) mapSectionObserver.observe(point.element); });
 }
+
+// Native modal behavior keeps keyboard focus inside the screenshot viewer.
+(() => {
+  const viewer = document.getElementById('image-viewer');
+  if (!viewer || typeof viewer.showModal !== 'function') return;
+  const image = document.getElementById('image-viewer-image');
+  const title = document.getElementById('image-viewer-title');
+  const caption = document.getElementById('image-viewer-caption');
+  const original = document.getElementById('image-viewer-original');
+  let trigger = null;
+
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[data-image-viewer]');
+    if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    const project = link.closest('.project-card, .featured-card, .quest-detail, .next-project');
+    const preview = link.querySelector('img') || project?.querySelector('img');
+    const name = project?.querySelector('h3')?.textContent.trim() || 'Project screenshot';
+    const description = preview?.alt || name;
+    event.preventDefault();
+    trigger = link;
+    title.textContent = name;
+    caption.textContent = description;
+    image.alt = description;
+    image.src = link.href;
+    original.href = link.href;
+    viewer.showModal();
+    document.body.classList.add('image-viewer-open');
+  });
+
+  viewer.querySelector('.image-viewer__close').addEventListener('click', () => viewer.close());
+  viewer.addEventListener('click', event => {
+    if (event.target !== viewer) return;
+    const rect = viewer.getBoundingClientRect();
+    if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) viewer.close();
+  });
+  viewer.addEventListener('close', () => {
+    document.body.classList.remove('image-viewer-open');
+    image.removeAttribute('src');
+    if (trigger?.isConnected) trigger.focus({ preventScroll: true });
+    trigger = null;
+  });
+})();

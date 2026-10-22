@@ -37,14 +37,20 @@
       <div class="map-heading"><span class="map-heading-mark" aria-hidden="true">✦</span><span>WORLD MAP</span><strong id="map-current-label">START</strong></div>
       <div class="map-board" id="map-board">
         <svg class="map-route" viewBox="0 0 1000 100" preserveAspectRatio="none" aria-hidden="true"><polyline points="100,60 300,58 500,64 700,60 900,58"/><polyline class="map-route-complete" id="map-route-complete" points="100,60"/></svg>
-        <a class="map-stop" href="#top" data-map-stop="top" style="--x:10%;--y:60%" aria-label="Start" aria-current="location"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">START</span></a>
-        <a class="map-stop" href="#work" data-map-stop="work" style="--x:30%;--y:58%" aria-label="Experience"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">EXPERIENCE</span><span class="map-label-short">EXP.</span></span></a>
-        <a class="map-stop" href="#projects" data-map-stop="projects" style="--x:50%;--y:64%" aria-label="Projects"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">PROJECTS</span></a>
-        <a class="map-stop" href="#about" data-map-stop="about" style="--x:70%;--y:60%" aria-label="About"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">ABOUT</span></a>
-        <a class="map-stop" href="#contact" data-map-stop="contact" style="--x:90%;--y:58%" aria-label="Contact"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">CONTACT</span><span class="map-label-short">MAIL</span></span></a>
+        <a class="map-stop" href="#top" data-map-stop="top" style="--x:10%;--y:60%" aria-label="Start" aria-current="location"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">Start</span></a>
+        <a class="map-stop" href="#work" data-map-stop="work" style="--x:30%;--y:58%" aria-label="Experience"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">Experience</span><span class="map-label-short">Exp.</span></span></a>
+        <a class="map-stop" href="#projects" data-map-stop="projects" style="--x:50%;--y:64%" aria-label="Projects"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">Projects</span><span class="map-label-short">Proj.</span></span></a>
+        <a class="map-stop" href="#about" data-map-stop="about" style="--x:70%;--y:60%" aria-label="About"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">About</span></a>
+        <a class="map-stop" href="#contact" data-map-stop="contact" style="--x:90%;--y:58%" aria-label="Contact"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">Contact</span><span class="map-label-short">Mail</span></span></a>
         <img class="map-character" id="map-character" src="map-character-idle.png" alt="" width="128" height="192" decoding="async">
       </div>
-      <div class="map-progress"><span id="map-progress-text">01 / 05</span><div class="map-progress-track" id="map-progress-track" role="progressbar" aria-label="Page progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="map-progress-fill"></span></div></div>
+      <div class="map-tools">
+        <div class="map-actions" role="group" aria-label="Quick contact and résumé">
+          <a href="resume.pdf" target="_blank" rel="noopener noreferrer">Résumé <span aria-hidden="true">↗</span></a>
+          <a class="map-actions__contact" href="#contact">Contact</a>
+        </div>
+        <div class="map-progress"><span id="map-progress-text">01 / 05</span><div class="map-progress-track" id="map-progress-track" role="progressbar" aria-label="Page progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="map-progress-fill"></span></div></div>
+      </div>
     </div>
   </nav>
   <main id="main">
@@ -105,7 +111,7 @@
               <p class="featured-card__summary">I built transcription, SOAP generation, and note management into an audio-to-note review workflow.</p>
               <p class="featured-card__stack"><span class="visually-hidden">Technologies:</span> Next.js · FastAPI</p>
               <div class="featured-card__footer">
-                <a href="https://github.com/Zelun-He/Scribsy" target="_blank" rel="noopener noreferrer">View code ↗</a><a href="Images/scribsy.png" target="_blank" rel="noopener noreferrer">Screenshot ↗</a>
+                <a href="https://github.com/Zelun-He/Scribsy" target="_blank" rel="noopener noreferrer">View code ↗</a><a href="Images/scribsy.png" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer">Screenshot</a>
                 <details class="featured-card__details" id="scribsy-details">
                   <summary>Project details <span aria-hidden="true">+</span><span class="visually-hidden"> for Scribsy</span></summary>
                   <div class="featured-card__details-body">
@@ -130,7 +136,7 @@
               <p class="featured-card__summary">I built the manuscript-to-audiobook workflow with persisted narration jobs, chapter playback, and downloads.</p>
               <p class="featured-card__stack"><span class="visually-hidden">Technologies:</span> Next.js · TypeScript · SQLite · Piper · FFmpeg</p>
               <div class="featured-card__footer">
-                <a href="https://github.com/Zelun-He/Narrator" target="_blank" rel="noopener noreferrer">View code ↗</a><a href="narrator-dashboard.webp" target="_blank" rel="noopener noreferrer">Screenshot ↗</a>
+                <a href="https://github.com/Zelun-He/Narrator" target="_blank" rel="noopener noreferrer">View code ↗</a><a href="narrator-dashboard.webp" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer">Screenshot</a>
                 <details class="featured-card__details" id="narrator-details">
                   <summary>Project details <span aria-hidden="true">+</span><span class="visually-hidden"> for Narrator</span></summary>
                   <div class="featured-card__details-body">
@@ -156,7 +162,7 @@
               <p class="featured-card__result"><strong>21+ client sites</strong><span aria-hidden="true">·</span><strong>50% shorter delivery</strong></p>
               <p class="featured-card__stack"><span class="visually-hidden">Technologies:</span> SvelteKit · TypeScript · Sanity · Cloudflare Workers · GitHub Actions</p>
               <div class="featured-card__footer">
-                <a href="holcomb-tree-service.webp" target="_blank" rel="noopener noreferrer">Screenshot ↗</a>
+                <a href="holcomb-tree-service.webp" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer">Screenshot</a>
                 <details class="featured-card__details" id="arrows-details">
                   <summary>Project details <span aria-hidden="true">+</span><span class="visually-hidden"> for Arrows Up</span></summary>
                   <div class="featured-card__details-body">
@@ -208,7 +214,7 @@
             <ul class="next-project__stack" aria-label="Orbit technologies"><li>JavaScript</li><li>Canvas API</li><li>File API</li></ul>
             <nav class="project-links" aria-label="Orbit project details"><a href="#work" data-current-project="Orbit Image Converter">View project details <span aria-hidden="true">↗</span></a></nav>
           </div>
-          <a class="next-project__visual" href="Images/orbit-image-converter.svg" target="_blank" rel="noopener noreferrer" aria-label="Open full Orbit interface preview"><img src="Images/orbit-image-converter.svg" alt="Orbit image converter interface preview with a radial format selector" width="960" height="620" loading="lazy" decoding="async"><span>INTERFACE PREVIEW <span aria-hidden="true">↗</span></span></a>
+          <a class="next-project__visual" href="Images/orbit-image-converter.svg" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer" aria-label="Open full Orbit interface preview"><img src="Images/orbit-image-converter.svg" alt="Orbit image converter interface preview with a radial format selector" width="960" height="620" loading="lazy" decoding="async"><span>INTERFACE PREVIEW · ENLARGE</span></a>
         </article>
       </div>
     </section>
@@ -290,5 +296,16 @@
       </div>
     </section>
   </main>
+  <dialog class="image-viewer" id="image-viewer" aria-labelledby="image-viewer-title" aria-describedby="image-viewer-caption">
+    <header class="image-viewer__header">
+      <div><p class="image-viewer__eyebrow">PROJECT SCREENSHOT</p><h2 id="image-viewer-title">Project screenshot</h2></div>
+      <button class="image-viewer__close" type="button" autofocus aria-label="Close screenshot">Close <span aria-hidden="true">×</span></button>
+    </header>
+    <figure class="image-viewer__figure">
+      <img class="image-viewer__image" id="image-viewer-image" alt="">
+      <figcaption id="image-viewer-caption"></figcaption>
+    </figure>
+    <div class="image-viewer__footer"><a id="image-viewer-original" target="_blank" rel="noopener noreferrer">Open original <span aria-hidden="true">↗</span></a><span>Esc to close</span></div>
+  </dialog>
 </body>
 </html>

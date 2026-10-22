@@ -170,7 +170,7 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
       <ul class="quest-objectives">${entry.objectives.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>
       ${entry.rewards?.length ? `<h4>Results</h4><div class="quest-rewards">${entry.rewards.map(([number, label]) => `<div class="quest-reward"><b>${escapeHTML(number)}</b><span>${escapeHTML(label)}</span></div>`).join('')}</div>` : ''}
       ${entry.links?.length ? `<div class="quest-detail__links">${entry.links.map(link => `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHTML(link.label)} ↗</a>`).join('')}</div>` : ''}
-      <a class="quest-art" href="${escapeHTML(entry.art.src)}" target="_blank" rel="noopener noreferrer" aria-label="Open full image: ${escapeHTML(entry.name)}"><img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"><span>VIEW FULL IMAGE ↗</span></a>`;
+      <a class="quest-art" href="${escapeHTML(entry.art.src)}" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer" aria-label="Open full image: ${escapeHTML(entry.name)}"><img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"><span>View full image</span></a>`;
     detail.querySelector('img')?.addEventListener('load', () => window.dispatchEvent(new Event('resize')), { once: true });
   }
 
@@ -281,17 +281,16 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
         <div class="project-card__image">
           <img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async">
         </div>
-        <div class="project-card__actions" aria-label="${escapeHTML(entry.name)} links">
-          <span class="project-card__actions-label" aria-hidden="true">PROJECT LINKS</span>
+        <nav class="project-card__actions" aria-label="${escapeHTML(entry.name)} preview actions">
           ${actions}
-          <a class="project-card__action-image" href="${escapeHTML(entry.art.src)}" target="_blank" rel="noopener noreferrer">Full image ↗</a>
-        </div>
+          <a class="project-card__action-image" href="${escapeHTML(entry.art.src)}" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer">Full image</a>
+        </nav>
       </div>
       <div class="project-card__content">
         <span class="project-card__type">${escapeHTML(entry.role)}</span>
         <h3>${escapeHTML(entry.name)}</h3>
         <p>${escapeHTML(entry.summary)}</p>
-        <nav class="project-links" aria-label="${escapeHTML(entry.name)} quick links">${actions}<a href="${escapeHTML(entry.art.src)}" target="_blank" rel="noopener noreferrer">Screenshot ↗</a></nav>
+        <nav class="project-links" aria-label="${escapeHTML(entry.name)} quick links">${actions}<a href="${escapeHTML(entry.art.src)}" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer">Screenshot</a></nav>
       </div>
     </article>`;
   }).join('');
