@@ -1,16 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Happy yellow dog with wide eyes">
-  <title>Zelun He — happy yellow dog</title>
-  <g stroke="#191b17" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M48 94C29 92 18 114 23 131C28 146 43 132 51 115M209 94C229 94 241 116 235 132C229 147 215 131 207 114" fill="#f9d94a"/>
-    <path d="M37 116C35 75 72 41 124 40C180 37 219 72 219 116L227 181C231 215 206 237 172 239H82C47 237 24 215 29 183Z" fill="#f9d94a"/>
-    <ellipse cx="77" cy="77" rx="39" ry="46" transform="rotate(22 77 77)" fill="#191b17"/>
-    <ellipse cx="72" cy="67" rx="30" ry="37" transform="rotate(22 72 67)" fill="#fffef4" stroke="none"/>
-    <ellipse cx="181" cy="77" rx="41" ry="46" transform="rotate(-22 181 77)" fill="#191b17"/>
-    <ellipse cx="175" cy="67" rx="31" ry="37" transform="rotate(-22 175 67)" fill="#fffef4" stroke="none"/>
-    <path d="M107 143C115 135 139 135 149 144L144 176C142 192 118 196 112 179Z" fill="#191b17"/>
-    <path d="M113 155C122 163 136 162 145 154L141 176C139 188 121 190 116 178Z" fill="#ed8296" stroke-width="6"/>
-    <path d="M129 164L127 177" fill="none" stroke-width="5"/>
-    <path d="M127 104C99 103 82 122 78 150C75 168 81 182 93 183C106 184 112 171 115 152C117 142 121 138 127 138C134 138 138 144 140 154C143 173 150 185 162 182C175 179 180 168 175 149C170 121 153 104 127 104Z" fill="#f9d94a"/>
-    <ellipse cx="127" cy="122" rx="19" ry="12" fill="#191b17" stroke-width="5"/>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 32 32" role="img" aria-label="Zelun He monogram">
+  <title>Zelun He</title>
+  <path d="M6 0H26L32 6V26L26 32H6L0 26V6Z" fill="#142e21"/>
+  <path d="M4 7H16V11L9 21H16V25H4V21L11 11H4Z" fill="#e1e5d4"/>
+  <path d="M18 7H21V14H25V7H28V25H25V18H21V25H18Z" fill="#a5c394"/>
 </svg>
