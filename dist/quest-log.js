@@ -46,6 +46,19 @@ const QUEST_ENTRIES = {
   ],
   side: [
     {
+      name: 'Screenshot Graveyard', role: 'Native Android · Kotlin & Jetpack Compose', dates: 'Oct 2026 – present', status: 'Development preview', category: 'mobile', current: true,
+      addedAt: '2026-10-27T00:00:00Z',
+      summary: 'A local screenshot archive that searches words inside images and turns forgotten saves into a keep-or-bury ritual.',
+      objectives: [
+        'Built private image imports, SHA-256 deduplication, and durable on-device ML Kit OCR with WorkManager.',
+        'Indexed titles, tags, and extracted text with Room FTS4; added reversible sorting and a full-screen pinch-to-zoom viewer.',
+        'Verified v0.2 with 21 unit tests and 6 Android emulator tests. Runs on Android 8.0 and newer.'
+      ],
+      rewards: [['27', 'tests passed']],
+      art: { src: 'Images/screenshot-graveyard.webp', alt: 'Screenshot Graveyard archive, sorting ritual, and full-screen zoom viewer on Android' },
+      links: [{ href: '/projects/screenshot-graveyard/', label: 'Project details' }, { href: 'https://github.com/Zelun-He/screenshot-graveyard', label: 'View code' }]
+    },
+    {
       name: 'Orbit Image Converter', role: 'Browser image converter · Personal project', dates: 'Oct 2026 – present', status: 'In progress', category: 'web', current: true,
       addedAt: '2026-10-20T00:00:00Z',
       summary: 'Building a faster image conversion workflow: drop in photos, choose a format from a radial wheel, and export them locally.',
@@ -273,7 +286,7 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
   if (archiveCount) archiveCount.textContent = String(archiveEntries.length);
   grid.innerHTML = archiveEntries.map(entry => {
     const actions = entry.links?.map(link => {
-      const label = link.href.includes('github.com') ? 'View code' : link.href.includes('staging-') ? 'View preview' : link.label.toLowerCase().includes('app') ? 'Open app' : link.label === 'Read research' ? 'Read research' : 'Visit website';
+      const label = link.href.includes('github.com') ? 'View code' : link.href.includes('staging-') ? 'View preview' : link.label.toLowerCase().includes('app') ? 'Open app' : link.label === 'Read research' ? 'Read research' : link.label === 'Project details' ? 'Project details' : 'Visit website';
       return `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`;
     }).join('') || '';
     return `<article class="project-card" data-project-category="${escapeHTML(entry.category)}">
