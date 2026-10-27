@@ -1,22 +1,25 @@
 // Original, code-drawn pixel art. Native pixels stay aligned at every scale.
 const rect=(c,color,x,y,w,h)=>{c.fillStyle=color;c.fillRect(Math.round(x),Math.round(y),w,h);};
-export function pixelText(c,text,x,y,color='#24493d',size=7){c.font=`bold ${size}px monospace`;c.textAlign='center';c.textBaseline='top';c.fillStyle=color;c.fillText(text,Math.round(x),Math.round(y));}
+const FONT={A:['010','101','111','101','101'],B:['110','101','110','101','110'],C:['011','100','100','100','011'],D:['110','101','101','101','110'],E:['111','100','110','100','111'],F:['111','100','110','100','100'],G:['011','100','101','101','011'],H:['101','101','111','101','101'],I:['111','010','010','010','111'],J:['001','001','001','101','010'],K:['101','101','110','101','101'],L:['100','100','100','100','111'],M:['101','111','111','101','101'],N:['101','111','111','111','101'],O:['010','101','101','101','010'],P:['110','101','110','100','100'],Q:['010','101','101','011','001'],R:['110','101','110','101','101'],S:['011','100','010','001','110'],T:['111','010','010','010','010'],U:['101','101','101','101','111'],V:['101','101','101','101','010'],W:['101','101','111','111','101'],X:['101','101','010','101','101'],Y:['101','101','010','010','010'],Z:['111','001','010','100','111'],'!':['010','010','010','000','010'],'←':['010','100','111','100','010'],'→':['010','001','111','001','010']};
+export function pixelText(c,text,x,y,color='#24493d'){
+ const chars=[...text.toUpperCase()],left=Math.round(x-(chars.length*4-1)/2);c.fillStyle=color;
+ chars.forEach((char,i)=>(FONT[char]||[]).forEach((row,dy)=>[...row].forEach((bit,dx)=>{if(bit==='1')c.fillRect(left+i*4+dx,Math.round(y)+dy,1,1);})))
+}
 export function fishSprite(frame=0){
  const a=document.createElement('canvas');a.width=40;a.height=30;const c=a.getContext('2d');
  const p=(color,x,y,w,h)=>rect(c,color,x,y,w,h);
- // Cream tail, gold crown, coral body, open mouth, and long yellow whiskers.
- p('#8c4d32',1,9,3,12);p('#f8efd1',2,9,3,11);p('#f8efd1',5,11,3,7);p('#d4c697',3,12,2,5);p('#ad4c32',8,13,4,4);
- p('#9b7130',16,2,2,7);p('#f7d971',17,2,2,7);p('#f7d971',20,0,2,8);p('#f7d971',23,3,2,6);p('#9b7130',24,6,2,4);
- const rows=[[11,10,13],[10,9,17],[9,8,20],[8,8,22],[7,9,23],[7,10,24],[7,11,24],[7,12,24],[8,13,23],[9,14,21],[10,15,19],[11,16,17],[13,17,12]];
- for(const [x,y,w] of rows)p('#a74b31',x,y,w,1);
- for(let y=9;y<18;y++){const d=Math.abs(y-12);p(y<12?'#ed9153':'#dc7045',10+Math.floor(d/2),y,18-d,1);}
- p('#f6b26c',12,9,10,2);p('#f6b26c',11,11,5,2);p('#bf5538',12,17,12,2);
- // Scales and pectoral fins.
- for(const [x,y] of [[13,12],[17,13],[12,15],[19,16],[21,11]]){p('#f7b575',x,y,2,1);p('#bd5b3b',x+1,y+1,1,1);}
- const fy=frame?17:16;p('#a67839',16,fy,2,7);p('#f7e9ba',17,fy,4,6);p('#f4d789',18,fy+3,5,3);p('#c29a55',19,fy,1,5);
- p('#8d5235',26,8,6,6);p('#fff9db',26,8,5,5);p('#183c38',29,9,2,3);p('#fff9db',29,9,1,1);
- p('#f8d9ac',31,13,3,6);p('#a95d3e',32,14,2,3);p('#f8e7b7',33,13,2,1);p('#f8e7b7',33,18,2,1);
- const wy=frame?18:17;p('#e9c45b',33,wy,5,1);p('#e9c45b',37,wy-3,1,4);p('#e9c45b',30,19,1,5);p('#e9c45b',31,23,5,1);
+ // A round coral body, split cream tail, three-point crown, open mouth and whiskers.
+ for(const [x,y,w,h] of [[1,7,2,15],[3,9,2,11],[5,11,2,7],[7,13,3,3]])p('#8d653e',x,y,w,h);
+ p('#fff2ce',2,8,1,13);p('#f4e4b5',3,10,2,9);p('#d4bd86',4,12,2,5);p('#f8e9ba',6,12,2,5);
+ p('#9a7734',15,3,3,6);p('#f2d369',16,3,2,6);p('#977333',19,0,3,9);p('#ffe18b',20,1,2,8);p('#f5d06a',23,3,3,6);
+ const widths=[12,16,20,22,24,25,26,26,26,25,24,23,21,18,14];
+ widths.forEach((w,i)=>{const x=20-Math.floor(w/2),y=7+i;p('#934b33',x,y,w,1);p(i<5?'#f19a59':i<10?'#e47b43':'#cc6339',x+1,y,w-2,1);});
+ p('#f7b76d',14,8,12,2);p('#f9bd77',10,11,6,3);p('#b14f31',12,19,15,2);
+ for(const [x,y] of [[17,11],[13,14],[20,14],[17,17],[24,18]]){p('#ffc583',x,y,3,1);p('#bb5937',x+2,y+1,1,1);}
+ const fy=frame?19:18;p('#ad8649',17,fy,2,9);p('#fff0c9',18,fy,3,8);p('#f4d78d',21,fy+2,3,5);p('#d8b46e',21,fy+6,4,1);p('#8e693c',19,fy+8,4,1);
+ p('#8d5439',27,9,6,7);p('#fff6d9',27,9,5,6);p('#183c38',30,10,2,4);p('#fff9e9',30,10,1,1);
+ p('#f4d2a2',32,15,3,7);p('#9b5037',33,16,2,4);p('#ffedc6',34,15,2,1);p('#ffedc6',34,21,2,1);
+ const wy=frame?19:18;p('#f1cf68',35,wy,4,1);p('#f1cf68',38,wy-3,1,4);p('#f1cf68',31,22,1,5);p('#f1cf68',32,26,5,1);
  return a;
 }
 export function tree(c,x,y,variant=0){
@@ -43,7 +46,7 @@ export function building(c,s,visited){
   if(s.kind==='studio'){p('#f1dbbb',w/2-14,11,28,13);pixelText(c,'UP',x+w/2,y+14,'#8a4d42',7);}
  }
  // Stepping stone and a readable floating destination plaque.
- const doorX=s.door[0]*16;rect(c,'#d3c294',doorX-3,(s.door[1])*16,w===80?22:22,9);rect(c,'#b9ad82',doorX-3,s.door[1]*16+9,22,2);
+ const doorX=s.door[0]*16;rect(c,'#d3c294',doorX-3,(s.door[1])*16,22,9);rect(c,'#b9ad82',doorX-3,s.door[1]*16+9,22,2);
  const labelW=s.short.length*5+15,lx=x+w/2-labelW/2;
  rect(c,'#294f43',lx,y-19,labelW,12);rect(c,'#fff4d8',lx+1,y-18,labelW-2,10);pixelText(c,s.short,x+w/2,y-16,'#345548',6);
  if(visited){rect(c,'#9e7836',lx+labelW-4,y-22,7,7);rect(c,'#f3ce67',lx+labelW-3,y-21,5,5);}
