@@ -67,8 +67,10 @@ let movementTimeout = null;
 let runFrameInterval = null;
 let runFrame = 0;
 let lastScrollY = window.scrollY;
-const idleSprite = 'map-character-idle.png';
-const runSprites = ['map-character-run-a.png', 'map-character-run-b.png'];
+const isMagikarpWorld = document.documentElement.dataset.world === 'magikarp';
+const idleSprite = isMagikarpWorld ? 'Images/magikarp-sprite.webp' : 'map-character-idle.png';
+const runSprites = isMagikarpWorld ? [idleSprite] : ['map-character-run-a.png', 'map-character-run-b.png'];
+mapCharacter.src = idleSprite;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 runSprites.forEach(src => { const image = new Image(); image.src = src; });
 

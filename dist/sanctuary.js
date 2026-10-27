@@ -1,4 +1,5 @@
 (() => {
+  if (document.documentElement.dataset.world === 'magikarp') return;
   const hero = document.querySelector('.hero');
   const copy = document.querySelector('.hero-copy');
   const relic = document.getElementById('forest-relic');

@@ -4,6 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#142e21">
+  <script src="world-theme-init.js"></script>
   <meta name="description" content="Zelun He is a full-stack software engineer at Arrows Up. Explore client web platforms, Scribsy, Narrator, and published machine learning research.">
   <title>Zelun He | Full-Stack Software Engineer</title>
   <link rel="icon" href="/favicon.ico?v=z-dot-black-20261022" sizes="any">
@@ -13,21 +14,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="preload" as="image" href="hero-forest-sanctuary.webp" fetchpriority="high">
   <link rel="stylesheet" href="retro.css">
   <link rel="stylesheet" href="sanctuary.css">
   <link rel="stylesheet" href="/projects/screenshot-graveyard/portfolio-entry.css">
   <link rel="stylesheet" href="/research/research.css">
+  <link rel="stylesheet" href="magikarp-world.css">
   <script src="script.js" defer></script>
   <script src="quest-log.js" defer></script>
   <script src="game.js" defer></script>
   <script src="sanctuary.js" defer></script>
+  <script src="world-theme.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <header class="site-header">
     <div class="wrap header-inner">
-      <a class="wordmark" href="#top" aria-label="Zelun He, back to top"><span class="wordmark-icon" aria-hidden="true">ZH</span><span>ZELUN HE</span></a>
+      <div class="brand-group">
+        <a class="wordmark" href="#top" aria-label="Zelun He, back to top"><span class="wordmark-icon" aria-hidden="true">ZH</span><span>ZELUN HE</span></a>
+        <nav class="world-switch" aria-label="Choose portfolio world"><a href="/#top" data-world-choice="forest">Forest</a><a href="/?world=magikarp#top" data-world-choice="magikarp">Magikarp</a></nav>
+      </div>
       <nav aria-label="Main navigation">
         <a href="#experience">EXPERIENCE</a>
         <a href="#projects">PROJECTS</a>
@@ -79,6 +84,17 @@
           </div>
         </div>
         <p class="hero-relic__message" id="forest-message" role="status" aria-live="polite" aria-atomic="true"></p>
+      </div>
+      <div class="karp-world magikarp-only" aria-label="Interactive Magikarp coastal world">
+        <div class="karp-world__bar"><span>MAGIKARP WORLD</span><span class="karp-world__edition">FIRERED INSPIRED</span></div>
+        <div class="karp-world__scene" id="karp-scene">
+          <img class="karp-world__landscape" data-src="Images/magikarp-coast.webp" alt="A pixel-art coastal route with a red-roof cottage, green trees, a wooden pier, and blue water" width="768" height="576" decoding="async" data-magikarp-asset>
+          <span class="karp-world__location">ROUTE 01 · THE COAST</span>
+          <span class="karp-world__ripple" aria-hidden="true"></span>
+          <button class="karp-character" id="karp-character" type="button" aria-label="Make Magikarp use Splash" aria-describedby="karp-dialogue"><img data-src="Images/magikarp-sprite.webp" alt="Magikarp" width="256" height="256" decoding="async" data-magikarp-asset></button>
+          <div class="karp-world__badge" aria-hidden="true"><span>No. 129</span><strong>MAGIKARP</strong><span class="karp-world__type">WATER</span></div>
+        </div>
+        <div class="karp-dialogue" id="karp-dialogue" role="status" aria-live="polite" aria-atomic="true"><span class="karp-dialogue__name" aria-hidden="true">MAGIKARP</span><p id="karp-line">A wild Magikarp appeared!<br>Tap Magikarp to use SPLASH.</p><span class="karp-dialogue__arrow" aria-hidden="true">▼</span></div>
       </div>
       </div>
       <div class="jake-conversation" id="jake-conversation" hidden>
