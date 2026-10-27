@@ -1,0 +1,28 @@
+{
+  "run_identity_sha256": "f725005e5126dcf152bbca9bb21c1b7644ef9cbf2014640f60a13ad69a3f1afa",
+  "reference_commit": "132253d7557c87db2c755b6f85a7078005029490",
+  "launcher_sha256": "54aebca1746a3e4afc697107b51d4fb54bb442d6144a92f11a268dd4595eb284",
+  "split_manifest_sha256": "74ff6611274081d3aea28e1888d21fe5541145f99d90d0d4b6ec8f7bd43f7bdf",
+  "completed_neural_fits": 40,
+  "scope": "exploratory_mac_numerical_backend_adaptation",
+  "runtime": {
+    "deterministic_algorithms": true,
+    "device": "mps",
+    "machine": "arm64",
+    "platform": "macOS-26.7-arm64-arm-64bit",
+    "python": "3.12.16",
+    "versions": {
+      "huggingface-hub": "0.36.0",
+      "numpy": "2.3.5",
+      "safetensors": "0.6.2",
+      "scikit-learn": "1.8.0",
+      "scipy": "1.17.0",
+      "threadpoolctl": "3.6.0",
+      "tokenizers": "0.22.1",
+      "torch": "2.9.1",
+      "transformers": "4.57.1"
+    }
+  },
+  "status": "completed",
+  "manuscript_status": "working_draft_not_peer_reviewed"
+}

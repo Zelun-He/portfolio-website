@@ -98,10 +98,10 @@ const QUEST_ENTRIES = {
     },
     {
       name: 'Gene Classifier', role: 'Machine learning research', status: 'Selected project', category: 'research',
-      summary: 'Classifies oncogenes and tumor suppressors from genomic sequences.',
-      objectives: ['Fine-tuned DNABERT for DNA sequence classification.', 'Presented classification results and confidence scores.'],
-      art: { src: 'Images/gene-classifier.png', alt: 'DNA sequence classification output and confidence scores' },
-      links: [{ href: 'https://github.com/Zelun-He/gene_classifier_project', label: 'View code' }]
+      summary: 'Benchmarks DNA representations against simple sequence features on 809 genes; short fine-tuning showed no established advantage.',
+      objectives: ['Completed 40 fresh DNABERT fits with fixed nested gene and homology-grouped folds.', 'Audited gene-level predictions and reported paired uncertainty intervals. Working manuscript, not peer reviewed.'],
+      art: { src: 'research/dnabert-cds/results-figure.png', alt: 'Balanced accuracy and uncertainty intervals for six gene classification methods' },
+      links: [{ href: '/research/dnabert-cds/', label: 'Read research' }, { href: 'https://github.com/Zelun-He/gene_classifier_project', label: 'View code' }]
     },
     {
       name: 'Transformer Research', role: 'Published time series research', dates: '2025 – 2026', status: 'Selected project', category: 'research',
@@ -273,7 +273,7 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
   if (archiveCount) archiveCount.textContent = String(archiveEntries.length);
   grid.innerHTML = archiveEntries.map(entry => {
     const actions = entry.links?.map(link => {
-      const label = link.href.includes('github.com') ? 'View code' : link.href.includes('staging-') ? 'View preview' : link.label.toLowerCase().includes('app') ? 'Open app' : 'Visit website';
+      const label = link.href.includes('github.com') ? 'View code' : link.href.includes('staging-') ? 'View preview' : link.label.toLowerCase().includes('app') ? 'Open app' : link.label === 'Read research' ? 'Read research' : 'Visit website';
       return `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${label} ↗</a>`;
     }).join('') || '';
     return `<article class="project-card" data-project-category="${escapeHTML(entry.category)}">
