@@ -21,7 +21,8 @@
   const character = document.getElementById('karp-character');
   const line = document.getElementById('karp-line');
   const scene = document.getElementById('karp-scene');
-  if (!character || !line || !scene) return;
+  const dialogue = document.getElementById('karp-dialogue');
+  if (!character || !line || !scene || !dialogue) return;
   const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const replies = [
     'Magikarp used SPLASH! But nothing happened…',
@@ -31,9 +32,15 @@
   ];
   let splashes = 0;
   let timer = null;
+  function dismissDialogue() {
+    dialogue.hidden = true;
+    character.setAttribute('aria-expanded', 'false');
+  }
   character.addEventListener('click', () => {
     if (timer !== null) return;
     line.textContent = replies[splashes % replies.length];
+    dialogue.hidden = false;
+    character.setAttribute('aria-expanded', 'true');
     splashes++;
     if (motion.matches) return;
     scene.classList.add('is-splashing');
@@ -41,6 +48,12 @@
       scene.classList.remove('is-splashing');
       timer = null;
     }, 850);
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape') dismissDialogue();
+  });
+  document.addEventListener('click', event => {
+    if (!character.contains(event.target) && !dialogue.contains(event.target)) dismissDialogue();
   });
   motion.addEventListener('change', () => {
     if (!motion.matches) return;

@@ -2,6 +2,7 @@
 .magikarp-only { display: none; }
 .brand-group { display: flex; align-items: center; gap: 24px; }
 .site-header .world-switch { display: flex; gap: 0; padding: 3px; border: 1px solid var(--line-subtle); }
+.site-header .world-switch[hidden], .hero-actions [data-world-entry][hidden] { display: none; }
 .site-header .world-switch a { min-height: 34px; padding: 7px 10px; color: var(--paper-2); font: 12px/1.5 'DM Mono',monospace; letter-spacing: 0; }
 .site-header .world-switch a[aria-current='true'] { color: var(--forest); background: var(--stone); }
 .site-header .world-switch a:hover { background: var(--forest-2); color: var(--paper); }
@@ -57,46 +58,43 @@ html[data-world='magikarp'] .map-actions .map-actions__contact { color: #fff9e8;
 html[data-world='magikarp'] .map-actions .map-actions__contact:hover { background: #92342c; }
 html[data-world='magikarp'] .map-progress-track { height: 6px; background: #d6dfcd; }
 
-/* Clean résumé copy beside a playable little slice of the coast. */
-html[data-world='magikarp'] .hero { background: #faf7e8; background-image: radial-gradient(#d9deca 1px,transparent 1px); background-size: 12px 12px; min-height: 0; }
-html[data-world='magikarp'] .hero::before { display: none; }
-html[data-world='magikarp'] .hero::after { background: #b9c7af; }
-html[data-world='magikarp'] .hero-inner { display: grid; grid-template-columns: minmax(0,.95fr) minmax(0,1.05fr); gap: clamp(28px,4vw,64px); min-height: 0; padding-block: 52px 62px; }
-html[data-world='magikarp'] .hero-copy { max-width: 590px; padding-block: 4px; }
-html[data-world='magikarp'] .hero .eyebrow { color: #526456; }
-html[data-world='magikarp'] .current-role { color: #344e5e; background: #e7efdc; border: 1px solid #b1c1a4; }
-html[data-world='magikarp'] .hero h1 { font-size: clamp(29px,3.65vw,54px); color: #263c50; text-shadow: 3px 4px 0 #d9e0cb; }
-html[data-world='magikarp'] .hero h1 span { color: #b74136; }
-html[data-world='magikarp'] .hero-intro { color: #455467; font-size: 17px; text-shadow: none; }
-html[data-world='magikarp'] .hero-intro strong { color: #263c50; font-size: clamp(22px,2vw,27px); }
+/* The coast spans the hero, matching the forest world's full-width scenery. */
+html[data-world='magikarp'] .hero { min-height: 520px; background: #2c84a8 url('Images/magikarp-coast.webp') center 47% / cover no-repeat; image-rendering: pixelated; }
+html[data-world='magikarp'] .hero::before { display: block; background: linear-gradient(90deg,#14384ff5 0%,#14384feb 36%,#14384fb8 49%,#14384f33 67%,transparent 83%); }
+html[data-world='magikarp'] .hero::after { background: #3f7381; }
+html[data-world='magikarp'] .hero-inner { display: grid; grid-template-columns: minmax(0,1fr); gap: 0; min-height: 520px; padding-block: 38px 46px; }
+html[data-world='magikarp'] .hero-copy { max-width: 600px; padding-block: 10px; }
+html[data-world='magikarp'] .hero .eyebrow { color: #fff2d2; }
+html[data-world='magikarp'] .hero .eyebrow-mark { color: #ffd29b; }
+html[data-world='magikarp'] .current-role { color: #fff9e8; background: #143f59dc; border: 1px solid #7fa6b0; }
+html[data-world='magikarp'] .hero h1 { color: #fff9e8; text-shadow: 4px 5px 0 #102f44; }
+html[data-world='magikarp'] .hero h1 span { color: #ffc48f; }
+html[data-world='magikarp'] .hero-intro { color: #eef3e7; font-size: 18px; text-shadow: 0 1px 4px #14384f; }
+html[data-world='magikarp'] .hero-intro strong { color: #fffdf2; font-size: 23px; }
 html[data-world='magikarp'] .hero-summary { text-wrap: pretty; }
-html[data-world='magikarp'] .button-primary { color: #fff9e8; background: #b74136; border: 2px solid #81322c; box-shadow: 3px 3px 0 #d7b5a4; }
+html[data-world='magikarp'] .button-primary { color: #fff9e8; background: #b74136; border: 2px solid #e3a38d; box-shadow: 3px 3px 0 #102f44; }
 html[data-world='magikarp'] .button-primary:hover { background: #92342c; transform: translateY(-2px); }
 html[data-world='magikarp'] .text-link { color: #263c50; background: #fffdf2; border: 2px solid #718c94; }
 html[data-world='magikarp'] .text-link:hover { background: #e7efdc; }
-html[data-world='magikarp'] .hero-socials { color: #455467; }
+html[data-world='magikarp'] .hero-socials { color: #fff2d2; }
+html[data-world='magikarp'] .hero-socials a { text-decoration-color: #9fc4c6; }
+html[data-world='magikarp'] .hero-socials a:hover { color: #ffd29b; }
 html[data-world='magikarp'] .hero-relic-art, html[data-world='magikarp'] .hero-relic, html[data-world='magikarp'] .hero-relic__message, html[data-world='magikarp'] .jake-conversation { display: none !important; }
-html[data-world='magikarp'] .karp-world { display: grid; align-self: center; min-width: 0; border: 4px solid #344e62; background: #fffdf2; box-shadow: 7px 7px 0 #b9c8ae; }
-.karp-world__bar { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px; padding: 12px 14px; color: #fff9e8; background: #b74136; border-bottom: 3px solid #344e62; font: 12px/1.5 'DM Mono',monospace; letter-spacing: .04em; }
-.karp-world__edition { color: #fff9e8; font-size: 12px; }
-.karp-world__scene { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: #57b8c3; }
-.karp-world__landscape { display: block; width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
-.karp-world__location { position: absolute; top: 14px; left: 14px; padding: 7px 10px; color: #263c50; background: #fff9e8; border: 2px solid #344e62; box-shadow: 2px 2px 0 #344e6240; font: 12px/1.4 'DM Mono',monospace; }
-.karp-character { position: absolute; z-index: 2; left: 64%; top: 52%; width: 34%; min-width: 80px; padding: 8px; border: 0; background: transparent; cursor: pointer; transform: translate(-50%,-50%); animation: karp-idle 2.6s steps(4,end) infinite; -webkit-tap-highlight-color: transparent; }
+html[data-world='magikarp'] .karp-world { position: absolute; z-index: 2; inset: 0; display: block; pointer-events: none; }
+.karp-world__scene { position: absolute; inset: 0; overflow: hidden; }
+.karp-character { position: absolute; z-index: 2; left: 79%; top: 51%; width: clamp(140px,15vw,216px); padding: 8px; border: 0; background: transparent; pointer-events: auto; cursor: pointer; transform: translate(-50%,-50%); animation: karp-idle 2.6s steps(4,end) infinite; -webkit-tap-highlight-color: transparent; }
 .karp-character img { display: block; width: 100%; height: auto; image-rendering: pixelated; filter: drop-shadow(2px 3px 0 #28728b66); }
 .karp-character:hover img { filter: drop-shadow(2px 3px 0 #28728b66) brightness(1.06); }
 .karp-character:focus-visible { outline: 3px dashed #263c50; outline-offset: 0; }
-.karp-world__ripple { position: absolute; left: 64%; top: 68%; width: 28%; height: 7%; border: 3px solid #d6f9e5; border-radius: 50%; background: #3e9fbe66; box-shadow: 0 3px 0 #3e9fbe; }
+.karp-character::after { content: 'Use Splash'; position: absolute; left: 50%; bottom: -24px; transform: translateX(-50%); padding: 6px 9px; color: #fff9e8; background: #14384f; font: 12px/1.5 'DM Mono',monospace; white-space: nowrap; opacity: 0; }
+.karp-character:hover::after, .karp-character:focus-visible::after { opacity: 1; }
+.karp-world__ripple { position: absolute; left: 79%; top: calc(51% + clamp(45px,5vw,72px)); width: clamp(130px,14vw,200px); height: 22px; border: 3px solid #d6f9e5; border-radius: 50%; background: #3e9fbe66; box-shadow: 0 3px 0 #3e9fbe; }
 .karp-world__ripple::before, .karp-world__ripple::after { content: ''; position: absolute; left: 10%; bottom: 60%; width: 8px; height: 8px; background: #e5fff0; opacity: 0; }
 .karp-world__ripple::after { left: auto; right: 10%; width: 6px; height: 6px; }
-.karp-world__badge { position: absolute; right: 12px; bottom: 12px; display: grid; grid-template-columns: 1fr auto; gap: 5px 12px; padding: 9px 11px; color: #263c50; background: #fff9e8; border: 2px solid #344e62; font: 12px/1.4 'DM Mono',monospace; }
-.karp-world__badge > span:first-child { grid-column: 1/-1; color: #526456; }
-.karp-world__badge strong { font-weight: 500; }
-.karp-world__type { padding: 0 5px; color: #fff; background: #286b91; }
-.karp-dialogue { position: relative; min-height: 113px; padding: 18px 34px 18px 20px; border-top: 4px solid #344e62; background: #fffdf2; box-shadow: inset 0 0 0 4px #c0cfbb,inset 0 0 0 7px #fffdf2; }
+.karp-dialogue { position: absolute; right: 6%; bottom: 28px; width: min(360px,calc(100% - 72px)); padding: 15px 18px; border: 2px solid #344e62; background: #fffdf2; box-shadow: 3px 3px 0 #14384f66; pointer-events: auto; }
+.karp-dialogue[hidden] { display: none; }
 .karp-dialogue__name { display: block; margin-bottom: 7px; color: #9b342b; font: 12px/1.5 'DM Mono',monospace; letter-spacing: .08em; }
 .karp-dialogue p { margin: 0; color: #263c50; font: 16px/1.5 'DM Mono',monospace; }
-.karp-dialogue__arrow { position: absolute; right: 16px; bottom: 15px; color: #b74136; font-size: 15px; }
 .is-splashing .karp-character { animation: karp-splash .85s steps(6,end) both; }
 .is-splashing .karp-world__ripple { animation: karp-ripple .85s steps(4,end) both; }
 .is-splashing .karp-world__ripple::before, .is-splashing .karp-world__ripple::after { animation: karp-droplet .85s steps(4,end) both; }
@@ -179,33 +177,24 @@ html[data-world='magikarp'] .image-viewer__close { color: #263c50; background: #
 html[data-world='magikarp'] .image-viewer__image { background: #dbe6d6; }
 
 @media (max-width: 1100px) {
-  .brand-group { gap: 16px; }
-  .header-inner { flex-wrap: wrap; padding-block: 14px; gap: 12px; }
-  .site-header nav:not(.world-switch) { margin-left: auto; }
-  html[data-world='magikarp'] .hero-inner { gap: 28px; }
+  html[data-world='magikarp'] .hero-copy { max-width: 54%; }
   html[data-world='magikarp'] .hero h1 { font-size: clamp(28px,3.5vw,42px); }
-  .karp-world__bar { padding: 10px; gap: 4px; }
-  .karp-world__edition { display: none; }
 }
 @media (max-width: 850px) {
-  html[data-world='magikarp'] .hero-inner { grid-template-columns: 1fr; gap: 32px; padding-block: 38px 48px; }
+  html[data-world='magikarp'] .hero { min-height: 0; background-position: 70% center; }
+  html[data-world='magikarp'] .hero::before { background: linear-gradient(180deg,#14384ff5 0%,#14384fef 74%,#14384f70 88%,transparent); }
+  html[data-world='magikarp'] .hero-inner { min-height: 0; padding-block: 38px 180px; }
   html[data-world='magikarp'] .hero-copy { max-width: 650px; }
   html[data-world='magikarp'] .hero h1 { font-size: clamp(32px,6vw,52px); }
-  html[data-world='magikarp'] .karp-world { width: min(100%,620px); justify-self: center; }
-  .karp-world__edition { display: block; }
-  .karp-world__scene { aspect-ratio: 4 / 3; }
+  .karp-character { left: 74%; top: calc(100% - 94px); width: 140px; }
+  .karp-world__ripple { left: 74%; top: calc(100% - 48px); width: 130px; }
+  .karp-dialogue { right: 18px; bottom: 164px; width: min(320px,calc(100% - 36px)); }
 }
 @media (max-width: 680px) {
-  .brand-group { width: 100%; justify-content: space-between; gap: 12px; }
-  .site-header .world-switch a { min-height: 38px; padding: 8px 14px; }
-  .site-header nav:not(.world-switch) { width: 100%; justify-content: space-between; margin-left: 0; }
   html[data-world='magikarp'] .map-character { width: 44px; }
   html[data-world='magikarp'] .hero h1 { font-size: clamp(28px,7vw,42px); }
   html[data-world='magikarp'] .hero-intro { font-size: 16px; }
   html[data-world='magikarp'] .hero-intro strong { font-size: 23px; }
-  .karp-world__bar { padding: 10px; }
-  .karp-world__edition { font-size: 12px; }
-  .karp-world__location { left: 8px; top: 8px; font-size: 12px; padding: 5px 7px; }
   .karp-dialogue { padding: 16px 28px 16px 16px; }
   .karp-dialogue p { font-size: 14px; }
   html[data-world='magikarp'] .quest-tab { font-family: 'DM Mono',monospace; font-size: 14px; }
@@ -218,8 +207,6 @@ html[data-world='magikarp'] .image-viewer__image { background: #dbe6d6; }
   html[data-world='magikarp'] .map-actions { flex-direction: row; gap: 8px; }
   html[data-world='magikarp'] .map-actions a { flex: 1; }
   html[data-world='magikarp'] section, html[data-world='magikarp'] #experience, html[data-world='magikarp'] .project-archive__body { scroll-margin-top: 180px; }
-  .karp-world__edition { display: none; }
-  .karp-world__badge { right: 8px; bottom: 8px; padding: 6px 8px; gap: 3px 8px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .karp-character, .karp-world__ripple, .karp-world__ripple::before, .karp-world__ripple::after { animation: none !important; }

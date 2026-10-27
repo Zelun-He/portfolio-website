@@ -1,8 +1,10 @@
 # Magikarp World artwork
 
 The alternate portfolio theme is available at `/?world=magikarp`. Both worlds
-use the same content and project links. The original forest is the default;
-the header switch opens either shareable world.
+use the same content and project links. The original forest is the default.
+The world switch and résumé-game entry link are temporarily hidden; direct
+preview URLs still work. The coastal art fills the entire hero, with the
+character integrated into the water and a message shown only after Splash.
 
 Both raster assets were created with the built-in image-generation tool.
 They are original generated assets inspired by the requested handheld game
@@ -25,7 +27,7 @@ Create one charming pixel art Magikarp on a transparent background for a persona
 
 - `world-theme-init.js` reads the query before paint and preloads the selected world's background.
 - `magikarp-world.css` scopes the palette, tiled scenery, dialogue frames, and animation to the selected world. The switch layout is shared.
-- `world-theme.js` loads the themed hero/portrait and handles Splash without a modal. It supports keyboard activation and reduced motion.
+- `world-theme.js` loads the character/portrait and handles Splash without a modal. It supports keyboard activation, reduced motion, and message dismissal with Escape or an outside click.
 - `script.js` uses Magikarp as the map character in this world.
 - `sanctuary.js` keeps the forest discoveries exclusive to the forest world.
 
@@ -34,3 +36,7 @@ desktop preview; 390px and 320px iframe viewport checks; Splash; map travel;
 Research shortcut selection; screenshot viewer open/Escape/focus restoration;
 and switching back to the original forest. The new theme's computed text
 colors were checked for contrast on their solid backgrounds.
+
+The full-bleed revision also verifies that the scene matches the entire hero
+at desktop and phone widths, that Magikarp stays below the copy on phones,
+and that both new-world entry links are hidden on the default forest page.
