@@ -421,9 +421,9 @@ h1, h2, h3, h4, p { margin-top: 0; }
 .contact-intro span { color: var(--stone); white-space: nowrap; }
 .contact-options { display: grid; gap: 3px; margin-bottom: 62px; }
 .contact-option { display: flex; align-items: baseline; gap: 24px; width: fit-content; max-width: 100%; min-height: 69px; padding: 10px 8px 10px 58px; position: relative; color: var(--paper); font-size: clamp(19px,2vw,29px); line-height: 1.45; transition: color .15s; }
-.contact-option-pointer { position: absolute; left: 0; top: 10px; color: #bfe6b2; opacity: 0; font-size: .8em; }
+.contact-option-pointer { position: absolute; left: 0; top: 17px; width: clamp(20px,2.1vw,28px); aspect-ratio: 1; background: #edc342; opacity: 0; font-size: 0; clip-path: polygon(10% 10%,30% 10%,30% 20%,60% 20%,60% 10%,80% 10%,80% 20%,100% 20%,100% 50%,90% 50%,90% 60%,80% 60%,80% 70%,70% 70%,70% 80%,60% 80%,60% 90%,40% 90%,40% 80%,30% 80%,30% 70%,20% 70%,20% 60%,10% 60%,10% 50%,0 50%,0 20%,10% 20%); }
 .contact-option-note { color: #b7bfb1; font-size: .74em; overflow-wrap: anywhere; }
-.contact-option.is-selected, .contact-option:hover, .contact-option:focus-visible { color: #bfe6b2; }
+.contact-option.is-selected, .contact-option:hover, .contact-option:focus-visible { color: #edc342; }
 .contact-option.is-selected .contact-option-pointer, .contact-option:hover .contact-option-pointer, .contact-option:focus-visible .contact-option-pointer { opacity: 1; }
 .contact-option:focus-visible { outline-offset: 1px; }
 .contact-menu-footer { display: flex; justify-content: space-between; gap: 20px; border-top: 3px dotted var(--stone-deep); padding-top: 30px; color: #bcc5b6; font-size: clamp(14px,1.5vw,21px); line-height: 1.5; }
