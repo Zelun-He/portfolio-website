@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 160" fill="none" shape-rendering="crispEdges">
+  <defs><radialGradient id="glow"><stop stop-color="#d8a851" stop-opacity=".23"/><stop offset="1" stop-color="#d8a851" stop-opacity="0"/></radialGradient></defs>
+  <ellipse cx="126" cy="91" rx="106" ry="67" fill="url(#glow)"/>
+  <path d="M28 135h32v-5h26v5h76v-5h30v5h22v5H28z" fill="#6c785f" opacity=".32"/>
+  <path d="M80 120h16v5h16v5h16v5h28v-10h-16v-5h-16v-5h-16v-5H80z" fill="#61513b"/>
+  <path d="M92 128h28v-5h20v-5h28v10h-20v5h-28v5H92z" fill="#8d7049"/>
+  <path d="M105 116v-12h-7V88h8V76h8V58h8v12h8v12h8V66h8v22h8v26h-8v8h-33v-6z" fill="#b96c2b"/>
+  <path d="M114 114V98h7V84h8v14h8v-7h8v24h-9v7h-15v-8z" fill="#e0a347"/>
+  <path d="M123 115v-11h7v-9h6v20h-6v7h-7z" fill="#f3d88e"/>
+  <path d="M118 46h5v8h-5zM140 34h4v6h-4zM152 57h4v5h-4z" fill="#b7823a"/>
+  <path d="M43 94h6v-9h6v-8h6v8h6v9h6v8H43zM180 105h6V94h7V82h7v12h7v11h6v8h-33z" fill="#64765a" opacity=".7"/>
+  <path d="M55 102h6v25h-6zM193 113h7v17h-7z" fill="#64765a" opacity=".7"/>
+</svg>

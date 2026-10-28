@@ -566,3 +566,97 @@ body.image-viewer-open { overflow: hidden; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
   .reveal { opacity: 1; transform: none; }
 }
+
+/* Adventure journal: parchment pages, charcoal panels, and warm wayfinding. */
+html[data-world='forest'] {
+  --journal-ivory: #eae5d8;
+  --journal-stone: #d4d3c8;
+  --journal-ink: #29352d;
+  --journal-slate: #202729;
+  --journal-amber: #d4b578;
+}
+html[data-world='forest'] :is(.quest-work,.about,.contact-section) { color-scheme: light; }
+html[data-world='forest'] .quest-work {
+  --quest-deep: #242c2b; --quest-moss: #303a35; --quest-olive: #899a74;
+  --quest-stone: #d3bd8a; --quest-stone-dim: #64735b; --quest-cream: #f0eadc;
+  --quest-muted: #c2c4b6; --quest-leaf: #bbcda1; --line-subtle: #5a6459;
+  color: #e1dfd3; background: var(--journal-ivory); border-top-color: #c8c3b2;
+}
+html[data-world='forest'] .quest-work .section-kicker { color: #526346; }
+html[data-world='forest'] .quest-work__title { color: var(--journal-ink); text-shadow: 3px 3px 0 #d1c4a7; }
+html[data-world='forest'] .quest-frame { box-shadow: inset 0 0 0 4px #242c2b,inset 0 0 0 6px #64735b,8px 8px 0 #c5bdab; }
+html[data-world='forest'] .quest-entry[aria-selected='true'] { background: #3c493b; }
+html[data-world='forest'] .quest-reward { background: #303831; }
+html[data-world='forest'] :is(.quest-art,.quest-art img) { background: #1d2624; }
+
+html[data-world='forest'] .projects-section {
+  --paper: #f0eadd; --paper-2: #d2d3c9; --stone: #d4b578; --stone-light: #ead9b4;
+  --stone-deep: #7c846d; --sage: #bdcaa8; --line-subtle: #505951; --teal: #f0c88a;
+  background: radial-gradient(ellipse at 94% 5%,#ad8b4b12,transparent 42%),radial-gradient(ellipse at 0 85%,#6c826111,transparent 40%),var(--journal-slate);
+  border-top-color: #424c43;
+}
+html[data-world='forest'] :is(.featured-card,.project-card) { background: #29312f; border-color: #505951; box-shadow: 0 5px 0 #141a1a66; }
+html[data-world='forest'] :is(.featured-card__media,.project-card__image) { background-color: #222b27; }
+html[data-world='forest'] :is(.featured-card__media > span,.project-card__actions) { background: #202827f5; }
+html[data-world='forest'] .featured-card__media:hover > span { background: #3b4938; }
+html[data-world='forest'] :is(.featured-card__footer,.project-experience) { border-top-color: #505951; }
+html[data-world='forest'] .next-project { background: #29312f; }
+html[data-world='forest'] .next-project__visual { background: #222b29; }
+html[data-world='forest'] .next-project__stack li { background: #3a4436; }
+html[data-world='forest'] .project-archive { background: #2b332f; }
+html[data-world='forest'] .project-archive__body { background: #202729; }
+html[data-world='forest'] .project-archive__preview { background: #202928; }
+html[data-world='forest'] .project-archive__preview:hover { background: #3a4636; }
+html[data-world='forest'] .project-filter { background: #29312f; }
+html[data-world='forest'] .project-filter[aria-pressed='true'],html[data-world='forest'] .project-filter:hover { background: #d4b578; }
+html[data-world='forest'] .graveyard-update { background: #29312f; border-color: #677358; border-radius: 0; color: #f0eadd; }
+html[data-world='forest'] :is(.graveyard-update small,.graveyard-update__arrow) { color: #e3c58f; }
+html[data-world='forest'] .graveyard-update > span > span { color: #d0d2c5; }
+
+html[data-world='forest'] .about {
+  --paper: #29352d; --paper-2: #475347; --stone: #4b6043; --stone-light: #344333;
+  --stone-deep: #899477; --line-subtle: #9ca68f; --teal: #805822;
+  position: relative; isolation: isolate; overflow: hidden;
+  color: #475347; background: var(--journal-stone); border-top-color: #b4b6a6;
+}
+html[data-world='forest'] .about::after { content: ''; position: absolute; z-index: -1; inset: auto 0 0; height: 180px; background: url('Images/journal-landscape.svg') bottom center / cover no-repeat; opacity: .17; pointer-events: none; }
+html[data-world='forest'] .about .about__title { color: #29352d; text-shadow: 3px 3px 0 #b7baa9; }
+html[data-world='forest'] :is(.about__body p,.items li) { color: #414e43; }
+html[data-world='forest'] .about .about__body .about__lead { color: #29352d; }
+html[data-world='forest'] .hero-card__frame { border-color: #6b7b59; box-shadow: inset 0 0 0 4px #202b24,inset 0 0 0 6px #8c9b78; }
+html[data-world='forest'] .hero-card__plate { background: #eeeadd; border-color: #a2ad92; }
+html[data-world='forest'] .hero-card__meta { color: #53614e; }
+html[data-world='forest'] .items__icon { background: #2e3a2d; border-color: #6a795b; }
+html[data-world='forest'] .inventory__slots li { background: #ece8da; color: #344335; border: 1px solid #a4af94; }
+
+html[data-world='forest'] .arcade-section {
+  --paper: #f0eadd; --stone: #c6ab74; --stone-light: #eee0bd; --stone-deep: #7f856b;
+  background: radial-gradient(ellipse at 77% 50%,#c8914217,transparent 58%),#1c2426;
+  border-top-color: #4d5848;
+}
+html[data-world='forest'] .arcade-copy .eyebrow { color: #dac28e; }
+html[data-world='forest'] .game-frame { box-shadow: 0 0 0 4px #343d30,10px 10px 0 #101918,0 0 64px #c28e3514; }
+html[data-world='forest'] :is(.game-screen-bar,.tetris-controls) { background: #313b32; }
+html[data-world='forest'] :is(.game-mode-switch button,.game-toggle) { background: #252f29; }
+html[data-world='forest'] .game-mode-switch button[aria-pressed='true'] { background: #c6ab74; }
+
+.journal-campfire { display: none; }
+html[data-world='forest'] .contact-section {
+  --paper: #29352d; --stone: #536749; --stone-deep: #8d9b7a; --stone-light: #29352d; --teal: #805822;
+  color: #29352d; background: radial-gradient(ellipse at 93% 0,#d7c49d77,transparent 45%),var(--journal-ivory); border-top-color: #c1b99e;
+}
+html[data-world='forest'] .contact-section > .wrap { position: relative; }
+html[data-world='forest'] .contact-title { color: #29352d; text-shadow: 5px 5px 0 #d1c5a8; }
+html[data-world='forest'] .journal-campfire { display: block; position: absolute; right: 0; top: 0; width: clamp(96px,18vw,220px); height: auto; pointer-events: none; }
+html[data-world='forest'] .contact-menu { color: #29352d; background: #f5f0e4; border-color: #7c8b69; box-shadow: inset 0 0 0 9px #d9dfcc,9px 9px 0 #cec5ad; }
+html[data-world='forest'] .contact-menu-tab { color: #f5f0e4; background: #4d6448; }
+html[data-world='forest'] .contact-option { color: #29352d; }
+html[data-world='forest'] :is(.contact-option.is-selected,.contact-option:hover,.contact-option:focus-visible) { color: #80551c; }
+html[data-world='forest'] .contact-option-pointer { background: #946a26; }
+html[data-world='forest'] .contact-option-note { color: #586451; }
+html[data-world='forest'] .contact-menu-footer { color: #53604f; border-top-color: #9da88b; }
+html[data-world='forest'] .contact-section footer { color: #53604f; }
+html[data-world='forest'] .contact-section footer a:hover { color: #80551c; }
+@media (max-width: 680px) {
+  html[data-world='forest'] .contact-menu { box-shadow: inset 0 0 0 5px #d9dfcc,6px 6px 0 #cec5ad; }
+}
