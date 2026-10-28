@@ -159,6 +159,42 @@ const PROJECT_ENTRIES = [...QUEST_ENTRIES.side].sort((a, b) => {
 QUEST_ENTRIES.side = QUEST_ENTRIES.side.filter(entry => entry.current).map(entry => ({ ...entry, status: entry.status === 'Selected project' ? 'Current project' : entry.status }));
 const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const isPastEntry = entry => entry.status === 'Internship' || entry.status === 'Research appointment';
+const PROJECT_PREVIEWS = {
+  "Images/scribsy.png": {
+    "src": "Images/previews/scribsy.webp",
+    "width": 800,
+    "height": 461
+  },
+  "narrator-dashboard.webp": {
+    "src": "Images/previews/narrator.webp",
+    "width": 800,
+    "height": 461
+  },
+  "holcomb-tree-service.webp": {
+    "src": "Images/previews/holcomb.webp",
+    "width": 800,
+    "height": 461
+  },
+  "Images/eastern-asteria-home.webp": {
+    "src": "Images/previews/eastern-asteria.webp",
+    "width": 320,
+    "height": 178
+  },
+  "Images/gene-classifier.png": {
+    "src": "Images/previews/gene-classifier.webp",
+    "width": 320,
+    "height": 238
+  },
+  "Images/space-invaders.png": {
+    "src": "Images/previews/space-invaders.webp",
+    "width": 320,
+    "height": 357
+  }
+};
+const projectImage = art => {
+  const preview = PROJECT_PREVIEWS[art.src];
+  return `src="${escapeHTML(preview?.src || art.src)}"${preview ? ` width="${preview.width}" height="${preview.height}"` : ''}`;
+};
 
 (() => {
   const list = document.getElementById('quest-list');
@@ -183,7 +219,7 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
       <ul class="quest-objectives">${entry.objectives.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>
       ${entry.rewards?.length ? `<h4>Results</h4><div class="quest-rewards">${entry.rewards.map(([number, label]) => `<div class="quest-reward"><b>${escapeHTML(number)}</b><span>${escapeHTML(label)}</span></div>`).join('')}</div>` : ''}
       ${entry.links?.length ? `<div class="quest-detail__links">${entry.links.map(link => `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHTML(link.label)} ↗</a>`).join('')}</div>` : ''}
-      <a class="quest-art" href="${escapeHTML(entry.art.src)}" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer" aria-label="Open full image: ${escapeHTML(entry.name)}"><img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"><span>View full image</span></a>`;
+      <a class="quest-art" href="${escapeHTML(entry.art.src)}" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer" aria-label="Open full image: ${escapeHTML(entry.name)}"><img ${projectImage(entry.art)} alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"><span>View full image</span></a>`;
     detail.querySelector('img')?.addEventListener('load', () => window.dispatchEvent(new Event('resize')), { once: true });
   }
 
@@ -292,7 +328,7 @@ const isPastEntry = entry => entry.status === 'Internship' || entry.status === '
     return `<article class="project-card" data-project-category="${escapeHTML(entry.category)}">
       <div class="project-card__media">
         <div class="project-card__image" data-preview-frame="${escapeHTML(entry.art.frame || 'screen')}">
-          <div class="project-card__viewport"><img src="${escapeHTML(entry.art.src)}" alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"></div>
+          <div class="project-card__viewport"><img ${projectImage(entry.art)} alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"></div>
         </div>
         <nav class="project-card__actions" aria-label="${escapeHTML(entry.name)} preview actions">
           ${actions}

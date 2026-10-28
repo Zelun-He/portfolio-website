@@ -4,21 +4,42 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#142e21">
-  <script src="world-theme-init.js"></script>
+  <script>
+// Resolve the shareable world choice before the first paint.
+(() => {
+  const isMagikarp = new URLSearchParams(window.location.search).get('world') === 'magikarp';
+  document.documentElement.dataset.world = isMagikarp ? 'magikarp' : 'forest';
+  const themeColor = document.querySelector('meta[name="theme-color"]');
+  if (isMagikarp && themeColor) themeColor.content = '#b74136';
+  const preload = document.createElement('link');
+  preload.rel = 'preload';
+  preload.as = 'image';
+  preload.href = isMagikarp ? 'Images/magikarp-coast.webp' : window.matchMedia('(max-width: 850px)').matches ? 'hero-forest-sanctuary-mobile.webp' : 'hero-forest-sanctuary-optimized.webp';
+  preload.fetchPriority = 'high';
+  document.head.append(preload);
+})();
+  </script>
   <meta name="description" content="Zelun He is a full-stack software engineer at Arrows Up. Explore client web platforms, Scribsy, Narrator, and published machine learning research.">
   <title>Zelun He | Full-Stack Software Engineer</title>
   <link rel="icon" href="/favicon.ico?v=z-dot-black-20261022" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=z-dot-black-20261022">
   <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=z-dot-black-20261022">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=z-dot-black-20261022">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Press+Start+2P&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="preload" href="fonts/space-grotesk-v22-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/press-start-2p-v16-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/dm-mono-v16-latin-400.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/dm-mono-v16-latin-500.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="retro.css">
   <link rel="stylesheet" href="sanctuary.css">
   <link rel="stylesheet" href="/projects/screenshot-graveyard/portfolio-entry.css">
-  <link rel="stylesheet" href="/research/research.css">
-  <link rel="stylesheet" href="magikarp-world.css">
+  <script>
+    if (document.documentElement.dataset.world === 'magikarp') {
+      const styles = document.createElement('link');
+      styles.rel = 'stylesheet';
+      styles.href = 'magikarp-world.css';
+      document.head.append(styles);
+    }
+  </script>
   <script src="script.js" defer></script>
   <script src="quest-log.js" defer></script>
   <script src="game.js" defer></script>
@@ -51,7 +72,7 @@
         <a class="map-stop" href="#projects" data-map-stop="projects" style="--x:50%;--y:64%" aria-label="Projects"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">Projects</span><span class="map-label-short">Proj.</span></span></a>
         <a class="map-stop" href="#about" data-map-stop="about" style="--x:70%;--y:60%" aria-label="About"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label">About</span></a>
         <a class="map-stop" href="#contact" data-map-stop="contact" style="--x:90%;--y:58%" aria-label="Contact"><span class="map-stop-pin" aria-hidden="true"></span><span class="map-stop-label"><span class="map-label-full">Contact</span><span class="map-label-short">Mail</span></span></a>
-        <img class="map-character" id="map-character" src="map-character-idle.png" alt="" width="128" height="192" decoding="async">
+        <img class="map-character" id="map-character" src="map-character-idle.webp" alt="" width="128" height="192" decoding="async">
       </div>
       <div class="map-tools">
         <div class="map-actions" role="group" aria-label="Quick contact and résumé">
@@ -64,7 +85,7 @@
   </nav>
   <main id="main">
     <section class="hero" id="top" aria-labelledby="hero-title">
-      <div class="hero-relic-art" aria-hidden="true"><img class="hero-jake" id="jake-brick" src="Images/jake-brick-pillar.webp" alt="" width="256" height="575" decoding="async" hidden></div>
+      <div class="hero-relic-art" aria-hidden="true"><img class="hero-jake" id="jake-brick" src="Images/jake-brick-pillar-optimized.webp" alt="" width="256" height="575" decoding="async" hidden></div>
       <div class="hero-inner wrap">
       <div class="hero-copy">
         <p class="eyebrow"><span class="eyebrow-mark" aria-hidden="true">✦</span> ST. LOUIS, MO</p>
@@ -124,7 +145,7 @@
         <p class="projects-intro">Try a sample workflow or explore a client website. No account needed.</p>
         <div class="featured-projects" aria-label="Featured project case studies">
           <article class="featured-card" data-featured-project="Scribsy" aria-labelledby="featured-scribsy-title">
-            <a class="featured-card__media" href="https://scribsy.vercel.app/sample-visit" target="_blank" rel="noopener noreferrer" aria-label="Try Scribsy's sample visit, no account needed"><img src="Images/scribsy.png" alt="Scribsy clinical documentation dashboard with notes and calendar" loading="lazy" decoding="async"><span aria-hidden="true">TRY A SAMPLE VISIT ↗</span></a>
+            <a class="featured-card__media" href="https://scribsy.vercel.app/sample-visit" target="_blank" rel="noopener noreferrer" aria-label="Try Scribsy's sample visit, no account needed"><img src="Images/previews/scribsy.webp" width="800" height="461" alt="Scribsy clinical documentation dashboard with notes and calendar" loading="lazy" decoding="async"><span aria-hidden="true">TRY A SAMPLE VISIT ↗</span></a>
             <div class="featured-card__body">
               <p class="featured-card__category">CLINICAL DOCUMENTATION</p>
               <div class="featured-card__heading"><h3 id="featured-scribsy-title">Scribsy</h3><a class="featured-card__launch" href="https://scribsy.vercel.app/sample-visit" target="_blank" rel="noopener noreferrer" aria-label="Try Scribsy's sample visit">Try sample ↗</a></div>
@@ -149,7 +170,7 @@
             </div>
           </article>
           <article class="featured-card" data-featured-project="Narrator" aria-labelledby="featured-narrator-title">
-            <a class="featured-card__media" href="https://narrator-eight.vercel.app/demo/library" target="_blank" rel="noopener noreferrer" aria-label="Explore Narrator's sample studio, no account needed"><img src="narrator-dashboard.webp" alt="Narrator author studio with audiobook library and creation workflow" loading="lazy" decoding="async"><span aria-hidden="true">EXPLORE THE SAMPLE STUDIO ↗</span></a>
+            <a class="featured-card__media" href="https://narrator-eight.vercel.app/demo/library" target="_blank" rel="noopener noreferrer" aria-label="Explore Narrator's sample studio, no account needed"><img src="Images/previews/narrator.webp" width="800" height="461" alt="Narrator author studio with audiobook library and creation workflow" loading="lazy" decoding="async"><span aria-hidden="true">EXPLORE THE SAMPLE STUDIO ↗</span></a>
             <div class="featured-card__body">
               <p class="featured-card__category">FULL-STACK AUDIOBOOK APP</p>
               <div class="featured-card__heading"><h3 id="featured-narrator-title">Narrator</h3><a class="featured-card__launch" href="https://narrator-eight.vercel.app/demo/library" target="_blank" rel="noopener noreferrer" aria-label="Explore Narrator's sample studio">Try demo ↗</a></div>
@@ -174,7 +195,7 @@
             </div>
           </article>
           <article class="featured-card" data-featured-project="Holcomb Tree Service" aria-labelledby="featured-arrows-title">
-            <a class="featured-card__media" href="https://staging-holcomb-tree-service.arbor-alliance.workers.dev/" target="_blank" rel="noopener noreferrer" aria-label="Explore the Holcomb client website staging preview"><img src="holcomb-tree-service.webp" alt="Holcomb Tree Service website, an example of my client platform work at Arrows Up" loading="lazy" decoding="async"><span aria-hidden="true">EXPLORE THE CLIENT PREVIEW ↗</span></a>
+            <a class="featured-card__media" href="https://staging-holcomb-tree-service.arbor-alliance.workers.dev/" target="_blank" rel="noopener noreferrer" aria-label="Explore the Holcomb client website staging preview"><img src="Images/previews/holcomb.webp" width="800" height="461" alt="Holcomb Tree Service website, an example of my client platform work at Arrows Up" loading="lazy" decoding="async"><span aria-hidden="true">EXPLORE THE CLIENT PREVIEW ↗</span></a>
             <div class="featured-card__body">
               <p class="featured-card__category">PROFESSIONAL CLIENT PLATFORMS</p>
               <div class="featured-card__heading"><h3 id="featured-arrows-title">Arrows Up</h3><a class="featured-card__launch" href="https://staging-holcomb-tree-service.arbor-alliance.workers.dev/" target="_blank" rel="noopener noreferrer" aria-label="Explore the Holcomb client staging preview">Preview ↗</a></div>
@@ -209,9 +230,9 @@
               <span class="project-archive__description">Web applications, research, systems, and games.</span>
             </div>
             <div class="project-archive__previews" role="group" aria-label="Open projects by specialty">
-              <button class="project-archive__preview" type="button" data-project-shortcut="web" aria-controls="project-gallery"><img src="Images/eastern-asteria-home.webp" alt="" width="160" height="100" loading="lazy" decoding="async"><span>WEB</span></button>
-              <button class="project-archive__preview" type="button" data-project-shortcut="research" aria-controls="project-gallery"><img src="Images/gene-classifier.png" alt="" width="160" height="100" loading="lazy" decoding="async"><span>RESEARCH</span></button>
-              <button class="project-archive__preview" type="button" data-project-shortcut="systems" aria-controls="project-gallery"><img src="Images/space-invaders.png" alt="" width="160" height="100" loading="lazy" decoding="async"><span>SYSTEMS &amp; GAMES</span></button>
+              <button class="project-archive__preview" type="button" data-project-shortcut="web" aria-controls="project-gallery"><img src="Images/previews/eastern-asteria.webp" alt="" width="160" height="100" loading="lazy" decoding="async"><span>WEB</span></button>
+              <button class="project-archive__preview" type="button" data-project-shortcut="research" aria-controls="project-gallery"><img src="Images/previews/gene-classifier.webp" alt="" width="160" height="100" loading="lazy" decoding="async"><span>RESEARCH</span></button>
+              <button class="project-archive__preview" type="button" data-project-shortcut="systems" aria-controls="project-gallery"><img src="Images/previews/space-invaders.webp" alt="" width="160" height="100" loading="lazy" decoding="async"><span>SYSTEMS &amp; GAMES</span></button>
             </div>
             <div class="project-archive__action">
               <span class="project-archive__count"><span id="project-archive-count">7</span> more projects</span>

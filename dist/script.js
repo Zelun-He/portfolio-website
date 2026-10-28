@@ -10,6 +10,7 @@ const observer = new IntersectionObserver((entries) => {
 }, { threshold: 0.08 });
 
 document.querySelectorAll('.quest-frame, .hero-card, .about__story, .inventory, .projects-title, .contact-title, .contact-menu').forEach(el => {
+  if (el.getBoundingClientRect().top < window.innerHeight || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   el.classList.add('reveal');
   observer.observe(el);
 });
@@ -68,11 +69,21 @@ let runFrameInterval = null;
 let runFrame = 0;
 let lastScrollY = window.scrollY;
 const isMagikarpWorld = document.documentElement.dataset.world === 'magikarp';
-const idleSprite = isMagikarpWorld ? 'Images/magikarp-sprite.webp' : 'map-character-idle.png';
-const runSprites = isMagikarpWorld ? [idleSprite] : ['map-character-run-a.png', 'map-character-run-b.png'];
+const idleSprite = isMagikarpWorld ? 'Images/magikarp-sprite.webp' : 'map-character-idle.webp';
+const runSprites = isMagikarpWorld ? [idleSprite] : ['map-character-run-a.webp', 'map-character-run-b.webp'];
 mapCharacter.src = idleSprite;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-runSprites.forEach(src => { const image = new Image(); image.src = src; });
+// Running frames are decorative; keep them off the initial rendering path.
+let runSpritesLoaded = false;
+function loadRunSprites() {
+  if (runSpritesLoaded || reducedMotion.matches) return;
+  runSpritesLoaded = true;
+  runSprites.forEach(src => { const image = new Image(); image.src = src; });
+}
+window.addEventListener('load', () => {
+  if ('requestIdleCallback' in window) window.requestIdleCallback(loadRunSprites);
+  else window.setTimeout(loadRunSprites, 0);
+}, { once: true });
 
 function stopCharacterRunning() {
   clearInterval(runFrameInterval);
@@ -131,6 +142,7 @@ window.addEventListener('scroll', () => {
   mapCharacter.style.setProperty('--facing', scrollY < lastScrollY ? -1 : 1);
   lastScrollY = scrollY;
   if (reducedMotion.matches) return;
+  loadRunSprites();
   mapCharacter.classList.add('is-traveling');
   if (runFrameInterval === null) {
     runFrame = 0;

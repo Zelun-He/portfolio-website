@@ -1,12 +1,4 @@
-/* Two shareable worlds, one portfolio and one set of project content. */
-.magikarp-only { display: none; }
-.brand-group { display: flex; align-items: center; gap: 24px; }
-.site-header .world-switch { display: flex; gap: 0; padding: 3px; border: 1px solid var(--line-subtle); }
-.site-header .world-switch[hidden], .hero-actions [data-world-entry][hidden] { display: none; }
-.site-header .world-switch a { min-height: 34px; padding: 7px 10px; color: var(--paper-2); font: 12px/1.5 'DM Mono',monospace; letter-spacing: 0; }
-.site-header .world-switch a[aria-current='true'] { color: var(--forest); background: var(--stone); }
-.site-header .world-switch a:hover { background: var(--forest-2); color: var(--paper); }
-
+/* Additional styling loaded only for the Magikarp world. */
 html[data-world='magikarp'] {
   --forest: #faf7e8;
   --forest-2: #e7efdc;
