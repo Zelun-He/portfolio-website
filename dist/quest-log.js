@@ -196,6 +196,24 @@ const projectImage = art => {
   return `src="${escapeHTML(preview?.src || art.src)}"${preview ? ` width="${preview.width}" height="${preview.height}"` : ''}`;
 };
 
+// Pure renderers are also used by scripts/render-portfolio.mjs for stable initial HTML.
+const renderQuestDetail = entry => `
+      <span class="quest-detail__status ${isPastEntry(entry) ? 'quest-detail__status--past' : ''}">${escapeHTML(entry.status)}</span>
+      <h3>${escapeHTML(entry.name)}</h3>
+      <p class="quest-detail__meta">${[entry.role, entry.dates, entry.place].filter(Boolean).map(escapeHTML).join(' · ')}</p>
+      <p class="quest-detail__summary">${escapeHTML(entry.summary)}</p>
+      <h4>Contributions</h4>
+      <ul class="quest-objectives">${entry.objectives.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>
+      ${entry.rewards?.length ? `<h4>Results</h4><div class="quest-rewards">${entry.rewards.map(([number, label]) => `<div class="quest-reward"><b>${escapeHTML(number)}</b><span>${escapeHTML(label)}</span></div>`).join('')}</div>` : ''}
+      ${entry.links?.length ? `<div class="quest-detail__links">${entry.links.map(link => `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHTML(link.label)} ↗</a>`).join('')}</div>` : ''}
+      <a class="quest-art" href="${escapeHTML(entry.art.src)}" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer" aria-label="Open full image: ${escapeHTML(entry.name)}"><img ${projectImage(entry.art)} alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"><span>View full image</span></a>`;
+const renderQuestList = (entries, category) => entries.map((entry, index) => `
+      <button class="quest-entry" type="button" role="tab" id="quest-${category}-${index}" aria-selected="${index === 0}" aria-controls="quest-detail" tabindex="${index === 0 ? 0 : -1}" data-quest-index="${index}">
+        <span class="quest-entry__status ${isPastEntry(entry) ? 'quest-entry__status--past' : ''}">${escapeHTML(entry.status)}</span>
+        <span class="quest-entry__name">${escapeHTML(entry.name)}</span>
+        <span class="quest-entry__meta">${[entry.role, entry.dates].filter(Boolean).map(escapeHTML).join(' · ')}</span>
+      </button>`).join('');
+
 (() => {
   const list = document.getElementById('quest-list');
   const detail = document.getElementById('quest-detail');
@@ -210,16 +228,7 @@ const projectImage = art => {
     const entry = QUEST_ENTRIES[category][selected];
     const active = list.querySelector(`[data-quest-index="${selected}"]`);
     detail.setAttribute('aria-labelledby', active.id);
-    detail.innerHTML = `
-      <span class="quest-detail__status ${isPastEntry(entry) ? 'quest-detail__status--past' : ''}">${escapeHTML(entry.status)}</span>
-      <h3>${escapeHTML(entry.name)}</h3>
-      <p class="quest-detail__meta">${[entry.role, entry.dates, entry.place].filter(Boolean).map(escapeHTML).join(' · ')}</p>
-      <p class="quest-detail__summary">${escapeHTML(entry.summary)}</p>
-      <h4>Contributions</h4>
-      <ul class="quest-objectives">${entry.objectives.map(item => `<li>${escapeHTML(item)}</li>`).join('')}</ul>
-      ${entry.rewards?.length ? `<h4>Results</h4><div class="quest-rewards">${entry.rewards.map(([number, label]) => `<div class="quest-reward"><b>${escapeHTML(number)}</b><span>${escapeHTML(label)}</span></div>`).join('')}</div>` : ''}
-      ${entry.links?.length ? `<div class="quest-detail__links">${entry.links.map(link => `<a href="${escapeHTML(link.href)}" target="_blank" rel="noopener noreferrer">${escapeHTML(link.label)} ↗</a>`).join('')}</div>` : ''}
-      <a class="quest-art" href="${escapeHTML(entry.art.src)}" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer" aria-label="Open full image: ${escapeHTML(entry.name)}"><img ${projectImage(entry.art)} alt="${escapeHTML(entry.art.alt)}" loading="lazy" decoding="async"><span>View full image</span></a>`;
+    detail.innerHTML = renderQuestDetail(entry);
     detail.querySelector('img')?.addEventListener('load', () => window.dispatchEvent(new Event('resize')), { once: true });
   }
 
@@ -242,12 +251,7 @@ const projectImage = art => {
   }
 
   function renderList() {
-    list.innerHTML = QUEST_ENTRIES[category].map((entry, index) => `
-      <button class="quest-entry" type="button" role="tab" id="quest-${category}-${index}" aria-selected="${index === 0}" aria-controls="quest-detail" tabindex="${index === 0 ? 0 : -1}" data-quest-index="${index}">
-        <span class="quest-entry__status ${isPastEntry(entry) ? 'quest-entry__status--past' : ''}">${escapeHTML(entry.status)}</span>
-        <span class="quest-entry__name">${escapeHTML(entry.name)}</span>
-        <span class="quest-entry__meta">${[entry.role, entry.dates].filter(Boolean).map(escapeHTML).join(' · ')}</span>
-      </button>`).join('');
+    list.innerHTML = renderQuestList(QUEST_ENTRIES[category], category);
     selectEntry(0);
   }
 

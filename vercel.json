@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": null,
   "installCommand": "",
-  "buildCommand": "",
+  "buildCommand": "node scripts/render-portfolio.mjs",
   "outputDirectory": "dist",
   "headers": [
     {

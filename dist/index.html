@@ -131,8 +131,37 @@
             <button class="quest-tab" role="tab" id="quest-tab-side" type="button" data-quest-category="side" aria-selected="false" aria-controls="quest-log-body" tabindex="-1">Current projects</button>
           </div>
           <div class="quest-log__body" id="quest-log-body" role="tabpanel" aria-labelledby="quest-tab-main">
-            <div class="quest-list" id="quest-list" role="tablist" aria-orientation="vertical" aria-label="Work entries"></div>
-            <div class="quest-detail" id="quest-detail" role="tabpanel" tabindex="0" aria-live="polite"></div>
+            <div class="quest-list" id="quest-list" role="tablist" aria-orientation="vertical" aria-label="Work entries"><!-- INITIAL_QUEST_LIST_START -->
+      <button class="quest-entry" type="button" role="tab" id="quest-main-0" aria-selected="true" aria-controls="quest-detail" tabindex="0" data-quest-index="0">
+        <span class="quest-entry__status ">Current role</span>
+        <span class="quest-entry__name">Arrows Up</span>
+        <span class="quest-entry__meta">Software engineer · May 2026 – present</span>
+      </button>
+      <button class="quest-entry" type="button" role="tab" id="quest-main-1" aria-selected="false" aria-controls="quest-detail" tabindex="-1" data-quest-index="1">
+        <span class="quest-entry__status quest-entry__status--past">Internship</span>
+        <span class="quest-entry__name">MyOasis.ai</span>
+        <span class="quest-entry__meta">Software engineering intern · Jun 2025 – May 2026</span>
+      </button>
+      <button class="quest-entry" type="button" role="tab" id="quest-main-2" aria-selected="false" aria-controls="quest-detail" tabindex="-1" data-quest-index="2">
+        <span class="quest-entry__status quest-entry__status--past">Research appointment</span>
+        <span class="quest-entry__name">Missouri State University</span>
+        <span class="quest-entry__meta">Research assistant · deep learning · Jan – Dec 2025</span>
+      </button>
+      <button class="quest-entry" type="button" role="tab" id="quest-main-3" aria-selected="false" aria-controls="quest-detail" tabindex="-1" data-quest-index="3">
+        <span class="quest-entry__status quest-entry__status--past">Internship</span>
+        <span class="quest-entry__name">N-of-1 AI</span>
+        <span class="quest-entry__meta">Software engineering intern · Scribsy · Jun – Aug 2025</span>
+      </button><!-- INITIAL_QUEST_LIST_END --></div>
+            <div class="quest-detail" id="quest-detail" role="tabpanel" tabindex="0" aria-live="polite" aria-labelledby="quest-main-0"><!-- INITIAL_QUEST_DETAIL_START -->
+      <span class="quest-detail__status ">Current role</span>
+      <h3>Arrows Up</h3>
+      <p class="quest-detail__meta">Software engineer · May 2026 – present · St. Louis, MO</p>
+      <p class="quest-detail__summary">Modernizing client web platforms for service businesses.</p>
+      <h4>Contributions</h4>
+      <ul class="quest-objectives"><li>Rebuilt more than 21 client sites with SvelteKit, including routing, CMS integrations, and SEO migrations.</li><li>Built reusable client-site templates that reduced delivery time by 50%.</li><li>Configured Sanity CMS, Cloudflare Workers, analytics, and GitHub Actions deployment pipelines.</li></ul>
+      <h4>Results</h4><div class="quest-rewards"><div class="quest-reward"><b>21+</b><span>client sites</span></div><div class="quest-reward"><b>50%</b><span>shorter delivery</span></div></div>
+      <div class="quest-detail__links"><a href="https://staging-holcomb-tree-service.arbor-alliance.workers.dev/" target="_blank" rel="noopener noreferrer">View Holcomb client preview ↗</a></div>
+      <a class="quest-art" href="holcomb-tree-service.webp" data-image-viewer aria-haspopup="dialog" target="_blank" rel="noopener noreferrer" aria-label="Open full image: Arrows Up"><img src="Images/previews/holcomb.webp" width="800" height="461" alt="Holcomb Tree Service website designed for a Dallas tree care company" loading="lazy" decoding="async"><span>View full image</span></a><!-- INITIAL_QUEST_DETAIL_END --></div>
           </div>
         </div>
       </div>
