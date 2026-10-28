@@ -24,5 +24,16 @@
     }
   },
   "status": "completed",
-  "manuscript_status": "working_draft_not_peer_reviewed"
+  "manuscript_status": "working_draft_not_peer_reviewed",
+  "manuscript": {
+    "title": "Nested evaluation of coding sequence models for oncogene and tumor suppressor classification",
+    "version": 2,
+    "updated": "2026-10-28",
+    "pdf_pages": 20,
+    "artifact_sha256": {
+      "DNABERT-CDS-manuscript.pdf": "f389169327cdfb4f088ec8381de51dd26d9a4d29a7760edc0b70e8e127086378",
+      "DNABERT-CDS-manuscript.docx": "0b524f272ce6e09735261198b06948a29f84b2237b72ac7f5c0b237e5eec6941",
+      "manuscript.html": "1a37552b334d0f1f401e7ff849964585eb3155b1766f0465eeb3550eb6ba13dc"
+    }
+  }
 }
