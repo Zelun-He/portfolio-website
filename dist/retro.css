@@ -169,8 +169,6 @@ h1, h2, h3, h4, p { margin-top: 0; }
   --quest-leaf: var(--sage);
   color: #d9dccb;
   background: #233a2c;
-  background-image: linear-gradient(#dfe7d208 1px,transparent 1px),linear-gradient(90deg,#dfe7d208 1px,transparent 1px);
-  background-size: 32px 32px;
   border-top: 1px solid var(--line-subtle);
 }
 .quest-anchor { display: block; height: 0; scroll-margin-top: 128px; }
@@ -408,7 +406,7 @@ h1, h2, h3, h4, p { margin-top: 0; }
 }
 
 /* Character profile and skills inventory. */
-.about, .contact-section { color: var(--paper-2); background-color: #193c2a; background-image: linear-gradient(#dfe7d208 1px,transparent 1px),linear-gradient(90deg,#dfe7d208 1px,transparent 1px); background-size: 32px 32px; border-top: 1px solid var(--line-subtle); }
+.about, .contact-section { color: var(--paper-2); background-color: #193c2a; border-top: 1px solid var(--line-subtle); }
 .about { padding-block: 64px 72px; background: #233a2c; }
 .about__grid { display: grid; grid-template-columns: minmax(0,5fr) minmax(0,7fr); gap: clamp(40px,6vw,96px); }
 .about .about__title { margin: 0 0 40px; color: var(--paper); font: clamp(28px,3.55vw,50px)/1.35 'Press Start 2P', monospace; letter-spacing: -.06em; white-space: nowrap; text-shadow: 4px 4px 0 #13241a; }
