@@ -130,10 +130,6 @@ html[data-world='magikarp'] .next-project { color: #455467; background: #fffdf2;
 html[data-world='magikarp'] .next-project__body > p { color: #455467; }
 html[data-world='magikarp'] .next-project__status, html[data-world='magikarp'] .next-project__stack li { color: #356b50; background: #e7efdc; }
 html[data-world='magikarp'] .next-project__visual { background: #e7efdc; }
-html[data-world='magikarp'] .graveyard-update { color: #263c50; background: #fffdf2; border-color: #b7c5bb; border-radius: 0; }
-html[data-world='magikarp'] .graveyard-update small, html[data-world='magikarp'] .graveyard-update__arrow { color: #9b342b; font-size: 12px; }
-html[data-world='magikarp'] .graveyard-update__arrow { font-size: 28px; }
-html[data-world='magikarp'] .graveyard-update > span > span { color: #526456; }
 
 html[data-world='magikarp'] .about { background: #e7efdc; }
 html[data-world='magikarp'] .about__body p, html[data-world='magikarp'] .items li { color: #455467; }
