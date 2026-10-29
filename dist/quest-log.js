@@ -46,19 +46,6 @@ const QUEST_ENTRIES = {
   ],
   side: [
     {
-      name: 'Screenshot Graveyard', role: 'Native Android · Kotlin & Jetpack Compose', dates: 'Oct 2026 – present', status: 'Development preview', category: 'mobile', current: true,
-      addedAt: '2026-10-27T00:00:00Z',
-      summary: 'A local screenshot archive that searches words inside images and turns forgotten saves into a keep-or-bury ritual.',
-      objectives: [
-        'Built private image imports, SHA-256 deduplication, and durable on-device ML Kit OCR with WorkManager.',
-        'Indexed titles, tags, and extracted text with Room FTS4; added reversible sorting and a full-screen pinch-to-zoom viewer.',
-        'Verified v0.2 with 21 unit tests and 6 Android emulator tests. Runs on Android 8.0 and newer.'
-      ],
-      rewards: [['27', 'tests passed']],
-      art: { src: 'Images/screenshot-graveyard.webp', alt: 'Screenshot Graveyard archive, sorting ritual, and full-screen zoom viewer on Android' },
-      links: [{ href: '/projects/screenshot-graveyard/', label: 'Project details' }, { href: 'https://github.com/Zelun-He/screenshot-graveyard', label: 'View code' }]
-    },
-    {
       name: 'Orbit Image Converter', role: 'Browser image converter · Personal project', dates: 'Oct 2026 – present', status: 'In progress', category: 'web', current: true,
       addedAt: '2026-10-20T00:00:00Z',
       summary: 'Building a faster image conversion workflow: drop in photos, choose a format from a radial wheel, and export them locally.',
