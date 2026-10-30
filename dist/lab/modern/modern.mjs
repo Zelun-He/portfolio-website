@@ -15,7 +15,10 @@ const projects = articles.map(article => ({
 const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
 
 async function enhanceGallery() {
-  if (motion.matches) return;
+  if (motion.matches) {
+    document.documentElement.classList.remove('gallery-pending');
+    return;
+  }
   let gl = window.innerWidth > 700 ? canvas.getContext('webgl', { alpha: true, antialias: true, depth: false, powerPreference: 'low-power' }) : null;
 
   let raf = 0;
@@ -39,6 +42,7 @@ async function enhanceGallery() {
   const cssFrames = projects.map(project => {
     const frame = document.createElement('div');
     frame.className = 'css-project';
+    frame.style.visibility = 'hidden';
     const bar = document.createElement('div');
     bar.className = 'css-project-bar';
     bar.textContent = new URL(project.link).hostname.replace('www.', '');
@@ -70,6 +74,7 @@ async function enhanceGallery() {
     window.removeEventListener('scroll', onScroll);
     document.removeEventListener('visibilitychange', onVisibility);
     document.documentElement.classList.remove('gallery-enhanced');
+    document.documentElement.classList.remove('gallery-pending');
     readout.hidden = true;
     controls.hidden = true;
     canvas.hidden = true;
@@ -114,8 +119,8 @@ async function enhanceGallery() {
           void main() {
             v_uv = a_position + 0.5;
             // Subdivided plane gently wraps around a vertical cylinder.
-            float bend = a_position.x * 0.48;
-            float radius = u_size.x / 0.48;
+            float bend = a_position.x * 0.68;
+            float radius = u_size.x / 0.68;
             float x = sin(bend) * radius;
             float z = (cos(bend) - 1.0) * radius;
             vec3 world = vec3(
@@ -284,12 +289,15 @@ async function enhanceGallery() {
       if (!gl) cssFrames.forEach(frame => { frame.style.visibility = 'hidden'; });
       // Painter's order keeps the nearer cards in front without a depth buffer.
       const frames = projects.map((project, index) => {
-        const difference = index - position;
+        let difference = index - position;
+        // Neighbours wrap around the arc, while the scroll narrative stays finite.
+        if (difference > projects.length / 2) difference -= projects.length;
+        if (difference < -projects.length / 2) difference += projects.length;
         const angle = difference * (mobile ? 1.05 : 0.92);
         return { index, difference, angle, z: (Math.cos(angle) - 1) * width * 0.72 };
       }).filter(frame => Math.abs(frame.difference) < 2.15).sort((a, b) => a.z - b.z);
       for (const frame of frames) {
-        const radius = width * (mobile ? 1.04 : 0.68);
+        const radius = width * (mobile ? 1.04 : 0.61);
         const x = Math.sin(frame.angle) * radius;
         // A little vertical staggering makes the arc feel spatial, not like a slider.
         const y = height * (mobile ? 0.07 : 0.025) + Math.sin(frame.angle * 1.3) * height * 0.075;
@@ -326,6 +334,8 @@ async function enhanceGallery() {
     // Keep these closures available to the lifecycle handlers below.
     render = draw;
     document.documentElement.classList.add('gallery-enhanced');
+    document.documentElement.classList.remove('gallery-pending');
+    dispatchEvent(new Event('portfolio:layout-ready'));
     readout.hidden = false;
     controls.hidden = false;
     setSelected(0);
