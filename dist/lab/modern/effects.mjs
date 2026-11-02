@@ -1,3 +1,5 @@
+import { mountHeroWarble } from './hero-warble.mjs';
+
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const clamp = (value, low = 0, high = 1) => Math.min(high, Math.max(low, value));
 const header = document.querySelector('.header');
@@ -136,27 +138,6 @@ function queueScroll() {
 addEventListener('scroll', queueScroll, { passive: true });
 addEventListener('resize', queueScroll, { passive: true });
 updateScroll();
-
-// A contour sculpture uses compositor transforms, keeping idle motion off the main thread.
-function setupSculpture() {
-  if (reducedMotion.matches) return;
-  let frame = 0;
-  let x = 0;
-  let y = 0;
-  hero.addEventListener('pointermove', event => {
-    x = (event.clientX / innerWidth - 0.5) * 9;
-    y = (event.clientY / innerHeight - 0.5) * -7;
-    if (!frame) frame = requestAnimationFrame(() => {
-      frame = 0;
-      hero.style.setProperty('--pointer-x', `${x}deg`);
-      hero.style.setProperty('--pointer-y', `${y}deg`);
-    });
-  }, { passive: true });
-  hero.addEventListener('pointerleave', () => {
-    hero.style.setProperty('--pointer-x', '0deg');
-    hero.style.setProperty('--pointer-y', '0deg');
-  });
-}
 
 function setupStory() {
   if (reducedMotion.matches) {
@@ -303,6 +284,6 @@ function setupStory() {
   updateStory();
 }
 
-setupSculpture();
 setupStory();
+mountHeroWarble(hero);
 queueScroll();
