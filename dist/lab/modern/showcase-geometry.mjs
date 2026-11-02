@@ -1,9 +1,9 @@
-// A camera-space coil shared by the GPU and CSS renderers. No scroll interception.
+// A camera-space coil shared by the GPU and canvas renderers. No scroll interception.
 export const COIL = Object.freeze({
   camera: 8.1, fov: 65.7, turn: 0.73, bend: 0.42,
   aspect: 2.38 / 1.5771, width: 2.38, height: 1.5771,
   print: 0.4, printTall: 0.69, ribbon: 1.5,
-  columns: 48, rows: 12, phase: 0.2
+  columns: 64, rows: 12, phase: 0.2, spread: 1.28, originX: 0.49, originY: 0.483
 });
 export const clamp = (x, low = 0, high = 1) => Math.min(high, Math.max(low, x));
 const smooth = x => { x = clamp(x); return x*x*(3-2*x); };
@@ -23,10 +23,10 @@ export function sceneFor(width, height) {
   const focal = width / (2 * tangent);
   const scene = {
     width, height, tangent, focal, unit: focal / COIL.camera,
-    radius, depth: radius, size,
+    radius, depth: radius, size, spread: 1 + (COIL.spread-1)*blend,
     pitch: Math.max(0.75, 0.42 * COIL.height * size),
     cardWidth: COIL.width * size, cardHeight: COIL.height * size,
-    originY: height * 0.5
+    originY: height * COIL.originY
   };
   // Stand the coil up on narrow screens so adjacent wide surfaces stay separated.
   scene.pitch = Math.max(scene.pitch, 0.75 + 3.15 * (1-blend)*(1-blend));
@@ -45,7 +45,7 @@ export function framesFor(scene, count, position, clock, spin = 0, lag = 0) {
     const bob = Math.sin(clock * 0.48 + index * 1.37) * 0.035;
     return {
       index, relative,
-      x: Math.sin(angle) * scene.radius * (1 + Math.abs(spin) * 0.055),
+      x: Math.sin(angle) * scene.radius * scene.spread * (1 + Math.abs(spin) * 0.055),
       y: relative * scene.pitch + bob,
       z: Math.cos(angle) * scene.depth - 0.28,
       rx: -relative * 0.01,
@@ -55,7 +55,6 @@ export function framesFor(scene, count, position, clock, spin = 0, lag = 0) {
       flex: clamp(lag, -0.45, 0.45) * scene.cardHeight * 0.16,
       opacity: Math.abs(angle) < Math.PI / 2 + 0.05 ? profile : 0,
       wash: clamp((1 - facing) * 0.22),
-      blur: Math.max(0, Math.abs(relative) - 0.65) * 0.3
     };
   }).filter(frame => frame.opacity > 0.005).sort((a, b) => a.z - b.z);
 }
@@ -83,7 +82,7 @@ export function worldPoint(point, frame) {
 
 export function projectPoint(scene, point) {
   const scale = scene.focal / Math.max(0.05, COIL.camera - point[2]);
-  return [scene.width * 0.52 + point[0] * scale, scene.originY - point[1] * scale];
+  return [scene.width * COIL.originX + point[0] * scale, scene.originY - point[1] * scale];
 }
 
 export function advanceEdge(state, target, dt) {

@@ -1,5 +1,5 @@
 import { COIL, clamp, sceneFor, framesFor, advanceEdge } from './showcase-geometry.mjs';
-import { makeSurfaces, createCSSRenderer, createGLRenderer } from './showcase-renderer.mjs';
+import { makeSurfaces, createCanvasRenderer, createGLRenderer } from './showcase-renderer.mjs';
 
 // Semantic project entries remain the content source for both views of the work.
 const work = document.querySelector('.showcase');
@@ -14,7 +14,7 @@ const projects = articles.map(article => ({
   description: article.querySelector('.project-description').textContent,
   link: article.querySelector('.project-link').href,
   label: article.dataset.linkLabel,
-  image: article.querySelector('img').src,
+  image: new URL(article.dataset.galleryImage || article.querySelector('img').src, location.href).href,
   detail: `#${article.id}`
 }));
 
@@ -35,7 +35,7 @@ async function enhanceGallery() {
     if(destroyed)return;destroyed=true;
     cancelAnimationFrame(raf);observer?.disconnect();resizer?.disconnect();
     removeEventListener('scroll',queue);document.removeEventListener('visibilitychange',visibility);
-    renderer?.destroy();surfaces.forEach(surface=>URL.revokeObjectURL(surface.url));
+    renderer?.destroy();
     root.classList.remove('gallery-pending','gallery-enhanced');
     readout.hidden=true;controls.hidden=true;canvas.hidden=true;
   }
@@ -91,13 +91,18 @@ async function enhanceGallery() {
     surfaces=await makeSurfaces(projects);
     if(motion.matches){dispose();return;}
     renderer=createGLRenderer(canvas,surfaces);
-    if(!renderer){renderer=createCSSRenderer(stage,surfaces);canvas.hidden=true;stage.dataset.renderer='css-mesh';}
+    if(!renderer){renderer=await createCanvasRenderer(stage,surfaces);canvas.hidden=true;stage.dataset.renderer='canvas-mesh';}
     else{canvas.hidden=false;stage.dataset.renderer='webgl';}
-    canvas.addEventListener('webglcontextlost',event=>{
+    canvas.addEventListener('webglcontextlost',async event=>{
       event.preventDefault();if(destroyed)return;
-      renderer.destroy();renderer=createCSSRenderer(stage,surfaces);renderer.resize(scene);
-      canvas.hidden=true;stage.dataset.renderer='css-mesh';queue();
+      try {
+        renderer.destroy();renderer=await createCanvasRenderer(stage,surfaces);
+        if(destroyed){renderer.destroy();return;}renderer.resize(scene);
+        canvas.hidden=true;stage.dataset.renderer='canvas-mesh';queue();
+      }catch{dispose();}
     },{once:true});
+    if(motion.matches){dispose();return;}
+    stage.addEventListener('showcase:renderer-error',dispose,{once:true});
     projects.forEach((project,index)=>{
       const button=document.createElement('button');button.type='button';button.className='project-dot';
       button.setAttribute('aria-label',`Show ${project.title}`);button.setAttribute('aria-pressed','false');

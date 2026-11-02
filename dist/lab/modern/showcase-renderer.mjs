@@ -1,4 +1,5 @@
-import { COIL, localPoint } from './showcase-geometry.mjs';
+import { COIL } from './showcase-geometry.mjs';
+import { paintMesh } from './showcase-painter.mjs';
 
 export const vertexShader = `
 attribute vec2 uv;
@@ -22,7 +23,7 @@ void main(){
   surfaceAngle=angle+rotation.y;
   float distance=8.1-p.z;
   float focal=1.0/tan(65.7*3.14159265/360.0);
-  gl_Position=vec4(p.x*focal+0.04*distance,p.y*focal*view.x/view.y,0.0,distance);
+  gl_Position=vec4(p.x*focal-0.02*distance,p.y*focal*view.x/view.y+0.034*distance,0.0,distance);
 }`;
 export const fragmentShader = `
 precision mediump float;
@@ -43,78 +44,63 @@ export async function makeSurfaces(projects) {
     const image = new Image(); image.decoding = 'async'; image.src = project.image;
     await image.decode();
     const surface = document.createElement('canvas');
-    surface.width = 1280; surface.height = Math.round(1280 / COIL.aspect);
+    surface.width = Math.min(image.naturalWidth, 2048); surface.height = Math.round(surface.width / COIL.aspect);
     const ctx = surface.getContext('2d');
     if (!ctx) throw new Error('Image surface unavailable');
+    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
     // Use the project itself: no invented browser chrome or surrounding mockup frame.
     ctx.beginPath(); ctx.roundRect(0, 0, surface.width, surface.height, surface.width * 0.0265); ctx.clip();
     ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, surface.width, surface.height);
     const scale = Math.min(surface.width / image.naturalWidth, surface.height / image.naturalHeight);
     const w = image.naturalWidth * scale, h = image.naturalHeight * scale;
     ctx.drawImage(image, (surface.width-w)/2, 0, w, h);
-    const blob = await new Promise(resolve => surface.toBlob(resolve, 'image/png'));
-    if (!blob) throw new Error('Image surface could not be encoded');
-    return { surface, url: URL.createObjectURL(blob) };
+    return { surface };
   }));
   const loaded = results.filter(result => result.status === 'fulfilled').map(result => result.value);
   if (loaded.length !== projects.length) {
-    loaded.forEach(surface => URL.revokeObjectURL(surface.url));
     throw new Error('A project image could not be prepared');
   }
   return loaded;
 }
 
-export function createCSSRenderer(stage, surfaces) {
-  const layer = document.createElement('div');
-  layer.className = 'coil-css'; layer.setAttribute('aria-hidden', 'true');
-  const cards = surfaces.map(({ url }) => {
-    const card = document.createElement('div'); card.className = 'coil-card';
-    const strips = Array.from({ length: COIL.columns }, () => {
-      const strip = document.createElement('div'); strip.className = 'coil-strip';
-      strip.style.backgroundImage = `url("${url}")`; strip.style.maskImage = `url("${url}")`; card.append(strip); return strip;
+export async function createCanvasRenderer(stage, surfaces) {
+  let canvas=document.createElement('canvas');canvas.className='coil-mesh-canvas';canvas.setAttribute('aria-hidden','true');stage.append(canvas);
+  let worker,scene,density=1,busy=false,latest=null,destroyed=false;
+  const pixelRatio=()=>Math.min(devicePixelRatio||1,2,4096/Math.max(scene.width,scene.height));
+  try {
+    if(!canvas.transferControlToOffscreen||typeof Worker!=='function')throw new Error('Worker canvas unavailable');
+    const images=await Promise.all(surfaces.map(({surface})=>createImageBitmap(surface)));
+    worker=new Worker(new URL('./showcase-worker.mjs',import.meta.url),{type:'module'});
+    const offscreen=canvas.transferControlToOffscreen();
+    await new Promise((resolve,reject)=>{
+      worker.onerror=reject;
+      worker.onmessage=event=>event.data.type==='ready'?resolve():reject(new Error('Worker canvas unavailable'));
+      worker.postMessage({type:'init',canvas:offscreen,images},[offscreen,...images]);
     });
-    layer.append(card); return { card, strips, lastFlex: NaN, lastYaw: NaN };
-  });
-  stage.append(layer);
-  let scene;
-  function shape(item, frame) {
-    const width = scene.cardWidth * scene.unit, height = scene.cardHeight * scene.unit;
-    item.strips.forEach((strip, i) => {
-      const u = (i + 0.5) / COIL.columns;
-      const [x, y, z] = localPoint(scene, frame, u, 0.5);
-      strip.style.width = `${width/COIL.columns + 1.2}px`;
-      strip.style.height = `${height}px`;
-      strip.style.backgroundSize = `${width}px ${height}px`;
-      strip.style.backgroundPosition = `${-i*width/COIL.columns + 0.6}px 0`;
-      strip.style.maskSize = `${width}px ${height}px`;
-      strip.style.maskPosition = strip.style.backgroundPosition;
-      strip.style.transform = `translate3d(${x*scene.unit}px,${-y*scene.unit}px,${z*scene.unit}px) rotateY(${(u-0.5)*2*frame.curve}rad) translate(-50%,-50%)`;
-      const angle = (u-0.5)*2*frame.curve+frame.ry;
-      strip.style.setProperty('--strip-wash', String((1-Math.abs(Math.cos(angle)))**2*0.12));
-    });
-    item.lastFlex = frame.flex; item.lastYaw = frame.ry;
+    const flush=()=>{
+      if(!busy&&latest&&!destroyed){busy=true;const frames=latest;latest=null;worker.postMessage({type:'frame',frames});}
+    };
+    worker.onmessage=event=>{
+      if(event.data.type==='painted'){busy=false;canvas.dataset.paintMs=String(Math.round(event.data.milliseconds));flush();}
+    };
+    worker.onerror=()=>{stage.dispatchEvent(new Event('showcase:renderer-error'));};
+    return {
+      resize(next){scene=next;density=pixelRatio();worker.postMessage({type:'resize',scene,density});},
+      draw(frames){latest=frames;flush();},
+      destroy(){destroyed=true;worker.terminate();canvas.remove();}
+    };
+  }catch{
+    worker?.terminate();
+    // An offscreen transfer owns its original element; replace it for main-thread 2D.
+    const next=document.createElement('canvas');next.className='coil-mesh-canvas';next.setAttribute('aria-hidden','true');canvas.replaceWith(next);canvas=next;
+    const ctx=canvas.getContext('2d',{alpha:true});
+    if(!ctx){canvas.remove();throw new Error('Gallery canvas unavailable');}
+    return {
+      resize(next){scene=next;density=pixelRatio();canvas.width=Math.round(scene.width*density);canvas.height=Math.round(scene.height*density);},
+      draw(frames){paintMesh(ctx,surfaces.map(item=>item.surface),scene,frames,density);},
+      destroy(){destroyed=true;canvas.remove();}
+    };
   }
-  return {
-    resize(next) {
-      scene = next;
-      layer.style.perspective = `${scene.focal}px`;
-      layer.style.perspectiveOrigin = `50% ${scene.originY}px`;
-      cards.forEach(item => { item.lastFlex = NaN; });
-    },
-    draw(frames) {
-      cards.forEach(({ card }) => { card.style.visibility = 'hidden'; });
-      for (const frame of frames) {
-        const item = cards[frame.index], card = item.card;
-        card.style.visibility = 'visible';
-        card.style.setProperty('--card-opacity', String(frame.opacity));
-        card.style.setProperty('--card-blur', `${frame.blur > 0.15 ? frame.blur : 0}px`);
-        card.style.setProperty('--card-wash', String(frame.wash));
-        card.style.transform = `translate3d(${frame.x*scene.unit}px,${-frame.y*scene.unit}px,${frame.z*scene.unit}px) rotateZ(${-frame.rz}rad) rotateY(${frame.ry}rad) rotateX(${-frame.rx}rad)`;
-        if (!Number.isFinite(item.lastFlex) || Math.abs(item.lastFlex-frame.flex)>0.0015 || Math.abs(frame.flex)>0.002 || Math.abs(item.lastYaw-frame.ry)>0.01) shape(item, frame);
-      }
-    },
-    destroy() { layer.remove(); }
-  };
 }
 
 export function createGLRenderer(canvas, surfaces) {
@@ -153,14 +139,23 @@ export function createGLRenderer(canvas, surfaces) {
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.clearColor(0,0,0,0);
     for (const {surface} of surfaces) {
       const texture=gl.createTexture();if(!texture)throw new Error('Gallery image unavailable');textures.push(texture);gl.bindTexture(gl.TEXTURE_2D,texture);
-      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,surface);
+      // WebGL 1 needs power-of-two dimensions for mipmaps. UV mapping restores the card's aspect.
+      const upload=document.createElement('canvas');upload.width=2048;upload.height=2048;
+      const uploadContext=upload.getContext('2d');
+      if(!uploadContext)throw new Error('Gallery texture unavailable');
+      uploadContext.imageSmoothingQuality='high';uploadContext.drawImage(surface,0,0,2048,2048);
+      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,upload);
+      upload.width=upload.height=1;
       gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+      gl.generateMipmap(gl.TEXTURE_2D);
+      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+      const anisotropy=gl.getExtension('EXT_texture_filter_anisotropic');
+      if(anisotropy)gl.texParameterf(gl.TEXTURE_2D,anisotropy.TEXTURE_MAX_ANISOTROPY_EXT,Math.min(8,gl.getParameter(anisotropy.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
     }
     let scene;
     return {
       resize(next) {
-        scene=next;const density=Math.min(devicePixelRatio||1,1.75,2600/Math.max(scene.width,scene.height));
+        scene=next;const density=Math.min(devicePixelRatio||1,2,4096/Math.max(scene.width,scene.height));
         canvas.width=Math.round(scene.width*density);canvas.height=Math.round(scene.height*density);
         gl.viewport(0,0,canvas.width,canvas.height);
       },
