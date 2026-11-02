@@ -3,14 +3,16 @@ const work = document.querySelector('.work');
 const stage = document.querySelector('.gallery-stage');
 const canvas = document.querySelector('.gallery-canvas');
 const motion = window.matchMedia('(prefers-reduced-motion: reduce)');
-const articles = [...document.querySelectorAll('.project')];
+const articles = [...document.querySelectorAll('.project[data-gallery-order]')]
+  .sort((a, b) => Number(a.dataset.galleryOrder) - Number(b.dataset.galleryOrder));
 const projects = articles.map(article => ({
   title: article.querySelector('h3').textContent,
   type: article.dataset.type,
   description: article.querySelector('.project-description').textContent,
   link: article.querySelector('.project-link').href,
   label: article.dataset.linkLabel,
-  image: article.querySelector('img').src
+  image: article.querySelector('img').src,
+  detail: `#${article.id}`
 }));
 const clamp = (value, low, high) => Math.min(high, Math.max(low, value));
 
@@ -262,6 +264,9 @@ async function enhanceGallery() {
       const link = document.querySelector('#active-link');
       link.href = project.link;
       link.textContent = `${project.label} ↗`;
+      const detail = document.querySelector('#active-case-study');
+      detail.href = project.detail;
+      detail.textContent = index < 3 ? 'Engineering notes ↗' : 'Project details ↗';
       document.querySelector('#project-number').textContent = String(index + 1).padStart(2, '0');
       for (const [i, button] of dotButtons.entries()) button.setAttribute('aria-pressed', String(i === index));
       previous.disabled = index === 0;
@@ -379,7 +384,7 @@ async function enhanceGallery() {
     else { cancelAnimationFrame(raf); raf = 0; }
   }
   function goToProject(index) {
-    if (window.location.hash === '#project-index') history.replaceState(null, '', '#work');
+    if (window.location.hash !== '#visual-gallery') history.replaceState(null, '', '#visual-gallery');
     const destination = clamp(index, 0, projects.length - 1);
     const top = window.scrollY + work.getBoundingClientRect().top;
     const range = Math.max(1, work.offsetHeight - stage.offsetHeight);

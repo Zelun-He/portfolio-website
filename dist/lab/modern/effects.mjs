@@ -35,6 +35,9 @@ dialog.addEventListener('click', event => {
 });
 dialog.querySelectorAll('a').forEach(link => link.addEventListener('click', () => dialog.close()));
 
+const menuSound = document.querySelector('[data-sound-mirror]');
+menuSound.addEventListener('click', () => soundButton.click());
+
 // Sounds are synthesized locally and require an explicit opt-in.
 let audio;
 let soundOn = false;
@@ -69,51 +72,45 @@ soundButton.addEventListener('click', async () => {
     soundButton.setAttribute('aria-pressed', 'false');
     soundButton.setAttribute('aria-label', 'Turn sound on');
   }
+  menuSound.setAttribute('aria-pressed', String(soundOn));
+  menuSound.querySelector('span').textContent = soundOn ? 'On' : 'Off';
 });
 document.addEventListener('click', event => {
   if (event.target.closest('a, button, summary') && !event.target.closest('#sound-toggle')) playTone(480);
 });
 
-// Four small, deterministic diagrams. No runtime charting library is needed.
-const barChart = document.querySelector('.bar-chart');
-for (let i = 0; i < 14; i++) {
-  const bar = document.createElement('i');
-  bar.style.setProperty('--bar-height', `${35 + ((i * 29) % 50)}px`);
-  bar.style.setProperty('--delay', `${i * -0.17}s`);
-  barChart.append(bar);
-}
-const mosaic = document.querySelector('.mosaic-art');
-for (let i = 0; i < 32; i++) {
-  const tile = document.createElement('i');
-  tile.style.setProperty('--tile-opacity', String(0.25 + ((i * 7) % 10) / 13));
-  tile.style.setProperty('--delay', `${i * -0.19}s`);
-  mosaic.append(tile);
-}
-const ticks = document.querySelector('.tuner-ticks');
-for (let i = 0; i < 23; i++) {
-  const tick = document.createElement('i');
-  tick.style.setProperty('--tick-height', `${Math.sin(i / 4) * 8}px`);
-  ticks.append(tick);
-}
-const panelObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => entry.target.classList.toggle('is-visible', entry.isIntersecting));
-}, { threshold: 0.12 });
-document.querySelectorAll('.motion-panel').forEach(panel => panelObserver.observe(panel));
-
 // The archive remains a set of regular details elements when JavaScript is off.
 const filters = [...document.querySelectorAll('[data-filter]')];
 const rows = [...document.querySelectorAll('.archive-row')];
-filters.forEach(button => button.addEventListener('click', () => {
-  const filter = button.dataset.filter;
+function filterArchive(filter) {
   let count = 0;
-  filters.forEach(item => item.setAttribute('aria-pressed', String(item === button)));
+  filters.forEach(item => item.setAttribute('aria-pressed', String(item.dataset.filter === filter)));
   rows.forEach(row => {
     row.hidden = filter !== 'all' && row.dataset.category !== filter;
     if (!row.hidden) count++;
     else row.open = false;
   });
   document.querySelector('.archive-count').textContent = `${count} ${count === 1 ? 'project' : 'projects'}`;
-}));
+}
+filters.forEach(button => button.addEventListener('click', () => filterArchive(button.dataset.filter)));
+
+// A gallery link must reveal its project even when an archive filter hid it.
+function revealArchiveTarget(hash = location.hash) {
+  let id;
+  try { id = decodeURIComponent(hash.slice(1)); } catch { return; }
+  const target = document.getElementById(id);
+  const row = target?.closest('.archive-row');
+  if (!row) return;
+  if (row.hidden) filterArchive('all');
+  row.open = true;
+  requestAnimationFrame(() => target.scrollIntoView({ block: 'start', behavior: 'instant' }));
+}
+addEventListener('hashchange', () => revealArchiveTarget());
+document.addEventListener('click', event => {
+  const link = event.target.closest('a[href^="#"]');
+  if (link) revealArchiveTarget(link.hash);
+});
+revealArchiveTarget();
 
 // All animation reads native scroll position; wheel, keyboard, and touch stay native.
 let scrollFrame = 0;
