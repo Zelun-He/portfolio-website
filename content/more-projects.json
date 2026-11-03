@@ -42,7 +42,12 @@
       "width": 2048,
       "height": 1180
     },
-    "note": "No signup · Sample studio · New audio generation requires the self-hosted backend"
+    "note": "No signup · Sample studio · New audio generation requires the self-hosted backend",
+    "gallery": {
+      "order": 4,
+      "type": "Audiobook platform / Personal project",
+      "linkLabel": "Explore the demo"
+    }
   },
   {
     "id": "myoasis",

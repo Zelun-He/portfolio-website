@@ -6,7 +6,7 @@ const work = document.querySelector('.showcase');
 const stage = work.querySelector('.gallery-stage');
 const canvas = stage.querySelector('.gallery-canvas');
 const motion = matchMedia('(prefers-reduced-motion: reduce)');
-const articles = [...document.querySelectorAll('.project[data-gallery-order]')]
+const articles = [...document.querySelectorAll('[data-gallery-order]')]
   .sort((a,b) => Number(a.dataset.galleryOrder)-Number(b.dataset.galleryOrder));
 const projects = articles.map(article => ({
   title: article.querySelector('h3').textContent,
