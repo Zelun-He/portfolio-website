@@ -1,5 +1,5 @@
 import { COIL, clamp, sceneFor, framesFor, advanceEdge, travelForProject, positionForTravel, runwayForProjects } from './showcase-geometry.mjs';
-import { mountGalleryMist } from './showcase-mist.mjs';
+import { mountPortfolioMist } from './showcase-mist.mjs';
 import { makeSurfaces, createCanvasRenderer, createGLRenderer } from './showcase-renderer.mjs';
 
 // Semantic project entries remain the content source for both views of the work.
@@ -7,7 +7,7 @@ const work = document.querySelector('.showcase');
 const stage = work.querySelector('.gallery-stage');
 const canvas = stage.querySelector('.gallery-canvas');
 const motion = matchMedia('(prefers-reduced-motion: reduce)');
-mountGalleryMist(stage);
+mountPortfolioMist();
 const articles = [...document.querySelectorAll('[data-gallery-order]')]
   .sort((a,b) => Number(a.dataset.galleryOrder)-Number(b.dataset.galleryOrder));
 const projects = articles.map(article => ({
