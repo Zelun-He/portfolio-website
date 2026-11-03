@@ -71,8 +71,8 @@
 /* The final expanded image hands off as the next section rises across it. */
 .gallery-finale-anchor{position:absolute;left:0;top:0;width:1px;height:1px;scroll-margin-top:-105px;pointer-events:none}
 :is(.gallery-enhanced,.gallery-pending) .gallery-finale-anchor{top:calc(var(--gallery-last,6.25)*var(--gallery-stage-height,100svh))}
-.gallery-enhanced .showcase+.case-studies{position:relative;z-index:2;margin-top:calc(var(--gallery-stage-height,100svh)*-1)}
-@media print{.gallery-enhanced .showcase+.case-studies{margin-top:0}}
+:is(.gallery-enhanced,.gallery-pending) .showcase+.case-studies{position:relative;z-index:2;margin-top:calc(var(--gallery-stage-height,100svh)*-1)}
+@media print{:is(.gallery-enhanced,.gallery-pending) .showcase+.case-studies{margin-top:0}}
 
 /* Match the reserved scroll layout to the stage before enhancement loads. */
 :root{--gallery-stage-height:max(100svh,660px)}
