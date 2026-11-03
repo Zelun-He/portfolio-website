@@ -11,6 +11,7 @@ mountPortfolioMist();
 const articles = [...document.querySelectorAll('[data-gallery-order]')]
   .sort((a,b) => Number(a.dataset.galleryOrder)-Number(b.dataset.galleryOrder));
 const projects = articles.map(article => ({
+  closing: article.dataset.galleryKind === 'closing',
   title: article.querySelector('h3').textContent,
   type: article.dataset.type,
   description: article.querySelector('.project-description').textContent,
@@ -49,12 +50,14 @@ async function enhanceGallery() {
     renderer?.destroy();
     accent.textContent=accentText;accent.removeAttribute('aria-label');
     [readout,topBar].forEach(el=>el.inert=false);
+    topBar.hidden=false;
     delete work.dataset.frontVisible;
     root.classList.remove('gallery-pending','gallery-enhanced');
     readout.hidden=true;canvas.hidden=true;root.style.removeProperty('--gallery-final-height');
   }
   function select(index) {
     if(index===selected)return;selected=index;const project=projects[index];
+    readout.hidden=project.closing;topBar.hidden=project.closing;
     stage.querySelector('#active-type').textContent=project.type;
     stage.querySelector('#active-title').textContent=project.title;
     stage.querySelector('#active-description').textContent=project.description;
