@@ -12,7 +12,7 @@
   if (mapHeading) mapHeading.textContent = 'REGION MAP';
   const portrait = document.querySelector('.hero-card__scene img');
   if (portrait) {
-    portrait.src = 'Images/magikarp-sprite.webp';
+    portrait.src = '/Images/magikarp-sprite.webp';
     portrait.alt = 'A pixel-art Magikarp, the main character of this portfolio world';
     portrait.width = 256;
     portrait.height = 256;

@@ -69,8 +69,8 @@ let runFrameInterval = null;
 let runFrame = 0;
 let lastScrollY = window.scrollY;
 const isMagikarpWorld = document.documentElement.dataset.world === 'magikarp';
-const idleSprite = isMagikarpWorld ? 'Images/magikarp-sprite.webp' : 'map-character-idle.webp';
-const runSprites = isMagikarpWorld ? [idleSprite] : ['map-character-run-a.webp', 'map-character-run-b.webp'];
+const idleSprite = isMagikarpWorld ? '/Images/magikarp-sprite.webp' : '/map-character-idle.webp';
+const runSprites = isMagikarpWorld ? [idleSprite] : ['/map-character-run-a.webp', '/map-character-run-b.webp'];
 mapCharacter.src = idleSprite;
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 // Running frames are decorative; keep them off the initial rendering path.

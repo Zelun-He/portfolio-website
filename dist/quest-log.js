@@ -9,7 +9,7 @@ const QUEST_ENTRIES = {
         'Configured Sanity CMS, Cloudflare Workers, analytics, and GitHub Actions deployment pipelines.'
       ],
       rewards: [['21+', 'client sites'], ['50%', 'shorter delivery']],
-      art: { src: 'holcomb-tree-service.webp', alt: 'Holcomb Tree Service website designed for a Dallas tree care company' },
+      art: { src: '/holcomb-tree-service.webp', alt: 'Holcomb Tree Service website designed for a Dallas tree care company' },
       links: [{ href: 'https://staging-holcomb-tree-service.arbor-alliance.workers.dev/', label: 'View Holcomb client preview' }]
     },
     {
@@ -19,7 +19,7 @@ const QUEST_ENTRIES = {
         'Led front-end work on the landing page.',
         'Improved responsive layouts and React performance across devices.'
       ],
-      art: { src: 'Images/myoasis.jpg', alt: 'MyOasis homepage for its mental wellness platform' },
+      art: { src: '/Images/myoasis.jpg', alt: 'MyOasis homepage for its mental wellness platform' },
       links: [{ href: 'https://www.myoasis.ai/', label: 'Visit MyOasis.ai' }]
     },
     {
@@ -31,7 +31,7 @@ const QUEST_ENTRIES = {
         'Coauthored a paper for ITNG 2026; the forecasting research won first place in Computer Science at the 2025 CNAS symposium.'
       ],
       rewards: [['1st', 'CNAS symposium']],
-      art: { src: 'Images/transformer.png', alt: 'Training and validation plots from transformer time series forecasting research' }
+      art: { src: '/Images/transformer.png', alt: 'Training and validation plots from transformer time series forecasting research' }
     },
     {
       name: 'N-of-1 AI', role: 'Software engineering intern · Scribsy', dates: 'Jun – Aug 2025', place: 'Remote', status: 'Internship',
@@ -40,7 +40,7 @@ const QUEST_ENTRIES = {
         'Architected audio transcription, structured SOAP note generation, and note management.',
         'Built the product with FastAPI and Next.js.'
       ],
-      art: { src: 'Images/scribsy.png', alt: 'Scribsy clinical documentation dashboard with notes and calendar' },
+      art: { src: '/Images/scribsy.png', alt: 'Scribsy clinical documentation dashboard with notes and calendar' },
       links: [{ href: 'https://scribsy.vercel.app/sample-visit', label: 'Try a sample visit · no signup' }, { href: 'https://github.com/Zelun-He/Scribsy', label: 'View Scribsy code' }]
     }
   ],
@@ -54,14 +54,14 @@ const QUEST_ENTRIES = {
         'Added quality controls, resizing, transparency handling, and individual or batch ZIP downloads.',
         'Keep image processing on the user’s device with JavaScript, the Canvas API, and the File API.'
       ],
-      art: { src: 'Images/orbit-image-converter.svg', alt: 'Orbit interface preview with a drag-and-drop image area and radial format picker' }
+      art: { src: '/Images/orbit-image-converter.svg', alt: 'Orbit interface preview with a drag-and-drop image area and radial format picker' }
     },
     {
       name: 'Eastern Asteria', role: 'Corporate & coffee brand website · Arrows Up', status: 'Selected project', category: 'web',
       addedAt: '2026-10-06T20:10:33Z',
       summary: 'A corporate website connecting coffee sourcing, the Deep Thrill brand, hospitality, and technology through a cohesive visual story.',
       objectives: ['Created a cohesive presentation across the company and its coffee brand.', 'Organized its coffee, hospitality, and technology strategy into clear, responsive pages.'],
-      art: { src: 'Images/eastern-asteria-home.webp', alt: 'Eastern Asteria homepage with the heading From Source to Sip above green coffee fields' },
+      art: { src: '/Images/eastern-asteria-home.webp', alt: 'Eastern Asteria homepage with the heading From Source to Sip above green coffee fields' },
       links: [{ href: 'https://www.easternasteriainc.com/', label: 'Visit website' }]
     },
     {
@@ -69,7 +69,7 @@ const QUEST_ENTRIES = {
       addedAt: '2026-09-25T06:40:50Z',
       summary: 'A service website for a Dallas tree care company.',
       objectives: ['Created clear navigation across the company’s services.', 'Made it easy for prospective customers to request a consultation.'],
-      art: { src: 'holcomb-tree-service.webp', alt: 'Holcomb Tree Service homepage and consultation form' },
+      art: { src: '/holcomb-tree-service.webp', alt: 'Holcomb Tree Service homepage and consultation form' },
       links: [{ href: 'https://staging-holcomb-tree-service.arbor-alliance.workers.dev/', label: 'View preview' }]
     },
     {
@@ -77,7 +77,7 @@ const QUEST_ENTRIES = {
       addedAt: '2026-09-25T06:40:50Z',
       summary: 'A clinical documentation app for practitioners.',
       objectives: ['Built audio transcription and structured SOAP notes.', 'Implemented note management in a FastAPI and Next.js application.'],
-      art: { src: 'Images/scribsy.png', alt: 'Scribsy dashboard with note creation and calendar' },
+      art: { src: '/Images/scribsy.png', alt: 'Scribsy dashboard with note creation and calendar' },
       links: [{ href: 'https://scribsy.vercel.app/sample-visit', label: 'Try a sample visit · no signup' }, { href: 'https://github.com/Zelun-He/Scribsy', label: 'View code' }]
     },
     {
@@ -85,7 +85,7 @@ const QUEST_ENTRIES = {
       addedAt: '2026-09-25T06:40:50Z',
       summary: 'Turns uploaded manuscripts into audiobooks with AI narration.',
       objectives: ['Built manuscript upload and voice selection workflows.', 'Added generation progress, chapter playback, and audiobook downloads.'],
-      art: { src: 'narrator-dashboard.webp', alt: 'Narrator author studio dashboard showing the library and audiobook creation' },
+      art: { src: '/narrator-dashboard.webp', alt: 'Narrator author studio dashboard showing the library and audiobook creation' },
       links: [{ href: 'https://narrator-eight.vercel.app/demo/library', label: 'Explore the demo · no signup' }, { href: 'https://github.com/Zelun-He/Narrator', label: 'View code' }]
     },
     {
@@ -93,14 +93,14 @@ const QUEST_ENTRIES = {
       addedAt: '2026-09-25T06:40:50Z',
       summary: 'A responsive landing page for a wellbeing platform.',
       objectives: ['Led front-end development of the landing page.', 'Improved the site’s responsive layouts and React performance.'],
-      art: { src: 'Images/myoasis.jpg', alt: 'MyOasis public website homepage' },
+      art: { src: '/Images/myoasis.jpg', alt: 'MyOasis public website homepage' },
       links: [{ href: 'https://www.myoasis.ai/', label: 'Visit website' }]
     },
     {
       name: 'Gene Classifier', role: 'Machine learning research', status: 'Selected project', category: 'research',
       summary: 'Benchmarks DNA representations against simple sequence features on 809 genes; short fine-tuning showed no established advantage.',
       objectives: ['Completed 40 fresh DNABERT fits with fixed nested gene and homology-grouped folds.', 'Audited gene-level predictions and reported paired uncertainty intervals. Working manuscript, not peer reviewed.'],
-      art: { src: 'research/dnabert-cds/results-figure.png', alt: 'Balanced accuracy and uncertainty intervals for six gene classification methods' },
+      art: { src: '/research/dnabert-cds/results-figure.png', alt: 'Balanced accuracy and uncertainty intervals for six gene classification methods' },
       links: [{ href: '/research/dnabert-cds/', label: 'Read research' }, { href: 'https://github.com/Zelun-He/gene_classifier_project', label: 'View code' }]
     },
     {
@@ -108,27 +108,27 @@ const QUEST_ENTRIES = {
       summary: 'Studied encoder and decoder contributions to time series forecasting for an ITNG 2026 paper.',
       objectives: ['Ran targeted ablation experiments to compare transformer architectures.', 'Won first place in Computer Science at the 2025 CNAS Undergraduate Research Symposium.'],
       rewards: [['1st', 'CNAS symposium']],
-      art: { src: 'Images/transformer.png', alt: 'Time series forecasting training and validation plots', frame: 'charts' }
+      art: { src: '/Images/transformer.png', alt: 'Time series forecasting training and validation plots', frame: 'charts' }
     },
     {
       name: 'Real-Time Translation', role: 'Android speech app', status: 'Selected project', category: 'mobile',
       summary: 'A mobile app for speech transcription and translation.',
       objectives: ['Built the Android interface in Kotlin.', 'Connected Whisper and Google Cloud APIs through a FastAPI backend.'],
-      art: { src: 'translation-screen.webp', alt: 'Translation app language options and speech indicator', frame: 'phone' },
+      art: { src: '/translation-screen.webp', alt: 'Translation app language options and speech indicator', frame: 'phone' },
       links: [{ href: 'https://github.com/Zelun-He/RealTimeTranslationApp', label: 'View code' }]
     },
     {
       name: 'Space Invaders', role: 'C++ game development', status: 'Selected project', category: 'systems',
       summary: 'A recreation of the arcade game in C++ and Raylib.',
       objectives: ['Built alien waves, player controls, and scoring.', 'Used the project to explore game programming.'],
-      art: { src: 'Images/space-invaders.png', alt: 'Space Invaders game with rows of pixel art aliens', frame: 'game' },
+      art: { src: '/Images/space-invaders.png', alt: 'Space Invaders game with rows of pixel art aliens', frame: 'game' },
       links: [{ href: 'https://github.com/Zelun-He/Space_Invaders', label: 'View code' }]
     },
     {
       name: 'Limit Order Book', role: 'C++ systems project', status: 'Selected project', category: 'systems',
       summary: 'A low-latency limit order book and matching engine.',
       objectives: ['Matched orders using FIFO price-time priority.', 'Added latency metrics and a React demo interface.'],
-      art: { src: 'Images/order-book.svg', alt: 'Order book interface displaying bids, asks, and market statistics' },
+      art: { src: '/Images/order-book.svg', alt: 'Order book interface displaying bids, asks, and market statistics' },
       links: [{ href: 'https://github.com/Zelun-He/low_latency_lob', label: 'View code' }]
     }
   ]
@@ -147,33 +147,33 @@ QUEST_ENTRIES.side = QUEST_ENTRIES.side.filter(entry => entry.current).map(entry
 const escapeHTML = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const isPastEntry = entry => entry.status === 'Internship' || entry.status === 'Research appointment';
 const PROJECT_PREVIEWS = {
-  "Images/scribsy.png": {
-    "src": "Images/previews/scribsy.webp",
+  "/Images/scribsy.png": {
+    "src": "/Images/previews/scribsy.webp",
     "width": 800,
     "height": 461
   },
-  "narrator-dashboard.webp": {
-    "src": "Images/previews/narrator.webp",
+  "/narrator-dashboard.webp": {
+    "src": "/Images/previews/narrator.webp",
     "width": 800,
     "height": 461
   },
-  "holcomb-tree-service.webp": {
-    "src": "Images/previews/holcomb.webp",
+  "/holcomb-tree-service.webp": {
+    "src": "/Images/previews/holcomb.webp",
     "width": 800,
     "height": 461
   },
-  "Images/eastern-asteria-home.webp": {
-    "src": "Images/previews/eastern-asteria.webp",
+  "/Images/eastern-asteria-home.webp": {
+    "src": "/Images/previews/eastern-asteria.webp",
     "width": 320,
     "height": 178
   },
-  "Images/gene-classifier.png": {
-    "src": "Images/previews/gene-classifier.webp",
+  "/Images/gene-classifier.png": {
+    "src": "/Images/previews/gene-classifier.webp",
     "width": 320,
     "height": 238
   },
-  "Images/space-invaders.png": {
-    "src": "Images/previews/space-invaders.webp",
+  "/Images/space-invaders.png": {
+    "src": "/Images/previews/space-invaders.webp",
     "width": 320,
     "height": 357
   }

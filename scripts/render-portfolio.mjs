@@ -3,7 +3,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { runInNewContext } from 'node:vm';
 
-const htmlFile = new URL('../dist/index.html', import.meta.url);
+const htmlFile = new URL('../dist/lab/forest/index.html', import.meta.url);
 const source = await readFile(new URL('../dist/quest-log.js', import.meta.url), 'utf8');
 const boundary = source.indexOf('\n(() => {');
 if (boundary < 0) throw new Error('Could not find the pure quest renderer boundary.');
@@ -27,4 +27,18 @@ if (process.argv.includes('--check')) {
 } else {
   await writeFile(htmlFile, html);
   console.log('Rendered initial experience.');
+}
+
+// Keep the modern page as the single editable source for the public homepage.
+const homepageFile = new URL('../dist/index.html', import.meta.url);
+const modern = await readFile(new URL('../dist/lab/modern/index.html', import.meta.url), 'utf8');
+const homepage = modern
+  .replace(/^[ \t]*<meta name="(?:robots|googlebot)" content="noindex, nofollow">\n/gm, '')
+  .replace(/((?:href|src)=")\.\//g, '$1/lab/modern/');
+if (process.argv.includes('--check')) {
+  if (await readFile(homepageFile, 'utf8') !== homepage) throw new Error('Homepage is stale. Run node scripts/render-portfolio.mjs.');
+  console.log('Modern homepage matches its source.');
+} else {
+  await writeFile(homepageFile, homepage);
+  console.log('Published modern design to the homepage.');
 }
