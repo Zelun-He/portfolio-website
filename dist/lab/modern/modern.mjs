@@ -31,7 +31,6 @@ async function enhanceGallery() {
   // Keep one continuous scroll rate through the entrance and every project.
   work.style.setProperty('--gallery-runway',String(runwayForProjects(projects.length)));
   work.style.setProperty('--gallery-last',String(travelForProject(projects.length-1)));
-  const nextSection=work.nextElementSibling;
   const topBar=stage.querySelector('.gallery-top');
   const ease = value => { value=clamp(value); return value*value*(3-2*value); };
   const accent = stage.querySelector('.work-title-accent');
@@ -52,7 +51,7 @@ async function enhanceGallery() {
     [readout,topBar].forEach(el=>el.inert=false);
     delete work.dataset.frontVisible;
     root.classList.remove('gallery-pending','gallery-enhanced');
-    readout.hidden=true;canvas.hidden=true;stage.style.removeProperty('clip-path');stage.style.removeProperty('mask-image');
+    readout.hidden=true;canvas.hidden=true;root.style.removeProperty('--gallery-final-height');
   }
   function select(index) {
     if(index===selected)return;selected=index;const project=projects[index];
@@ -70,10 +69,6 @@ async function enhanceGallery() {
     target=positionForTravel(travel/height,projects.length);
     handoff=handoffForTravel(travel/height,projects.length);
     stage.style.setProperty('--gallery-expand',String(handoff));
-    const nextTop=nextSection.getBoundingClientRect().top;
-    const cover=clamp((height-nextTop)/height);
-    stage.style.clipPath=`inset(0 0 ${cover*100}% 0)`;
-    stage.style.maskImage=cover>0?`linear-gradient(to bottom,#000 ${Math.max(0,nextTop-90)}px,transparent ${Math.max(0,nextTop)}px)`:'';
     stage.style.setProperty('--work-rise',String(ease((travel/height+.55)/.55)));
     const writing=clamp((travel/height+.04)/.57);
     letters.forEach((letter,index)=>letter.style.setProperty('--letter-reveal',String(ease(writing*(letters.length+2)-index))));
@@ -107,7 +102,9 @@ async function enhanceGallery() {
     if(destroyed||!renderer)return;
     root.style.setProperty('--gallery-stage-height',`${stage.offsetHeight}px`);
     const bounds=stage.getBoundingClientRect();if(!bounds.width||!bounds.height)return;
-    scene=sceneFor(bounds.width,bounds.height);renderer.resize(scene);queue();
+    scene=sceneFor(bounds.width,bounds.height);
+    root.style.setProperty('--gallery-final-height',`${bounds.width*COIL.finalShare/aspects.at(-1)}px`);
+    renderer.resize(scene);queue();
   }
   updateTarget();
   addEventListener('scroll',onScroll,{passive:true});

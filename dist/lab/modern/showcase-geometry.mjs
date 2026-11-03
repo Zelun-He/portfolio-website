@@ -3,7 +3,7 @@ export const COIL = Object.freeze({
   camera: 8.1, fov: 65.7, turn: 0.73, bend: 0.42,
   aspect: 2.38 / 1.5771, width: 2.38, height: 1.5771,
   print: 0.33, printTall: 0.69, ribbon: 1.5,
-  columns: 64, rows: 12, phase: 0.2, entry: -2.6, scrollStart: 0.4, cardStep: 0.75, hold: 0.25, expand: 1.25, tail: 1, spread: 1, originX: 0.49, originY: 0.483
+  columns: 64, rows: 12, phase: 0.2, entry: -2.6, scrollStart: 0.4, cardStep: 0.75, hold: 0.25, expand: 1.25, tail: 0, finalShare: 0.905, spread: 1, originX: 0.49, originY: 0.483
 });
 export function travelForProject(index) {
   return COIL.scrollStart + (index + COIL.phase - COIL.entry) * COIL.cardStep;
@@ -71,18 +71,22 @@ export function framesFor(scene, count, position, clock, spin = 0, lag = 0, aspe
   }).filter(frame => frame.opacity > 0.005).sort((a, b) => a.z - b.z);
 }
 
-// Straighten the last surface, preserve its image aspect, and let it cover the view.
+// Finish as an inset, uncropped image; native sticky release carries it into the page.
 export function expandFinalFrame(scene,frames,lastIndex,progress,aspect=COIL.aspect){
   const amount=smooth(progress);
   if(!amount)return frames;
   const mix=(from,to)=>from+(to-from)*amount;
   const z=scene.depth-.28;
   const scale=scene.focal/(COIL.camera-z);
-  const coverWidth=Math.max(scene.width,scene.height*aspect)*1.08/scale;
-  return frames.map(frame=>frame.index!==lastIndex?frame:{
+  const finalWidth=scene.width*COIL.finalShare/scale;
+  return frames.map(frame=>frame.index!==lastIndex?{
     ...frame,
-    width:mix(scene.cardWidth,coverWidth),
-    height:mix(frame.height,coverWidth/aspect),
+    x:frame.x+scene.width/scene.unit*amount,
+    y:frame.y+scene.height/scene.unit*amount
+  }:{
+    ...frame,
+    width:mix(scene.cardWidth,finalWidth),
+    height:mix(frame.height,finalWidth/aspect),
     x:mix(frame.x,(.5-COIL.originX)*scene.width/scale),
     y:mix(frame.y,(COIL.originY-.5)*scene.height/scale),
     z:mix(frame.z,z),

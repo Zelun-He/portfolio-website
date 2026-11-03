@@ -68,10 +68,10 @@
 
 @media print{.portfolio-mist{display:none!important}}
 
-/* The final expanded image hands off as the next section rises across it. */
+/* Release the inset final image into native scrolling, with a clear gap below it. */
 .gallery-finale-anchor{position:absolute;left:0;top:0;width:1px;height:1px;scroll-margin-top:-105px;pointer-events:none}
 :is(.gallery-enhanced,.gallery-pending) .gallery-finale-anchor{top:calc(var(--gallery-last,6.25)*var(--gallery-stage-height,100svh))}
-:is(.gallery-enhanced,.gallery-pending) .showcase+.case-studies{position:relative;z-index:2;margin-top:calc(var(--gallery-stage-height,100svh)*-1)}
+:is(.gallery-enhanced,.gallery-pending) .showcase+.case-studies{position:relative;z-index:2;margin-top:calc((min(var(--gallery-final-height,39.25vw),var(--gallery-stage-height,100svh)) - var(--gallery-stage-height,100svh))/2 + clamp(30px,5vw,100px))}
 @media print{:is(.gallery-enhanced,.gallery-pending) .showcase+.case-studies{margin-top:0}}
 
 /* Match the reserved scroll layout to the stage before enhancement loads. */
