@@ -1,4 +1,5 @@
-import { COIL, clamp, sceneFor, framesFor, advanceEdge } from './showcase-geometry.mjs';
+import { COIL, clamp, sceneFor, framesFor, advanceEdge, travelForProject, positionForTravel, runwayForProjects } from './showcase-geometry.mjs';
+import { mountGalleryMist } from './showcase-mist.mjs';
 import { makeSurfaces, createCanvasRenderer, createGLRenderer } from './showcase-renderer.mjs';
 
 // Semantic project entries remain the content source for both views of the work.
@@ -6,6 +7,7 @@ const work = document.querySelector('.showcase');
 const stage = work.querySelector('.gallery-stage');
 const canvas = stage.querySelector('.gallery-canvas');
 const motion = matchMedia('(prefers-reduced-motion: reduce)');
+mountGalleryMist(stage);
 const articles = [...document.querySelectorAll('[data-gallery-order]')]
   .sort((a,b) => Number(a.dataset.galleryOrder)-Number(b.dataset.galleryOrder));
 const projects = articles.map(article => ({
@@ -26,8 +28,9 @@ async function enhanceGallery() {
   let raf=0, visible=false, destroyed=false, position=COIL.entry, target=COIL.entry;
   let clock=0,last=0,spin=0,selected=-1;
   let edge={position:COIL.entry,velocity:0};
-  // One viewport of native scroll gives the type its own entrance before the coil.
-  const introLength = () => stage.offsetHeight * 1.15;
+  // Keep one continuous scroll rate through the entrance and every project.
+  work.style.setProperty('--gallery-runway',String(runwayForProjects(projects.length)));
+  const topBar=stage.querySelector('.gallery-top');
   const ease = value => { value=clamp(value); return value*value*(3-2*value); };
   const accent = stage.querySelector('.work-title-accent');
   const accentText = accent.textContent;
@@ -48,7 +51,7 @@ async function enhanceGallery() {
     removeEventListener('scroll',onScroll);removeEventListener('resize',onScroll);document.removeEventListener('visibilitychange',visibility);
     renderer?.destroy();
     accent.textContent=accentText;accent.removeAttribute('aria-label');
-    [readout,controls,stage.querySelector('.gallery-top')].forEach(el=>el.inert=false);
+    [readout,controls,topBar].forEach(el=>el.inert=false);
     delete work.dataset.frontVisible;
     root.classList.remove('gallery-pending','gallery-enhanced');
     readout.hidden=true;controls.hidden=true;canvas.hidden=true;
@@ -69,19 +72,15 @@ async function enhanceGallery() {
     const bounds=work.getBoundingClientRect();
     const travel=-bounds.top;
     const height=stage.offsetHeight;
-    const range=Math.max(1,work.offsetHeight-height-introLength());
-    const progress=clamp((travel-introLength())/range);
-    target=travel<introLength()
-      ? COIL.entry+clamp((travel/height-.72)/.43)*(COIL.phase-COIL.entry)
-      : COIL.phase+clamp((progress-0.04)/0.92)*(projects.length-1);
+    target=positionForTravel(travel/height,projects.length);
     stage.style.setProperty('--work-rise',String(ease((travel/height+.55)/.55)));
     const writing=clamp((travel/height+.04)/.57);
     letters.forEach((letter,index)=>letter.style.setProperty('--letter-reveal',String(ease(writing*(letters.length+2)-index))));
-    const front=ease((travel/height-.72)/.43);
+    const front=ease((travel/height-.72)/.65);
     stage.style.setProperty('--work-front',String(front));
     const frontVisible=front>.05;
     work.toggleAttribute('data-front-visible',frontVisible);
-    [readout,controls,stage.querySelector('.gallery-top')].forEach(el=>el.inert=!frontVisible);
+    [readout,controls,topBar].forEach(el=>el.inert=!frontVisible);
   }
   function draw(now) {
     raf=0;
@@ -104,6 +103,7 @@ async function enhanceGallery() {
   function visibility(){if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{last=0;queue();}}
   function resize(){
     if(destroyed||!renderer)return;
+    work.style.setProperty('--gallery-stage-height',`${stage.offsetHeight}px`);
     const bounds=stage.getBoundingClientRect();if(!bounds.width||!bounds.height)return;
     scene=sceneFor(bounds.width,bounds.height);renderer.resize(scene);queue();
   }
@@ -111,8 +111,7 @@ async function enhanceGallery() {
     const destination=clamp(index,0,projects.length-1);
     if(location.hash!=='#work')history.replaceState(null,'','#work');
     const top=scrollY+work.getBoundingClientRect().top;
-    const range=Math.max(1,work.offsetHeight-stage.offsetHeight-introLength());
-    scrollTo({top:top+introLength()+range*(0.04+destination/(projects.length-1)*0.92),behavior:'smooth'});
+    scrollTo({top:top+stage.offsetHeight*travelForProject(destination),behavior:'smooth'});
   }
   updateTarget();
   addEventListener('scroll',onScroll,{passive:true});

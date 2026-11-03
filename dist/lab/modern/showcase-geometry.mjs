@@ -2,9 +2,18 @@
 export const COIL = Object.freeze({
   camera: 8.1, fov: 65.7, turn: 0.73, bend: 0.42,
   aspect: 2.38 / 1.5771, width: 2.38, height: 1.5771,
-  print: 0.4, printTall: 0.69, ribbon: 1.5,
-  columns: 64, rows: 12, phase: 0.2, entry: -1.4, enterSpan: 0.75, spread: 1.28, originX: 0.49, originY: 0.483
+  print: 0.33, printTall: 0.69, ribbon: 1.5,
+  columns: 64, rows: 12, phase: 0.2, entry: -2.6, scrollStart: 0.4, cardStep: 0.75, tail: 0.3, spread: 1, originX: 0.49, originY: 0.483
 });
+export function travelForProject(index) {
+  return COIL.scrollStart + (index + COIL.phase - COIL.entry) * COIL.cardStep;
+}
+export function positionForTravel(travel, count) {
+  return Math.min(count-1+COIL.phase, Math.max(COIL.entry, COIL.entry+(travel-COIL.scrollStart)/COIL.cardStep));
+}
+export function runwayForProjects(count) {
+  return travelForProject(count-1) + COIL.tail + 1;
+}
 export const clamp = (x, low = 0, high = 1) => Math.min(high, Math.max(low, x));
 const smooth = x => { x = clamp(x); return x*x*(3-2*x); };
 
@@ -36,9 +45,8 @@ export function sceneFor(width, height) {
 export function framesFor(scene, count, position, clock, spin = 0, lag = 0, aspects = []) {
   return Array.from({ length: count }, (_, index) => {
     // The incoming card rises from the lower left; outgoing work travels upper right.
-    // No wrapping: later projects must enter in order, never appear at the start.
+    // An unwrapped helix brings each image through the frame naturally, in order.
     const relative = position - index;
-    const entrance = smooth((relative - COIL.entry) / COIL.enterSpan);
     const height = scene.cardWidth / (aspects[index] || COIL.aspect);
     const angle = relative * COIL.turn;
     const facing = Math.cos(angle);
@@ -46,15 +54,15 @@ export function framesFor(scene, count, position, clock, spin = 0, lag = 0, aspe
     const bob = Math.sin(clock * 0.48 + index * 1.37) * 0.035;
     return {
       index, relative, height,
-      x: Math.sin(angle) * scene.radius * scene.spread * (1 + Math.abs(spin) * 0.055) - (1-entrance) * scene.width / scene.unit,
-      y: relative * scene.pitch + bob - (1-entrance) * scene.height / scene.unit * 1.2,
+      x: Math.sin(angle) * scene.radius * scene.spread * (1 + Math.abs(spin) * 0.055),
+      y: relative * scene.pitch + bob,
       z: Math.cos(angle) * scene.depth - 0.28,
       rx: -relative * 0.01,
       ry: angle - spin * 0.13,
       rz: Math.sin(relative * 0.68) * 0.042 + spin * 0.2,
       curve: COIL.bend,
       flex: clamp(lag, -0.45, 0.45) * height * 0.16,
-      opacity: entrance > 0 && Math.abs(angle) < Math.PI / 2 + 0.05 ? profile : 0,
+      opacity: Math.abs(angle) < Math.PI / 2 + 0.05 ? profile : 0,
       wash: clamp((1 - facing) * 0.22),
     };
   }).filter(frame => frame.opacity > 0.005).sort((a, b) => a.z - b.z);
