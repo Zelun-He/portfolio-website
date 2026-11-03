@@ -161,3 +161,5 @@
 .archive-description .case-demo-note{margin-top:18px}
 @media(max-width:1000px){.archive-row>summary{grid-template-columns:35px minmax(0,1fr) 165px 38px}}
 @media(max-width:760px){.archive-row>summary{grid-template-columns:25px minmax(0,1fr) 35px}}
+
+.research-poster{display:block;margin-top:25px}.research-poster img{height:auto;aspect-ratio:auto;margin:0;width:100%}.research-poster:hover{opacity:.94}.research-note>.research-poster-caption{font-size:12px!important;line-height:1.6;margin:10px 0 25px;color:#aaa}.research-poster-caption a{text-decoration:underline;text-underline-offset:3px}

@@ -80,13 +80,17 @@
       {
         "label": "Read the research",
         "href": "#dozerformer"
+      },
+      {
+        "label": "View symposium poster",
+        "href": "/Images/dozerformer-symposium-poster.png"
       }
     ],
     "image": {
-      "src": "/Images/transformer.png",
-      "alt": "Training and validation plots from transformer forecasting experiments",
-      "width": 2846,
-      "height": 1502
+      "src": "/Images/dozerformer-symposium-poster.png",
+      "alt": "Dozerformer research poster presented at the 2025 CNAS Undergraduate Research Symposium",
+      "width": 1350,
+      "height": 1010
     },
     "note": "Coauthored research · My contribution focused on ablation experiments"
   },
