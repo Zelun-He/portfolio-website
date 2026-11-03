@@ -15,7 +15,8 @@ const projects = articles.map(article => ({
   link: article.querySelector('.project-link').href,
   label: article.dataset.linkLabel,
   image: new URL(article.dataset.galleryImage || article.querySelector('img').src, location.href).href,
-  detail: `#${article.id}`
+  detail: `#${article.id}`,
+  detailLabel: article.classList.contains('case-study') ? 'Engineering notes ↗' : 'Project details ↗'
 }));
 
 async function enhanceGallery() {
@@ -46,7 +47,7 @@ async function enhanceGallery() {
     stage.querySelector('#active-description').textContent=project.description;
     const link=stage.querySelector('#active-link');link.href=project.link;link.textContent=`${project.label} ↗`;
     const detail=stage.querySelector('#active-case-study');detail.href=project.detail;
-    detail.textContent=index<3?'Engineering notes ↗':'Project details ↗';
+    detail.textContent=project.detailLabel;
     stage.querySelector('#project-number').textContent=String(index+1).padStart(2,'0');
     [...dots.children].forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
     previous.disabled=index===0;next.disabled=index===projects.length-1;
