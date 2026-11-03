@@ -68,35 +68,8 @@
     "note": "Professional team work"
   },
   {
-    "id": "gene-benchmark",
-    "title": "Gene Classification",
-    "categories": [
-      "ai"
-    ],
-    "label": "DNA sequence benchmark",
-    "description": "A nested benchmark comparing DNABERT with simpler DNA sequence features. The manuscript reports held-out results, uncertainty intervals, and the limits of the tested fine-tuning workflow.",
-    "stack": "Python · PyTorch · DNABERT · Nested evaluation",
-    "links": [
-      {
-        "label": "Read the manuscript",
-        "href": "/research/dnabert-cds/"
-      },
-      {
-        "label": "View code",
-        "href": "https://github.com/Zelun-He/gene_classifier_project"
-      }
-    ],
-    "image": {
-      "src": "/research/dnabert-cds/results-figure.png",
-      "alt": "Gene classification model results with uncertainty intervals",
-      "width": 2062,
-      "height": 779
-    },
-    "note": "Working manuscript · Not peer reviewed"
-  },
-  {
     "id": "transformer-study",
-    "title": "Transformer Forecasting",
+    "title": "Dozerformer Research",
     "categories": [
       "ai"
     ],
@@ -106,7 +79,7 @@
     "links": [
       {
         "label": "Read the research",
-        "href": "#research"
+        "href": "#dozerformer"
       }
     ],
     "image": {
