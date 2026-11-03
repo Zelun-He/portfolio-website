@@ -44,17 +44,15 @@ export async function makeSurfaces(projects) {
     const image = new Image(); image.decoding = 'async'; image.src = project.image;
     await image.decode();
     const surface = document.createElement('canvas');
-    surface.width = Math.min(image.naturalWidth, 2048); surface.height = Math.round(surface.width / COIL.aspect);
+    surface.width = Math.min(image.naturalWidth, 2048);
+    surface.height = Math.round(surface.width * image.naturalHeight / image.naturalWidth);
     const ctx = surface.getContext('2d');
     if (!ctx) throw new Error('Image surface unavailable');
     ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
     // Use the project itself: no invented browser chrome or surrounding mockup frame.
     ctx.beginPath(); ctx.roundRect(0, 0, surface.width, surface.height, surface.width * 0.0265); ctx.clip();
-    ctx.fillStyle = '#fff'; ctx.fillRect(0, 0, surface.width, surface.height);
-    const scale = Math.min(surface.width / image.naturalWidth, surface.height / image.naturalHeight);
-    const w = image.naturalWidth * scale, h = image.naturalHeight * scale;
-    ctx.drawImage(image, (surface.width-w)/2, 0, w, h);
-    return { surface };
+    ctx.drawImage(image, 0, 0, surface.width, surface.height);
+    return { surface, aspect: image.naturalWidth / image.naturalHeight };
   }));
   const loaded = results.filter(result => result.status === 'fulfilled').map(result => result.value);
   if (loaded.length !== projects.length) {
@@ -161,8 +159,9 @@ export function createGLRenderer(canvas, surfaces) {
       },
       draw(frames) {
         gl.clear(gl.COLOR_BUFFER_BIT);gl.uniform2f(uniforms.view,scene.width,scene.height);
-        gl.uniform2f(uniforms.size,scene.cardWidth,scene.cardHeight);gl.uniform1i(uniforms.image,0);
+        gl.uniform1i(uniforms.image,0);
         for(const frame of frames){
+          gl.uniform2f(uniforms.size,scene.cardWidth,frame.height ?? scene.cardHeight);
           gl.uniform3f(uniforms.offset,frame.x,frame.y,frame.z);gl.uniform3f(uniforms.rotation,frame.rx,frame.ry,frame.rz);
           gl.uniform1f(uniforms.curve,frame.curve);gl.uniform1f(uniforms.flex,frame.flex);
           gl.uniform1f(uniforms.opacity,frame.opacity);gl.uniform1f(uniforms.wash,frame.wash);

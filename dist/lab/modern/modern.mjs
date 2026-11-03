@@ -22,7 +22,7 @@ const projects = articles.map(article => ({
 async function enhanceGallery() {
   const root = document.documentElement;
   if (motion.matches || projects.length < 2) { root.classList.remove('gallery-pending'); return; }
-  let renderer, surfaces=[], scene, observer, resizer;
+  let renderer, surfaces=[], aspects=[], scene, observer, resizer;
   let raf=0, visible=false, destroyed=false, position=COIL.phase, target=COIL.phase;
   let clock=0,last=0,spin=0,selected=-1;
   let edge={position:COIL.phase,velocity:0};
@@ -71,7 +71,7 @@ async function enhanceGallery() {
     const demand=clamp(velocity/5,-1,1),rate=Math.abs(demand)>Math.abs(spin)?7:2.2;
     spin+=(demand-spin)*(1-Math.exp(-rate*dt));
     select(clamp(Math.round(position),0,projects.length-1));
-    renderer.draw(framesFor(scene,projects.length,position,clock,spin,position-edge.position));
+    renderer.draw(framesFor(scene,projects.length,position,clock,spin,position-edge.position,aspects));
     queue();
   }
   function queue(){if(!raf&&!destroyed&&renderer&&visible&&!document.hidden)raf=requestAnimationFrame(draw);}
@@ -90,6 +90,7 @@ async function enhanceGallery() {
   }
   try {
     surfaces=await makeSurfaces(projects);
+    aspects=surfaces.map(({aspect})=>aspect);
     if(motion.matches){dispose();return;}
     renderer=createGLRenderer(canvas,surfaces);
     if(!renderer){renderer=await createCanvasRenderer(stage,surfaces);canvas.hidden=true;stage.dataset.renderer='canvas-mesh';}

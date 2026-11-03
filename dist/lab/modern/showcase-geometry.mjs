@@ -33,18 +33,19 @@ export function sceneFor(width, height) {
   return scene;
 }
 
-export function framesFor(scene, count, position, clock, spin = 0, lag = 0) {
+export function framesFor(scene, count, position, clock, spin = 0, lag = 0, aspects = []) {
   return Array.from({ length: count }, (_, index) => {
     // The incoming card rises from the lower left; outgoing work travels upper right.
     let relative = position - index;
     while (relative > count / 2) relative -= count;
     while (relative < -count / 2) relative += count;
+    const height = scene.cardWidth / (aspects[index] || COIL.aspect);
     const angle = relative * COIL.turn;
     const facing = Math.cos(angle);
     const profile = smooth(facing / 0.12);
     const bob = Math.sin(clock * 0.48 + index * 1.37) * 0.035;
     return {
-      index, relative,
+      index, relative, height,
       x: Math.sin(angle) * scene.radius * scene.spread * (1 + Math.abs(spin) * 0.055),
       y: relative * scene.pitch + bob,
       z: Math.cos(angle) * scene.depth - 0.28,
@@ -52,7 +53,7 @@ export function framesFor(scene, count, position, clock, spin = 0, lag = 0) {
       ry: angle - spin * 0.13,
       rz: Math.sin(relative * 0.68) * 0.042 + spin * 0.2,
       curve: COIL.bend,
-      flex: clamp(lag, -0.45, 0.45) * scene.cardHeight * 0.16,
+      flex: clamp(lag, -0.45, 0.45) * height * 0.16,
       opacity: Math.abs(angle) < Math.PI / 2 + 0.05 ? profile : 0,
       wash: clamp((1 - facing) * 0.22),
     };
@@ -64,7 +65,7 @@ export function localPoint(scene, frame, u, v) {
   const radius = scene.cardWidth / (2 * frame.curve);
   return [
     Math.sin(angle) * radius,
-    (v - 0.5) * scene.cardHeight + Math.sin((u - 0.5) * Math.PI) * frame.flex,
+    (v - 0.5) * (frame.height ?? scene.cardHeight) + Math.sin((u - 0.5) * Math.PI) * frame.flex,
     (Math.cos(angle) - 1) * radius
   ];
 }
