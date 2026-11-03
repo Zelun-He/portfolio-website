@@ -161,7 +161,7 @@ export function createGLRenderer(canvas, surfaces) {
         gl.clear(gl.COLOR_BUFFER_BIT);gl.uniform2f(uniforms.view,scene.width,scene.height);
         gl.uniform1i(uniforms.image,0);
         for(const frame of frames){
-          gl.uniform2f(uniforms.size,scene.cardWidth,frame.height ?? scene.cardHeight);
+          gl.uniform2f(uniforms.size,frame.width ?? scene.cardWidth,frame.height ?? scene.cardHeight);
           gl.uniform3f(uniforms.offset,frame.x,frame.y,frame.z);gl.uniform3f(uniforms.rotation,frame.rx,frame.ry,frame.rz);
           gl.uniform1f(uniforms.curve,frame.curve);gl.uniform1f(uniforms.flex,frame.flex);
           gl.uniform1f(uniforms.opacity,frame.opacity);gl.uniform1f(uniforms.wash,frame.wash);

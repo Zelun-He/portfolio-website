@@ -1,4 +1,4 @@
-import { COIL, clamp, sceneFor, framesFor, advanceEdge, travelForProject, positionForTravel, runwayForProjects } from './showcase-geometry.mjs';
+import { COIL, clamp, sceneFor, framesFor, advanceEdge, travelForProject, positionForTravel, runwayForProjects, handoffForTravel, expandFinalFrame } from './showcase-geometry.mjs';
 import { mountPortfolioMist } from './showcase-mist.mjs';
 import { makeSurfaces, createCanvasRenderer, createGLRenderer } from './showcase-renderer.mjs';
 
@@ -26,10 +26,12 @@ async function enhanceGallery() {
   if (motion.matches || projects.length < 2) { root.classList.remove('gallery-pending'); return; }
   let renderer, surfaces=[], aspects=[], scene, observer, resizer;
   let raf=0, visible=false, destroyed=false, position=COIL.entry, target=COIL.entry;
-  let clock=0,last=0,spin=0,selected=-1;
+  let clock=0,last=0,spin=0,selected=-1,handoff=0;
   let edge={position:COIL.entry,velocity:0};
   // Keep one continuous scroll rate through the entrance and every project.
   work.style.setProperty('--gallery-runway',String(runwayForProjects(projects.length)));
+  work.style.setProperty('--gallery-last',String(travelForProject(projects.length-1)));
+  const nextSection=work.nextElementSibling;
   const topBar=stage.querySelector('.gallery-top');
   const ease = value => { value=clamp(value); return value*value*(3-2*value); };
   const accent = stage.querySelector('.work-title-accent');
@@ -40,10 +42,6 @@ async function enhanceGallery() {
   });
   accent.setAttribute('aria-label',accentText);accent.replaceChildren(...letters);
   const readout=stage.querySelector('.gallery-readout');
-  const controls=stage.querySelector('.gallery-controls');
-  const dots=stage.querySelector('.project-dots');
-  const previous=stage.querySelector('#previous-project');
-  const next=stage.querySelector('#next-project');
 
   function dispose() {
     if(destroyed)return;destroyed=true;
@@ -51,10 +49,10 @@ async function enhanceGallery() {
     removeEventListener('scroll',onScroll);removeEventListener('resize',onScroll);document.removeEventListener('visibilitychange',visibility);
     renderer?.destroy();
     accent.textContent=accentText;accent.removeAttribute('aria-label');
-    [readout,controls,topBar].forEach(el=>el.inert=false);
+    [readout,topBar].forEach(el=>el.inert=false);
     delete work.dataset.frontVisible;
     root.classList.remove('gallery-pending','gallery-enhanced');
-    readout.hidden=true;controls.hidden=true;canvas.hidden=true;
+    readout.hidden=true;canvas.hidden=true;stage.style.removeProperty('clip-path');stage.style.removeProperty('mask-image');
   }
   function select(index) {
     if(index===selected)return;selected=index;const project=projects[index];
@@ -64,23 +62,26 @@ async function enhanceGallery() {
     const link=stage.querySelector('#active-link');link.href=project.link;link.textContent=`${project.label} ↗`;
     const detail=stage.querySelector('#active-case-study');detail.href=project.detail;
     detail.textContent=project.detailLabel;
-    stage.querySelector('#project-number').textContent=String(index+1).padStart(2,'0');
-    [...dots.children].forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
-    previous.disabled=index===0;next.disabled=index===projects.length-1;
   }
   function updateTarget() {
     const bounds=work.getBoundingClientRect();
     const travel=-bounds.top;
     const height=stage.offsetHeight;
     target=positionForTravel(travel/height,projects.length);
+    handoff=handoffForTravel(travel/height,projects.length);
+    stage.style.setProperty('--gallery-expand',String(handoff));
+    const nextTop=nextSection.getBoundingClientRect().top;
+    const cover=clamp((height-nextTop)/height);
+    stage.style.clipPath=`inset(0 0 ${cover*100}% 0)`;
+    stage.style.maskImage=cover>0?`linear-gradient(to bottom,#000 ${Math.max(0,nextTop-90)}px,transparent ${Math.max(0,nextTop)}px)`:'';
     stage.style.setProperty('--work-rise',String(ease((travel/height+.55)/.55)));
     const writing=clamp((travel/height+.04)/.57);
     letters.forEach((letter,index)=>letter.style.setProperty('--letter-reveal',String(ease(writing*(letters.length+2)-index))));
-    const front=ease((travel/height-.72)/.65);
+    const front=ease((travel/height-.72)/.65)*(1-ease(handoff*3));
     stage.style.setProperty('--work-front',String(front));
     const frontVisible=front>.05;
     work.toggleAttribute('data-front-visible',frontVisible);
-    [readout,controls,topBar].forEach(el=>el.inert=!frontVisible);
+    [readout,topBar].forEach(el=>el.inert=!frontVisible);
   }
   function draw(now) {
     raf=0;
@@ -95,7 +96,8 @@ async function enhanceGallery() {
     const demand=clamp(velocity/5,-1,1),rate=Math.abs(demand)>Math.abs(spin)?7:2.2;
     spin+=(demand-spin)*(1-Math.exp(-rate*dt));
     select(clamp(Math.round(position),0,projects.length-1));
-    renderer.draw(framesFor(scene,projects.length,position,clock,spin,position-edge.position,aspects));
+    const frames=framesFor(scene,projects.length,position,clock,spin,position-edge.position,aspects);
+    renderer.draw(expandFinalFrame(scene,frames,projects.length-1,handoff,aspects.at(-1)));
     queue();
   }
   function onScroll(){updateTarget();queue();}
@@ -103,15 +105,9 @@ async function enhanceGallery() {
   function visibility(){if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{last=0;queue();}}
   function resize(){
     if(destroyed||!renderer)return;
-    work.style.setProperty('--gallery-stage-height',`${stage.offsetHeight}px`);
+    root.style.setProperty('--gallery-stage-height',`${stage.offsetHeight}px`);
     const bounds=stage.getBoundingClientRect();if(!bounds.width||!bounds.height)return;
     scene=sceneFor(bounds.width,bounds.height);renderer.resize(scene);queue();
-  }
-  function goToProject(index){
-    const destination=clamp(index,0,projects.length-1);
-    if(location.hash!=='#work')history.replaceState(null,'','#work');
-    const top=scrollY+work.getBoundingClientRect().top;
-    scrollTo({top:top+stage.offsetHeight*travelForProject(destination),behavior:'smooth'});
   }
   updateTarget();
   addEventListener('scroll',onScroll,{passive:true});
@@ -133,15 +129,8 @@ async function enhanceGallery() {
     },{once:true});
     if(motion.matches){dispose();return;}
     stage.addEventListener('showcase:renderer-error',dispose,{once:true});
-    projects.forEach((project,index)=>{
-      const button=document.createElement('button');button.type='button';button.className='project-dot';
-      button.setAttribute('aria-label',`Show ${project.title}`);button.setAttribute('aria-pressed','false');
-      button.addEventListener('click',()=>goToProject(index));dots.append(button);
-    });
-    stage.querySelector('.project-count .muted').textContent=` / ${String(projects.length).padStart(2,'0')}`;
-    previous.addEventListener('click',()=>goToProject(selected-1));next.addEventListener('click',()=>goToProject(selected+1));
     root.classList.add('gallery-enhanced');root.classList.remove('gallery-pending');
-    readout.hidden=false;controls.hidden=false;select(0);resize();
+    readout.hidden=false;select(0);resize();
     observer=new IntersectionObserver(entries=>{
       visible=entries[0].isIntersecting;
       if(visible){updateTarget();position=target;edge={position,velocity:0};last=0;queue();}

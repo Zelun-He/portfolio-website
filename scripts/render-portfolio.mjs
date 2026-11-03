@@ -3,6 +3,7 @@
 import { readFile, writeFile } from 'node:fs/promises';
 import { runInNewContext } from 'node:vm';
 import { renderProjectArchive } from './project-archive.mjs';
+import { runwayForProjects, travelForProject } from '../dist/lab/modern/showcase-geometry.mjs';
 
 const htmlFile = new URL('../dist/lab/forest/index.html', import.meta.url);
 const source = await readFile(new URL('../dist/quest-log.js', import.meta.url), 'utf8');
@@ -37,9 +38,11 @@ const modernSource = await readFile(modernFile, 'utf8');
 const archive = await renderProjectArchive();
 const archivePattern = /<!-- PROJECT_ARCHIVE_START -->[\s\S]*?<!-- PROJECT_ARCHIVE_END -->/;
 if (!archivePattern.test(modernSource)) throw new Error('Missing project archive markers.');
-const modern = modernSource
+const modernBase = modernSource
   .replace(archivePattern, () => `<!-- PROJECT_ARCHIVE_START -->\n${archive.html}\n<!-- PROJECT_ARCHIVE_END -->`)
   .replace(/(<p class="archive-count" aria-live="polite">)[^<]*(<\/p>)/, `$1${archive.count} projects$2`);
+const galleryCount = [...modernBase.matchAll(/\bdata-gallery-order="\d+"/g)].length;
+const modern = modernBase.replace(/(<section class="work showcase" id="work")(?: style="[^"]*")?/, `$1 style="--gallery-runway:${runwayForProjects(galleryCount)};--gallery-last:${travelForProject(galleryCount-1)}"`);
 if (process.argv.includes('--check')) {
   if (modern !== modernSource) throw new Error('Project archive is stale. Run node scripts/render-portfolio.mjs.');
 } else {

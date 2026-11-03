@@ -3,7 +3,7 @@ export const COIL = Object.freeze({
   camera: 8.1, fov: 65.7, turn: 0.73, bend: 0.42,
   aspect: 2.38 / 1.5771, width: 2.38, height: 1.5771,
   print: 0.33, printTall: 0.69, ribbon: 1.5,
-  columns: 64, rows: 12, phase: 0.2, entry: -2.6, scrollStart: 0.4, cardStep: 0.75, tail: 0.3, spread: 1, originX: 0.49, originY: 0.483
+  columns: 64, rows: 12, phase: 0.2, entry: -2.6, scrollStart: 0.4, cardStep: 0.75, hold: 0.25, expand: 1.25, tail: 1, spread: 1, originX: 0.49, originY: 0.483
 });
 export function travelForProject(index) {
   return COIL.scrollStart + (index + COIL.phase - COIL.entry) * COIL.cardStep;
@@ -12,7 +12,10 @@ export function positionForTravel(travel, count) {
   return Math.min(count-1+COIL.phase, Math.max(COIL.entry, COIL.entry+(travel-COIL.scrollStart)/COIL.cardStep));
 }
 export function runwayForProjects(count) {
-  return travelForProject(count-1) + COIL.tail + 1;
+  return travelForProject(count-1) + COIL.hold + COIL.expand + COIL.tail + 1;
+}
+export function handoffForTravel(travel,count) {
+  return clamp((travel-travelForProject(count-1)-COIL.hold)/COIL.expand);
 }
 export const clamp = (x, low = 0, high = 1) => Math.min(high, Math.max(low, x));
 const smooth = x => { x = clamp(x); return x*x*(3-2*x); };
@@ -68,9 +71,29 @@ export function framesFor(scene, count, position, clock, spin = 0, lag = 0, aspe
   }).filter(frame => frame.opacity > 0.005).sort((a, b) => a.z - b.z);
 }
 
+// Straighten the last surface, preserve its image aspect, and let it cover the view.
+export function expandFinalFrame(scene,frames,lastIndex,progress,aspect=COIL.aspect){
+  const amount=smooth(progress);
+  if(!amount)return frames;
+  const mix=(from,to)=>from+(to-from)*amount;
+  const z=scene.depth-.28;
+  const scale=scene.focal/(COIL.camera-z);
+  const coverWidth=Math.max(scene.width,scene.height*aspect)*1.08/scale;
+  return frames.map(frame=>frame.index!==lastIndex?frame:{
+    ...frame,
+    width:mix(scene.cardWidth,coverWidth),
+    height:mix(frame.height,coverWidth/aspect),
+    x:mix(frame.x,(.5-COIL.originX)*scene.width/scale),
+    y:mix(frame.y,(COIL.originY-.5)*scene.height/scale),
+    z:mix(frame.z,z),
+    rx:frame.rx*(1-amount),ry:frame.ry*(1-amount),rz:frame.rz*(1-amount),
+    curve:mix(frame.curve,.001),flex:frame.flex*(1-amount),wash:frame.wash*(1-amount),opacity:1
+  }).sort((a,b)=>a.z-b.z);
+}
+
 export function localPoint(scene, frame, u, v) {
   const angle = (u - 0.5) * 2 * frame.curve;
-  const radius = scene.cardWidth / (2 * frame.curve);
+  const radius = (frame.width ?? scene.cardWidth) / (2 * frame.curve);
   return [
     Math.sin(angle) * radius,
     (v - 0.5) * (frame.height ?? scene.cardHeight) + Math.sin((u - 0.5) * Math.PI) * frame.flex,
