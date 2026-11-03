@@ -20,7 +20,7 @@
 :is(.gallery-enhanced,.gallery-pending) .work-title-rise{transform:translateY(calc((1 - var(--work-rise,0))*125%))}
 .work-title-char{display:inline-block;white-space:pre}
 :is(.gallery-enhanced,.gallery-pending) .work-title-char{opacity:var(--letter-reveal,0);transform:translateY(calc((1 - var(--letter-reveal,0))*.45em));filter:blur(calc((1 - var(--letter-reveal,0))*.055em))}
-:is(.gallery-enhanced,.gallery-pending) .showcase :is(.gallery-canvas,.coil-mesh-canvas){opacity:var(--work-front,0);transform:translateY(calc((1 - var(--work-front,0))*35%))}
+:is(.gallery-enhanced,.gallery-pending) .showcase :is(.gallery-canvas,.coil-mesh-canvas){opacity:1;transform:translate3d(calc((1 - var(--work-front,0))*-20%),calc((1 - var(--work-front,0))*110%),0)}
 :is(.gallery-enhanced,.gallery-pending) .showcase :is(.gallery-top,.gallery-readout,.gallery-controls){opacity:var(--work-front,0);visibility:hidden}
 .gallery-enhanced .showcase[data-front-visible] :is(.gallery-top,.gallery-readout,.gallery-controls){visibility:visible}
 .showcase .gallery-canvas,.coil-mesh-canvas{z-index:1}
