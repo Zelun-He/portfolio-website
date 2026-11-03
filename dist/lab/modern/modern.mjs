@@ -23,9 +23,9 @@ async function enhanceGallery() {
   const root = document.documentElement;
   if (motion.matches || projects.length < 2) { root.classList.remove('gallery-pending'); return; }
   let renderer, surfaces=[], aspects=[], scene, observer, resizer;
-  let raf=0, visible=false, destroyed=false, position=COIL.phase, target=COIL.phase;
+  let raf=0, visible=false, destroyed=false, position=COIL.entry, target=COIL.entry;
   let clock=0,last=0,spin=0,selected=-1;
-  let edge={position:COIL.phase,velocity:0};
+  let edge={position:COIL.entry,velocity:0};
   // One viewport of native scroll gives the type its own entrance before the coil.
   const introLength = () => stage.offsetHeight * 1.15;
   const ease = value => { value=clamp(value); return value*value*(3-2*value); };
@@ -71,7 +71,9 @@ async function enhanceGallery() {
     const height=stage.offsetHeight;
     const range=Math.max(1,work.offsetHeight-height-introLength());
     const progress=clamp((travel-introLength())/range);
-    target=COIL.phase+clamp((progress-0.04)/0.92)*(projects.length-1);
+    target=travel<introLength()
+      ? COIL.entry+clamp((travel/height-.72)/.43)*(COIL.phase-COIL.entry)
+      : COIL.phase+clamp((progress-0.04)/0.92)*(projects.length-1);
     stage.style.setProperty('--work-rise',String(ease((travel/height+.55)/.55)));
     const writing=clamp((travel/height+.04)/.57);
     letters.forEach((letter,index)=>letter.style.setProperty('--letter-reveal',String(ease(writing*(letters.length+2)-index))));
