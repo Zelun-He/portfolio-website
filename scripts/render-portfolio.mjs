@@ -2,6 +2,7 @@
 // The interactive page and static HTML share the same data and renderers.
 import { readFile, writeFile } from 'node:fs/promises';
 import { runInNewContext } from 'node:vm';
+import { renderProjectArchive } from './project-archive.mjs';
 
 const htmlFile = new URL('../dist/lab/forest/index.html', import.meta.url);
 const source = await readFile(new URL('../dist/quest-log.js', import.meta.url), 'utf8');
@@ -31,7 +32,20 @@ if (process.argv.includes('--check')) {
 
 // Keep the modern page as the single editable source for the public homepage.
 const homepageFile = new URL('../dist/index.html', import.meta.url);
-const modern = await readFile(new URL('../dist/lab/modern/index.html', import.meta.url), 'utf8');
+const modernFile = new URL('../dist/lab/modern/index.html', import.meta.url);
+const modernSource = await readFile(modernFile, 'utf8');
+const archive = await renderProjectArchive();
+const archivePattern = /<!-- PROJECT_ARCHIVE_START -->[\s\S]*?<!-- PROJECT_ARCHIVE_END -->/;
+if (!archivePattern.test(modernSource)) throw new Error('Missing project archive markers.');
+const modern = modernSource
+  .replace(archivePattern, () => `<!-- PROJECT_ARCHIVE_START -->\n${archive.html}\n<!-- PROJECT_ARCHIVE_END -->`)
+  .replace(/(<p class="archive-count" aria-live="polite">)[^<]*(<\/p>)/, `$1${archive.count} projects$2`);
+if (process.argv.includes('--check')) {
+  if (modern !== modernSource) throw new Error('Project archive is stale. Run node scripts/render-portfolio.mjs.');
+} else {
+  await writeFile(modernFile, modern);
+}
+console.log(`Project archive: ${archive.count} entries.`);
 const homepage = modern
   .replace(/^[ \t]*<meta name="(?:robots|googlebot)" content="noindex, nofollow">\n/gm, '')
   .replace(/((?:href|src)=")\.\//g, '$1/lab/modern/');

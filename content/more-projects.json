@@ -1,0 +1,543 @@
+[
+  {
+    "id": "narrator",
+    "title": "Narrator",
+    "categories": [
+      "web",
+      "ai"
+    ],
+    "label": "Audiobook platform",
+    "description": "Manuscript upload, persisted narration jobs, chapter playback, and audiobook downloads. A worker saves completed chapters and supports recovery after an interrupted job.",
+    "stack": "Next.js · TypeScript · SQLite · Piper · FFmpeg · Docker",
+    "links": [
+      {
+        "label": "Explore the demo",
+        "href": "https://narrator-eight.vercel.app/demo/library"
+      },
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/Narrator"
+      }
+    ],
+    "image": {
+      "src": "/narrator-dashboard.webp",
+      "alt": "Narrator author studio with audiobook library and creation workflow",
+      "width": 2048,
+      "height": 1180
+    },
+    "note": "No signup · Sample studio · New audio generation requires the self-hosted backend"
+  },
+  {
+    "id": "orbit",
+    "title": "Orbit Image Converter",
+    "categories": [
+      "web"
+    ],
+    "label": "Browser utility",
+    "description": "Drop in images, choose a format from a radial wheel, and export locally. Quality controls, resizing, and batch ZIP downloads keep the workflow in the browser.",
+    "stack": "JavaScript · Canvas API · File API",
+    "links": [],
+    "image": {
+      "src": "/Images/orbit-image-converter.svg",
+      "alt": "Orbit image conversion interface with a radial format picker",
+      "width": 960,
+      "height": 620
+    },
+    "status": "In progress"
+  },
+  {
+    "id": "clinical-guideline-navigator",
+    "title": "AI Clinical Guideline Navigator",
+    "categories": [
+      "web",
+      "ai"
+    ],
+    "label": "Guideline retrieval prototype",
+    "description": "A clinical guideline Q&A prototype using semantic retrieval, source-page citations, and a panel showing retrieved evidence. Unsupported questions return an insufficient-evidence response.",
+    "stack": "Next.js · FastAPI · Pydantic · Supabase · pgvector",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/AI-Clinical-Guideline-Navigator"
+      }
+    ],
+    "note": "Software prototype for exploring guideline retrieval"
+  },
+  {
+    "id": "palestine-pulse",
+    "title": "Palestine Pulse",
+    "categories": [
+      "web"
+    ],
+    "label": "Geospatial news platform",
+    "description": "An incident-mapping and news exploration platform with category filters, timeline controls, linked sources, and an RSS ingestion workflow.",
+    "stack": "Next.js · TypeScript · Leaflet · PostgreSQL · PostGIS",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/palestine-pulse"
+      }
+    ]
+  },
+  {
+    "id": "wild-capture-log",
+    "title": "Wild Capture Log",
+    "categories": [
+      "web",
+      "ai"
+    ],
+    "label": "Wildlife exploration prototype",
+    "description": "A wildlife photo and hiking app with photo uploads, animal identification, a personal collection, hike tracking, and offline storage workflows.",
+    "stack": "React · TypeScript · Supabase · Maps",
+    "links": [],
+    "status": "Private source"
+  },
+  {
+    "id": "evergreen",
+    "title": "Evergreen",
+    "categories": [
+      "web",
+      "learning"
+    ],
+    "label": "Wildlife app concept",
+    "description": "An early Next.js scaffold for a planned wildlife recognition project. The repository currently contains the starter frontend rather than a completed identification workflow.",
+    "stack": "Next.js · React · TypeScript",
+    "links": [],
+    "status": "Early scaffold"
+  },
+  {
+    "id": "streaks",
+    "title": "Streaks",
+    "categories": [
+      "web"
+    ],
+    "label": "Journal tracking prototype",
+    "description": "A journaling interface with entry creation and a daily streak API, backed by a database through Prisma.",
+    "stack": "Next.js · React · Prisma",
+    "links": [],
+    "status": "Private source"
+  },
+  {
+    "id": "relic-rush",
+    "title": "Relic Rush",
+    "categories": [
+      "games",
+      "web"
+    ],
+    "label": "Multiplayer trivia",
+    "description": "A room-code trivia treasure hunt for two to four players, with server-controlled answers and scoring, plus a solo expedition in pixel-art ruins.",
+    "stack": "JavaScript · Node.js · HTTP multiplayer",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/Relic-rush"
+      }
+    ]
+  },
+  {
+    "id": "mimicry",
+    "title": "Mimicry",
+    "categories": [
+      "games",
+      "web"
+    ],
+    "label": "Browser card battler",
+    "description": "A single-player card battler featuring ordered card chains, enemy intent, encounters, and browser save state. The card engine is separate from the interface.",
+    "stack": "JavaScript · Canvas · Local storage · Engine tests",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/Mimicry"
+      }
+    ]
+  },
+  {
+    "id": "cory-montero",
+    "title": "Cory Montero Recreation Study",
+    "categories": [
+      "web"
+    ],
+    "label": "Portfolio and comic study",
+    "description": "A documented portfolio recreation exploring an Experiences collection and a scroll-driven 3D comic. The public repository currently contains project notes.",
+    "stack": "Static web · Three.js · GSAP",
+    "links": [
+      {
+        "label": "Read project notes",
+        "href": "https://github.com/Zelun-He/cory-montero"
+      }
+    ],
+    "status": "Recreation study"
+  },
+  {
+    "id": "myoasis",
+    "title": "MyOasis.ai",
+    "categories": [
+      "web"
+    ],
+    "label": "Wellbeing platform / Internship",
+    "description": "Front-end development for a wellbeing platform’s landing page, with improvements to responsive layouts and React performance.",
+    "stack": "React · Responsive interfaces · Performance",
+    "links": [
+      {
+        "label": "Visit website",
+        "href": "https://www.myoasis.ai/"
+      }
+    ],
+    "image": {
+      "src": "/Images/myoasis.jpg",
+      "alt": "MyOasis wellbeing platform homepage",
+      "width": 1024,
+      "height": 548
+    },
+    "note": "Professional team work"
+  },
+  {
+    "id": "limit-order-book",
+    "title": "Limit Order Book",
+    "categories": [
+      "systems",
+      "web"
+    ],
+    "label": "Matching engine",
+    "description": "A C++ matching engine using FIFO price-time priority, with latency metrics and a React demo interface for inspecting the order book.",
+    "stack": "C++ · Matching engine · React",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/low_latency_lob"
+      }
+    ],
+    "image": {
+      "src": "/Images/order-book.svg",
+      "alt": "Order book interface showing bids, asks, and market statistics",
+      "width": 800,
+      "height": 461
+    }
+  },
+  {
+    "id": "realtime-translation",
+    "title": "Real-Time Translation",
+    "categories": [
+      "systems",
+      "ai"
+    ],
+    "label": "Android speech translation",
+    "description": "A mobile speech transcription and translation app connecting an Android interface to Whisper and Google Cloud APIs through a FastAPI backend.",
+    "stack": "Kotlin · FastAPI · Whisper",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/RealTimeTranslationApp"
+      }
+    ],
+    "image": {
+      "src": "/Images/translation.png",
+      "alt": "Android speech translation interface",
+      "width": 756,
+      "height": 1216
+    }
+  },
+  {
+    "id": "space-invaders",
+    "title": "Space Invaders",
+    "categories": [
+      "games",
+      "systems"
+    ],
+    "label": "Arcade game",
+    "description": "An arcade recreation built to explore game programming: alien waves, player controls, collision handling, and scoring.",
+    "stack": "C++ · Raylib · Game loops",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/Space_Invaders"
+      }
+    ],
+    "image": {
+      "src": "/Images/previews/space-invaders.webp",
+      "alt": "Pixel-art alien waves in Space Invaders",
+      "width": 320,
+      "height": 357
+    }
+  },
+  {
+    "id": "snake-game",
+    "title": "Snake Game",
+    "categories": [
+      "games",
+      "learning"
+    ],
+    "label": "Python game",
+    "description": "A Python Snake project exploring game objects, event handling, movement updates, drawing, and collision detection.",
+    "stack": "Python · Game loops",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/Snake-Game"
+      }
+    ]
+  },
+  {
+    "id": "gene-benchmark",
+    "title": "Gene Classification",
+    "categories": [
+      "ai"
+    ],
+    "label": "DNA sequence benchmark",
+    "description": "A nested benchmark comparing DNABERT with simpler DNA sequence features. The manuscript reports held-out results, uncertainty intervals, and the limits of the tested fine-tuning workflow.",
+    "stack": "Python · PyTorch · DNABERT · Nested evaluation",
+    "links": [
+      {
+        "label": "Read the manuscript",
+        "href": "/research/dnabert-cds/"
+      },
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/gene_classifier_project"
+      }
+    ],
+    "image": {
+      "src": "/research/dnabert-cds/results-figure.png",
+      "alt": "Gene classification model results with uncertainty intervals",
+      "width": 2062,
+      "height": 779
+    },
+    "note": "Working manuscript · Not peer reviewed"
+  },
+  {
+    "id": "transformer-study",
+    "title": "Transformer Forecasting",
+    "categories": [
+      "ai"
+    ],
+    "label": "Published research / ITNG 2026",
+    "description": "Encoder and decoder ablation experiments for transformer-based time-series forecasting, with a coauthored ITNG 2026 paper.",
+    "stack": "Python · PyTorch · Dozerformer · Ablation studies",
+    "links": [
+      {
+        "label": "Read the research",
+        "href": "#research"
+      }
+    ],
+    "image": {
+      "src": "/Images/transformer.png",
+      "alt": "Training and validation plots from transformer forecasting experiments",
+      "width": 2846,
+      "height": 1502
+    },
+    "note": "Coauthored research · My contribution focused on ablation experiments"
+  },
+  {
+    "id": "camouflage-segmentation",
+    "title": "Camouflaged Object Detection",
+    "categories": [
+      "ai"
+    ],
+    "label": "U-Net and GraphCut",
+    "description": "A COD10K segmentation pipeline using a custom U-Net, binary cross-entropy and Dice losses, and optional GraphCut boundary refinement.",
+    "stack": "Python · PyTorch · OpenCV · COD10K",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/UNet-with-GraphCut-for-COD10K"
+      }
+    ]
+  },
+  {
+    "id": "fashion-cnn",
+    "title": "Fashion-MNIST CNN",
+    "categories": [
+      "ai",
+      "learning"
+    ],
+    "label": "Image classification",
+    "description": "Clothing-image classification experiments comparing a base convolutional network with a residual-network variant, including training and evaluation workflows.",
+    "stack": "Python · PyTorch · torchvision",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/fashion_mnist_cnn"
+      }
+    ]
+  },
+  {
+    "id": "iris-classifiers",
+    "title": "Iris Classifiers",
+    "categories": [
+      "ai",
+      "learning"
+    ],
+    "label": "Classical machine learning",
+    "description": "An introductory classification project exploring support vector machines, logistic regression, and random forests on the Iris dataset.",
+    "stack": "Python · Classification · Iris dataset",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/Iris_Flower_Dataset"
+      }
+    ]
+  },
+  {
+    "id": "sentiment-analysis",
+    "title": "Sentiment Analysis",
+    "categories": [
+      "ai",
+      "learning"
+    ],
+    "label": "Language-model experiment",
+    "description": "A sentiment-classification experiment using typed request and response structures to categorize text as positive, neutral, or negative.",
+    "stack": "Python · Pydantic AI · OpenAI",
+    "links": [],
+    "status": "Private source"
+  },
+  {
+    "id": "neural-network-modules",
+    "title": "Neural Network Modules",
+    "categories": [
+      "ai",
+      "learning"
+    ],
+    "label": "Deep learning exercises",
+    "description": "Experiments with feedforward networks, configurable activation functions, loss functions, and automatic differentiation.",
+    "stack": "Python · PyTorch · Neural networks",
+    "links": [],
+    "status": "Private source"
+  },
+  {
+    "id": "connect-four",
+    "title": "Connect Four AI",
+    "categories": [
+      "games",
+      "ai",
+      "learning"
+    ],
+    "label": "Game-playing AI",
+    "description": "A Python Connect Four implementation with an AI opponent, board-state handling, valid-move checks, and turn-based play.",
+    "stack": "Python · Game-playing AI",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/Connect_Four_AI"
+      }
+    ]
+  },
+  {
+    "id": "tic-tac-toe",
+    "title": "Tic-Tac-Toe AI",
+    "categories": [
+      "games",
+      "ai",
+      "learning"
+    ],
+    "label": "Adversarial search",
+    "description": "A Tic-Tac-Toe opponent exploring minimax search and alpha-beta pruning, with board-state checks and move validation.",
+    "stack": "Python · Minimax · Alpha-beta pruning",
+    "links": [],
+    "status": "Private source"
+  },
+  {
+    "id": "hill-climbing",
+    "title": "Hill Climbing",
+    "categories": [
+      "ai",
+      "learning"
+    ],
+    "label": "Heuristic search",
+    "description": "Random-restart hill climbing for the 8-puzzle and 8-queens problems, using Manhattan distance and conflict counts to guide the search.",
+    "stack": "Python · Heuristics · Random restarts",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/Hill-Climber"
+      }
+    ]
+  },
+  {
+    "id": "river-crossing",
+    "title": "Missionaries and Cannibals",
+    "categories": [
+      "ai",
+      "learning"
+    ],
+    "label": "Constraint-solving puzzle",
+    "description": "A Python exploration of the classic river-crossing puzzle, modeling boat capacity and safe states on both banks.",
+    "stack": "Python · State-space search · Constraints",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/Cannibals-and-Missionaries"
+      }
+    ]
+  },
+  {
+    "id": "tcp-udp-calculator",
+    "title": "TCP/UDP Loan Calculator",
+    "categories": [
+      "systems",
+      "learning"
+    ],
+    "label": "Client-server networking",
+    "description": "A C++ client and server exchange loan parameters and calculated monthly payments using either TCP or UDP sockets.",
+    "stack": "C++ · TCP · UDP · Socket programming",
+    "links": [
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/TCP-UDP-Loan-Calculator"
+      }
+    ]
+  },
+  {
+    "id": "regression-experiments",
+    "title": "Regression Experiments",
+    "categories": [
+      "ai",
+      "learning"
+    ],
+    "label": "Machine learning coursework",
+    "description": "Linear and logistic regression exercises using generated data, including noisy continuous targets and separate class distributions.",
+    "stack": "Python · NumPy · Matplotlib",
+    "links": [],
+    "status": "Private source"
+  },
+  {
+    "id": "android-inventory",
+    "title": "Android Inventory App",
+    "categories": [
+      "systems",
+      "learning"
+    ],
+    "label": "Guided Android exercise",
+    "description": "An Android Basics with Compose inventory exercise covering local item storage and add, update, sell, and delete workflows.",
+    "stack": "Kotlin · Jetpack Compose · Room · ViewModel",
+    "links": [],
+    "status": "Guided learning project",
+    "note": "Based on Android Basics with Compose solution material"
+  },
+  {
+    "id": "interactive-portfolio",
+    "title": "Interactive Portfolio",
+    "categories": [
+      "web",
+      "games"
+    ],
+    "label": "Engineering portfolio",
+    "description": "A modern portfolio with a scroll-driven curved project gallery, procedural header effects, and an archived 8-bit forest with interactive navigation and arcade games.",
+    "stack": "JavaScript · WebGL · Canvas · CSS",
+    "links": [
+      {
+        "label": "Explore the 8-bit forest",
+        "href": "/lab/forest/"
+      },
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/portfolio-website"
+      }
+    ],
+    "image": {
+      "src": "/hero-forest-sanctuary-optimized.webp",
+      "alt": "Atmospheric pixel-art forest from the archived portfolio",
+      "width": 1774,
+      "height": 887
+    }
+  }
+]

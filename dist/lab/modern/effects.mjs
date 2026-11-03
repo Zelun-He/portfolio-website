@@ -82,17 +82,28 @@ document.addEventListener('click', event => {
 // The archive remains a set of regular details elements when JavaScript is off.
 const filters = [...document.querySelectorAll('[data-filter]')];
 const rows = [...document.querySelectorAll('.archive-row')];
-function filterArchive(filter) {
+let archiveFilter = 'all';
+const archiveSearch = document.querySelector('#project-search');
+const archiveSearchLabel = document.querySelector('.archive-search');
+const archiveEmpty = document.querySelector('.archive-empty');
+const searchableRows = rows.map(row => ({ row, text: row.textContent.toLocaleLowerCase() }));
+if (archiveSearchLabel) archiveSearchLabel.hidden = false;
+function filterArchive(filter = archiveFilter) {
+  archiveFilter = filter;
+  const query = (archiveSearch?.value || '').trim().toLocaleLowerCase();
   let count = 0;
   filters.forEach(item => item.setAttribute('aria-pressed', String(item.dataset.filter === filter)));
-  rows.forEach(row => {
-    row.hidden = filter !== 'all' && row.dataset.category !== filter;
+  searchableRows.forEach(({ row, text }) => {
+    const matchesCategory = filter === 'all' || row.dataset.category.split(' ').includes(filter);
+    row.hidden = !matchesCategory || !text.includes(query);
     if (!row.hidden) count++;
     else row.open = false;
   });
-  document.querySelector('.archive-count').textContent = `${count} ${count === 1 ? 'project' : 'projects'}`;
+  document.querySelector('.archive-count').textContent = count === rows.length ? `${count} projects` : `${count} of ${rows.length} projects`;
+  if (archiveEmpty) archiveEmpty.hidden = count !== 0;
 }
 filters.forEach(button => button.addEventListener('click', () => filterArchive(button.dataset.filter)));
+archiveSearch?.addEventListener('input', () => filterArchive());
 
 // A gallery link must reveal its project even when an archive filter hid it.
 function revealArchiveTarget(hash = location.hash) {
@@ -101,7 +112,10 @@ function revealArchiveTarget(hash = location.hash) {
   const target = document.getElementById(id);
   const row = target?.closest('.archive-row');
   if (!row) return;
-  if (row.hidden) filterArchive('all');
+  if (row.hidden) {
+    if (archiveSearch) archiveSearch.value = '';
+    filterArchive('all');
+  }
   row.open = true;
   requestAnimationFrame(() => target.scrollIntoView({ block: 'start', behavior: 'instant' }));
 }
