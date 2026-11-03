@@ -163,3 +163,11 @@
 @media(max-width:760px){.archive-row>summary{grid-template-columns:25px minmax(0,1fr) 35px}}
 
 .research-poster{display:block;margin-top:25px}.research-poster img{height:auto;aspect-ratio:auto;margin:0;width:100%}.research-poster:hover{opacity:.94}.research-note>.research-poster-caption{font-size:12px!important;line-height:1.6;margin:10px 0 25px;color:#aaa}.research-poster-caption a{text-decoration:underline;text-underline-offset:3px}
+
+/* Gene classification has its own evidence-led research project. */
+.gene-study{display:grid;grid-template-columns:1.1fr 1fr;gap:5vw;margin-top:75px;padding-top:60px;border-top:1px solid #ffffff30;scroll-margin-top:120px}
+.gene-study-visual{margin:0}.gene-study-visual img{display:block;width:100%;height:auto;border-radius:14px;background:#fff}.gene-study-visual figcaption{margin-top:13px;font-size:12px;line-height:1.5;color:#aaa}
+.gene-study-metrics{display:flex;gap:clamp(20px,3vw,50px);margin:30px 0 0}.gene-study-metrics dt{font-size:clamp(30px,3.4vw,48px);line-height:1;letter-spacing:-.05em}.gene-study-metrics dd{margin:9px 0 0;font-size:12px;color:#aaa}
+.gene-study-copy h3{font-size:clamp(36px,4vw,60px);line-height:1.05;letter-spacing:-.055em;margin:18px 0 24px}.gene-study .project-description{font-size:20px;line-height:1.5;color:#eee}.gene-study-decision{margin-top:30px;padding-left:20px;border-left:2px solid var(--accent)}.gene-study-decision h4{font-size:23px;letter-spacing:-.035em;margin:0 0 13px}.gene-study-decision p,.gene-study-finding{font-size:16px;line-height:1.6;color:#bbb}.gene-study-finding{margin-top:25px}.gene-study .project-stack{color:#aaa;margin-top:25px}.gene-study .case-actions{margin-top:25px}.gene-study .research-footnote{margin-top:20px;max-width:600px}
+@media(max-width:760px){.gene-study{grid-template-columns:1fr;gap:32px;margin-top:50px;padding-top:40px}.gene-study-copy h3{font-size:40px}.gene-study .project-description{font-size:18px}.gene-study-metrics{gap:28px}.gene-study-metrics dt{font-size:34px}}
+@media print{.gene-study{display:block;break-inside:avoid}.gene-study p,.gene-study-metrics dd,.gene-study-visual figcaption{color:#333!important}}

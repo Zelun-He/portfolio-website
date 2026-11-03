@@ -100,6 +100,37 @@
     "note": "Coauthored research · My contribution focused on ablation experiments"
   },
   {
+    "id": "gene-benchmark",
+    "title": "Gene Classifier",
+    "categories": [
+      "ai"
+    ],
+    "label": "Computational biology / Research",
+    "description": "An auditable coding-DNA benchmark of 809 genes, comparing fine-tuned and frozen DNABERT with classical sequence baselines under nested stratified and similarity-grouped evaluation.",
+    "stack": "Python · PyTorch · DNABERT · scikit-learn · Nested cross-validation",
+    "links": [
+      {
+        "label": "Project details",
+        "href": "#gene-classifier"
+      },
+      {
+        "label": "Read manuscript",
+        "href": "/research/dnabert-cds/manuscript.html?v=20261028-2"
+      },
+      {
+        "label": "View code",
+        "href": "https://github.com/Zelun-He/gene_classifier_project"
+      }
+    ],
+    "image": {
+      "src": "/research/dnabert-cds/figures/figure-2-performance.png",
+      "alt": "Gene classification benchmark results for six models under two gene-level split settings",
+      "width": 2407,
+      "height": 1044
+    },
+    "note": "Working manuscript · Not peer reviewed · Methods, results, and limitations available in the study"
+  },
+  {
     "id": "realtime-translation",
     "title": "Real-Time Translation",
     "categories": [

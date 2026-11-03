@@ -60,3 +60,7 @@
 }
 @media print{.showcase .gallery-stage{display:block!important}.showcase{height:auto!important}.showcase .gallery-heading{position:static!important;padding:30px var(--gutter)!important}.showcase .gallery-stills{display:grid!important}.gallery-mist,.coil-mesh-canvas,.showcase .gallery-readout,.showcase .gallery-controls,.showcase .gallery-top{display:none!important}}
 
+
+/* Navigation lands after the orange line is written, before the first card arrives. */
+.work-intro-anchor{position:absolute;left:0;top:0;width:1px;height:1px;scroll-margin-top:-105px;pointer-events:none}
+:is(.gallery-enhanced,.gallery-pending) .work-intro-anchor{top:calc(var(--gallery-stage-height,100svh)*.56)}
