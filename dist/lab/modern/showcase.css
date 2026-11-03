@@ -11,8 +11,8 @@
 .showcase .gallery-top{padding-top:125px;position:relative;z-index:5}
 .showcase .gallery-top>.eyebrow{font-size:13px}
 .showcase .gallery-top>.text-link{font-size:13px;border:1px solid #bbbbbb80;background:#f5f5f3c9;border-radius:100px;padding:8px 15px;backdrop-filter:blur(10px)}
-:is(.gallery-enhanced,.gallery-pending) .showcase .gallery-heading{position:absolute;left:0;top:50%;width:100%;padding:0 var(--gutter);font-size:clamp(52px,6.4vw,124px);line-height:1.04;letter-spacing:-.06em;z-index:0;max-width:none;text-align:center;transform:translateY(-50%);opacity:1}
-.showcase .gallery-heading{font-size:clamp(40px,6.4vw,124px);line-height:1.04;text-align:center}
+:is(.gallery-enhanced,.gallery-pending) .showcase .gallery-heading{position:absolute;left:0;top:50%;width:100%;padding:0 var(--gutter);font-size:clamp(28px,3.52vw,72px);line-height:1.04;letter-spacing:-.06em;z-index:0;max-width:none;text-align:center;transform:translateY(-50%);opacity:1}
+.showcase .gallery-heading{font-size:clamp(28px,3.52vw,72px);line-height:1.04;text-align:center}
 .showcase .gallery-heading>span{display:block;color:#111}
 .showcase .work-title-line{overflow:hidden;padding:.08em .05em;margin:-.08em -.05em;white-space:nowrap}
 .showcase .work-title-rise{display:block}
@@ -45,10 +45,10 @@
  :is(.gallery-enhanced,.gallery-pending) .showcase .gallery-readout{left:var(--gutter);right:auto;top:155px;bottom:auto;width:245px}
  .showcase .project-heading .eyebrow{font-size:11px}.showcase .project-heading h3{font-size:30px;margin-top:9px}
  .showcase .project-summary>p{display:none}.showcase .gallery-actions{gap:18px;margin-top:12px}.showcase .gallery-actions .text-link{font-size:12px}
- :is(.gallery-enhanced,.gallery-pending) .showcase .gallery-heading{left:0;top:50%;font-size:9.3vw;max-width:none}
+ :is(.gallery-enhanced,.gallery-pending) .showcase .gallery-heading{left:0;top:50%;font-size:clamp(26px,7.5vw,44px);max-width:none}
  .showcase .gallery-hint{min-width:0;max-width:90px;line-height:1.4}.showcase .gallery-hint span{margin-left:5px}.showcase .project-count{min-width:0}
  .showcase .project-picker{gap:2px}.showcase .project-dots{gap:0}.showcase .project-dot{width:25px}.showcase .arrow-button{width:31px;height:31px}
- .showcase .gallery-heading{font-size:9.3vw}
+ .showcase .gallery-heading{font-size:clamp(26px,7.5vw,44px)}
  .gallery-stills{grid-template-columns:1fr;gap:35px}.gallery-stills img{max-height:400px}.gallery-stills span{font-size:20px}
 }
 @media(max-width:450px){
