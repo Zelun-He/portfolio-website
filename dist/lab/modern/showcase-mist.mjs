@@ -29,7 +29,7 @@ export function mountGalleryMist(stage) {
     if(!pixels)return;
     const bounds=stage.getBoundingClientRect();
     const scroll=motion.matches?0:-bounds.top/Math.max(1,bounds.height)*.06;
-    const t=time*.045,aspect=width/height;
+    const t=time*.22,aspect=width/height;
     const data=pixels.data;
     for(let y=0;y<height;y++)for(let x=0;x<width;x++){
       let u=x/width,v=y/height;
@@ -42,7 +42,7 @@ export function mountGalleryMist(stage) {
       const broad=noise(sx+warpX*.9+t*.18,sy+warpY*.9-t*.12);
       const detail=noise(sx*2.3+warpY*.35-t*.13+11,sy*2.3+warpX*.35+t*.17);
       const cloud=fade(Math.min(1,Math.max(0,(broad*.82+detail*.18-.15)/.7)));
-      const tone=211+cloud*40;
+      const tone=216+cloud*39;
       const i=(y*width+x)*4;data[i]=tone;data[i+1]=tone;data[i+2]=tone-.8;data[i+3]=255;
     }
     ctx.putImageData(pixels,0,0);
