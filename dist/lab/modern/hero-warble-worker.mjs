@@ -1,5 +1,5 @@
 import { MistFlow } from './mist-flow.mjs';
-import { SPHERE, sphereLayout, sampleSphere, shadeAt, smooth } from './hero-field.mjs';
+import { SPHERE, sphereLayout, sampleSphere, sphereDotRadius, shadeAt, smooth } from './hero-field.mjs';
 
 let canvas,context,field,fieldContext,pixels,width=1,height=1,density=1,fw=1,fh=1;
 let atlas=null,layout,flow,cells=[],running=false,reduced=false,time=0,last=0,timer=0,announced=false;
@@ -32,12 +32,12 @@ function paint(){
   context.drawImage(field,0,0,width,height);
   if(atlas){
     // A fixed page-aligned lattice with round, overlapping highlights. No clipped squares.
-    context.save();context.beginPath();context.arc(layout.x,layout.y,layout.radius,0,Math.PI*2);context.clip();
-    const pitch=layout.pitch;context.fillStyle='#fff';context.beginPath();
+    context.save();context.beginPath();context.arc(layout.x,layout.y,layout.radius,0,Math.PI*2);context.clip();context.beginPath();context.rect(layout.left,layout.top,layout.right-layout.left,Math.max(0,layout.bottom-layout.top));context.clip();
+    context.fillStyle='#fff';context.beginPath();
     for(const [x,y,keep] of cells){
-      const ink=sampleSphere(atlas,x,y,layout,time)*keep;
-      if(ink<.0001)continue;
-      const radius=pitch*(.1+.7*ink);
+      const ink=sampleSphere(atlas,x,y,layout,time);
+      const radius=sphereDotRadius(x,y,layout,ink,keep);
+      if(radius<.02)continue;
       context.moveTo(x+radius,y);context.arc(x,y,radius,0,Math.PI*2);
     }
     context.fill();context.restore();
@@ -66,7 +66,7 @@ onmessage=({data})=>{
     fw=Math.max(2,Math.round(width*scale));fh=Math.max(2,Math.round(height*scale));
     field.width=fw;field.height=fh;pixels=fieldContext.createImageData(fw,fh);
     flow=new MistFlow(64,Math.max(32,Math.min(112,Math.round(64*height/width))));
-    layout=sphereLayout(width,height,data.headingBottom,data.offerTop,data.headingHeight);cells=[];
+    layout=sphereLayout(width,height,data.headingBottom,data.offerTop,data.headingHeight,data.contentBottom,data.headingLeft);cells=[];
     const pitch=layout.pitch;
     for(let y=pitch/2;y<layout.bottom;y+=pitch)for(let x=pitch/2;x<layout.right;x+=pitch){
       let keep=1;

@@ -5,15 +5,15 @@ export const SPHERE = Object.freeze({columns:8,rows:8,frames:63,fps:20});
 
 // Match the reference's viewport-based sprite scale, anchor and edge fades.
 // The sheet includes black padding: its occupied sphere is only ~60% of a tile.
-export function sphereLayout(width,height,headingBottom=0,offerTop=height*.64,headingHeight=0){
+export function sphereLayout(width,height,headingBottom=0,offerTop=height*.64,headingHeight=0,contentBottom=height,headingLeft=width){
   const desktop=width>=1024,tablet=width>=768;
   const d=desktop?1.64:tablet?2:2.98;
   const cx=desktop?.29:tablet?.35:.22,cy=desktop?.69:tablet?.55:.60;
   const mask=desktop?[.02,.328,.33,.10]:tablet?[.22,0,.36,0]:[0,0,.28,0];
   const size=Math.min(width*d,height*4)*1.09;
-  return {size,x:width*(cx-.06),y:height*(cy+.05),radius:size*.31,
-    left:width*mask[3],right:width*(1-mask[1]),
-    top:Math.max(height*mask[0],desktop?0:headingBottom),bottom:height*(1-mask[2]),
+  return {size,x:width*(cx-.06),y:height*(cy+.05),radius:size*.285,
+    left:width*mask[3],right:Math.min(width*(1-mask[1]),desktop?headingLeft-24:width),
+    top:Math.max(height*mask[0],desktop?0:headingBottom),bottom:Math.min(height*(1-mask[2]),contentBottom-16),
     softLeft:width*.17,softRight:width*.005,
     softTop:desktop?height*.005:Math.max(height*.005,headingHeight*.6),softBottom:height*.125,
     pitch:Math.max(1.5,Math.min(12,Math.max(6.08,4.8048+width*.003296))*.66)};
@@ -21,8 +21,8 @@ export function sphereLayout(width,height,headingBottom=0,offerTop=height*.64,he
 
 export function sphereMask(x,y,layout){
   const distance=Math.hypot(x-layout.x,y-layout.y)/layout.radius;
-  // Only guard the sprite's outer padding; preserve its native curved silhouette.
-  return (1-smooth((distance-.97)/.03))
+  // Taper the highlights inside a stable sphere, independently of sprite glow.
+  return (1-smooth((distance-.88)/.12))
     *smooth((x-layout.left)/layout.softLeft)*smooth((layout.right-x)/layout.softRight)
     *smooth((y-layout.top)/layout.softTop)*smooth((layout.bottom-y)/layout.softBottom);
 }
@@ -46,7 +46,17 @@ export function sampleSphere(atlas,x,y,layout,seconds){
     return (top*(1-sy)+bottom*sy)/255;
   };
   const level=tap(a)*(1-f)+tap(b)*f;
-  return Math.pow(clamp((level-.1)/.9),1.6)*mask;
+  return Math.pow(clamp((level-.1)/.9),1.6);
+}
+
+// Fade the complete dot radius, including its minimum. Brightness-only fades
+// leave a trail of equally bright small dots outside the intended silhouette.
+export function sphereDotRadius(x,y,layout,ink,keep=1){
+  if(ink<=0||keep<=0)return 0;
+  const fade=sphereMask(x,y,layout)*keep*smooth(ink/.08);
+  const radius=layout.pitch*(.1+.7*ink)*fade;
+  return Math.max(0,Math.min(radius,x-layout.left,layout.right-x,y-layout.top,layout.bottom-y,
+    layout.radius-Math.hypot(x-layout.x,y-layout.y)));
 }
 
 // Two moving grey fields, with the same scale, phase and pace as the reference.
