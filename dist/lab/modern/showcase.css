@@ -14,7 +14,7 @@
 .showcase .gallery-top{padding-top:125px;position:relative;z-index:5}
 .showcase .gallery-top>.eyebrow{font-size:13px}
 .showcase .gallery-top>.text-link{font-size:13px;border:1px solid #bbbbbb80;background:#f5f5f3c9;border-radius:100px;padding:8px 15px;backdrop-filter:blur(10px)}
-:is(.gallery-enhanced,.gallery-pending) .showcase .gallery-heading{position:absolute;left:0;top:50%;width:100%;padding:0 var(--gutter);font-size:clamp(28px,3.52vw,72px);line-height:1.04;letter-spacing:-.06em;z-index:0;max-width:none;text-align:center;transform:translateY(-50%);opacity:1}
+:is(.gallery-enhanced,.gallery-pending) .showcase .gallery-heading{position:absolute;left:0;top:50%;width:100%;padding:0 var(--gutter);font-size:clamp(28px,3.52vw,72px);line-height:1.04;letter-spacing:-.06em;z-index:0;max-width:none;text-align:center;transform:translateY(-50%);opacity:var(--work-heading-alpha,1)}
 .showcase .gallery-heading{font-size:clamp(28px,3.52vw,72px);line-height:1.04;text-align:center}
 .showcase .gallery-heading>span{display:block;color:#111}
 .showcase .work-title-line{overflow:hidden;padding:.08em .05em;margin:-.08em -.05em;white-space:nowrap}

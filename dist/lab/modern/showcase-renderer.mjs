@@ -133,7 +133,8 @@ export function createGLRenderer(canvas, surfaces) {
     gl.bufferData(gl.ARRAY_BUFFER,new Float32Array(mesh),gl.STATIC_DRAW);
     const at=gl.getAttribLocation(program,'uv');gl.enableVertexAttribArray(at);gl.vertexAttribPointer(at,2,gl.FLOAT,false,0,0);
     const uniforms=Object.fromEntries(['view','size','offset','rotation','curve','flex','image','opacity','wash'].map(key=>[key,gl.getUniformLocation(program,key)]));
-    gl.enable(gl.BLEND);gl.blendFunc(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA);
+    gl.enable(gl.BLEND);
+    gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.clearColor(0,0,0,0);
     for (const {surface} of surfaces) {
       const texture=gl.createTexture();if(!texture)throw new Error('Gallery image unavailable');textures.push(texture);gl.bindTexture(gl.TEXTURE_2D,texture);

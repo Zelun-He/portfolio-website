@@ -1,8 +1,7 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="2048" height="1357" viewBox="0 0 2048 1357" role="img" aria-labelledby="title desc">
   <title id="title">The best work is still ahead.</title>
-  <desc id="desc">Let’s build what comes next. A grey rounded panel with a stitched inset border.</desc>
-  <defs><radialGradient id="mist" cx="48%" cy="58%" r="80%"><stop stop-color="#e0e0dd"/><stop offset="1" stop-color="#cececb"/></radialGradient></defs>
-  <rect width="2048" height="1357" rx="54" fill="url(#mist)"/>
+  <desc id="desc">Let’s build what comes next. A translucent grey panel with a stitched inset border.</desc>
+  <rect width="2048" height="1357" rx="54" fill="#000" fill-opacity=".07"/>
   <rect x="40" y="40" width="1968" height="1277" rx="30" fill="none" stroke="#aaa" stroke-opacity=".5" stroke-width="2" stroke-dasharray="22 20"/>
   <g transform="translate(1024 505)" fill="none" stroke="#363d3e" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
     <path d="M-45-23v-22h22M23-45h22v22M45 23v22H23M-23 45h-22V23"/>
@@ -10,6 +9,6 @@
   </g>
   <g text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-size="106" font-weight="500" letter-spacing="-6">
     <text x="1024" y="698" fill="#111">The best work is still ahead.</text>
-    <text x="1024" y="822" fill="#777">Let’s build what comes next.</text>
+    <text x="1024" y="822" fill="#6b6b6b">Let’s build what comes next.</text>
   </g>
 </svg>

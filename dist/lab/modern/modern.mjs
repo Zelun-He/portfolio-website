@@ -71,6 +71,7 @@ async function enhanceGallery() {
     const travel=-bounds.top;
     const height=stage.offsetHeight;
     target=positionForTravel(travel/height,projects.length);
+    stage.style.setProperty('--work-heading-alpha',String(1-ease((target-(projects.length-1-.8))/.5)));
     handoff=handoffForTravel(travel/height,projects.length);
     work.toggleAttribute('data-final-expanded',handoff>=1);
     stage.style.setProperty('--gallery-expand',String(handoff));
@@ -96,7 +97,8 @@ async function enhanceGallery() {
     const demand=clamp(velocity/5,-1,1),rate=Math.abs(demand)>Math.abs(spin)?7:2.2;
     spin+=(demand-spin)*(1-Math.exp(-rate*dt));
     select(clamp(Math.round(position),0,projects.length-1));
-    const frames=framesFor(scene,projects.length,position,clock,spin,position-edge.position,aspects);
+    const frames=framesFor(scene,projects.length,position,clock,spin,position-edge.position,aspects)
+      .map(frame=>({...frame,translucent:projects[frame.index].closing}));
     renderer.draw(expandFinalFrame(scene,frames,projects.length-1,handoff,aspects.at(-1)));
     queue();
   }

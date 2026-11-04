@@ -1,5 +1,20 @@
 import { localPoint, worldPoint, projectPoint } from './showcase-geometry.mjs';
 
+const translucentLayers=new WeakMap();
+function layerFor(ctx){
+  let layer=translucentLayers.get(ctx);
+  if(!layer){
+    const canvas=typeof OffscreenCanvas==='function'?new OffscreenCanvas(1,1):ctx.canvas.ownerDocument.createElement('canvas');
+    layer=canvas.getContext('2d',{alpha:true});
+    if(!layer)throw new Error('Transparent gallery surface unavailable');
+    translucentLayers.set(ctx,layer);
+  }
+  if(layer.canvas.width!==ctx.canvas.width||layer.canvas.height!==ctx.canvas.height){
+    layer.canvas.width=ctx.canvas.width;layer.canvas.height=ctx.canvas.height;
+  }
+  return layer;
+}
+
 // Rasterize the curved surface at final screen resolution, without CSS layer upscaling.
 export function paintMesh(ctx, images, scene, frames, density = 1) {
   ctx.setTransform(1,0,0,1,0,0);
@@ -9,6 +24,14 @@ export function paintMesh(ctx, images, scene, frames, density = 1) {
   const columns=scene.width<700?36:48,rows=scene.width<700?6:8;
   for(const frame of frames){
     const image=images[frame.index];ctx.globalAlpha=frame.opacity;
+    const paint=frame.translucent?layerFor(ctx):ctx;
+    if(frame.translucent){
+      paint.setTransform(1,0,0,1,0,0);paint.clearRect(0,0,paint.canvas.width,paint.canvas.height);
+      paint.setTransform(density,0,0,density,0,0);
+      // Replace overlapping triangle edges so the tint does not darken at each seam.
+      paint.globalCompositeOperation='copy';paint.globalAlpha=1;
+      paint.imageSmoothingEnabled=true;paint.imageSmoothingQuality='high';
+    }
     const vertices=[];
     for(let y=0;y<=rows;y++)for(let x=0;x<=columns;x++){
       const u=x/columns,v=y/rows;
@@ -17,9 +40,10 @@ export function paintMesh(ctx, images, scene, frames, density = 1) {
     }
     for(let y=0;y<rows;y++)for(let x=0;x<columns;x++){
       const i=y*(columns+1)+x;
-      triangle(ctx,image,vertices[i],vertices[i+1],vertices[i+columns+1]);
-      triangle(ctx,image,vertices[i+columns+1],vertices[i+1],vertices[i+columns+2]);
+      triangle(paint,image,vertices[i],vertices[i+1],vertices[i+columns+1]);
+      triangle(paint,image,vertices[i+columns+1],vertices[i+1],vertices[i+columns+2]);
     }
+    if(frame.translucent)ctx.drawImage(paint.canvas,0,0,scene.width,scene.height);
   }
   ctx.globalAlpha=1;
 }
@@ -46,10 +70,13 @@ function triangle(ctx,image,p,q,r){
     if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
   }
   ctx.closePath();ctx.clip();ctx.transform(a,b,c,d,e,f);
-  const left=Math.max(0,Math.floor(Math.min(p.s,q.s,r.s))-1);
-  const top=Math.max(0,Math.floor(Math.min(p.t,q.t,r.t))-1);
-  const width=Math.min(image.width-left,Math.ceil(Math.max(p.s,q.s,r.s))-left+1);
-  const height=Math.min(image.height-top,Math.ceil(Math.max(p.t,q.t,r.t))-top+1);
+  // Include enough source texels for the expanded clip, even when the card is small.
+  const determinant=Math.abs(a*d-b*c);
+  const padding=Math.min(64,Math.ceil(.75*Math.max(Math.hypot(d,b),Math.hypot(c,a))/Math.max(determinant,1e-8))+1);
+  const left=Math.max(0,Math.floor(Math.min(p.s,q.s,r.s))-padding);
+  const top=Math.max(0,Math.floor(Math.min(p.t,q.t,r.t))-padding);
+  const width=Math.min(image.width-left,Math.ceil(Math.max(p.s,q.s,r.s))-left+padding);
+  const height=Math.min(image.height-top,Math.ceil(Math.max(p.t,q.t,r.t))-top+padding);
   if(width>0&&height>0)ctx.drawImage(image,left,top,width,height,left,top,width,height);
   ctx.restore();
 }
