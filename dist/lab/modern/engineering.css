@@ -28,7 +28,7 @@
 .case-section-heading>.eyebrow{padding-top:10px}
 .case-section-heading h2,.research-top h2{font-size:clamp(42px,5.8vw,88px);letter-spacing:-.06em;line-height:1.02}
 .case-section-heading h2>span{color:#747474}
-.case-section-heading>p:last-child{grid-column:2;max-width:480px;font-size:17px;line-height:1.5;color:#555}
+.case-section-heading>p:last-child{grid-column:2;max-width:480px;font-size:17px;line-height:1.5;color:#555;text-wrap:balance}
 .case-index{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin:55px 0 30px}
 .case-index a{display:grid;grid-template-columns:1fr auto;gap:12px;padding:20px 0;border-block:1px solid var(--line)}
 .case-index span{font-size:12px;color:#626262;grid-column:1/-1}
