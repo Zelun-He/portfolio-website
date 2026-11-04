@@ -18,5 +18,15 @@
 @media(max-width:1023px){.hero h1{grid-column:1/span 7;grid-row:1;align-self:start}.hero-offer{grid-column:1/-1;grid-row:2}.hero-composition{grid-template-rows:auto 1fr;row-gap:48px}.hero-locator{display:none}.hero-inner{min-height:max(100svh,760px)}}
 @media(max-width:760px){.hero h1{grid-column:1/-1;font-size:clamp(32px,6vw,44px);max-width:520px}.hero-composition{padding-top:32px;gap:36px 0}.hero .button-pair{gap:10px}.hero .button-label{font-size:15px}.hero .pill small{font-size:9px}.hero .pill{padding-right:17px;gap:9px}.hero .pill-arrow{width:36px;height:36px}.hero-employer{font-size:48px;margin-bottom:16px}.hero-small{font-size:15px}.hero-wordmark{padding-block:var(--hero-gutter);font-size:calc((100cqw - 2*var(--hero-gutter)) * .254)}.hero-inner{min-height:max(100svh,720px)}}
 @media(max-width:380px){.hero .pill{padding-right:13px;gap:7px}.hero .button-label{font-size:14px}.hero .pill small{font-size:8px}.hero .button-pair{gap:8px}}
-@media(min-width:1024px) and (max-height:700px){.hero-inner{min-height:700px}.hero h1{font-size:40px}.hero-employer{font-size:54px}}
+/* Match the supplied wide-screen reference at equivalent viewport proportions. */
+@media(min-width:1024px){
+ .hero h1{font-size:clamp(36px,2.75vw,56px)}
+ .hero-small{font-size:clamp(14px,1vw,20px)}
+ .hero-employer{font-size:clamp(44px,4vw,81px)}
+ .hero .pill{min-height:clamp(44px,2.85vw,58px);padding-right:20px;gap:11px}
+ .hero .pill-arrow{width:clamp(36px,2.4vw,48px);height:clamp(36px,2.4vw,48px);font-size:23px}
+ .hero .button-label{font-size:clamp(15px,1.05vw,20px)}
+ .hero .pill small{font-size:10px}
+}
+@media(min-width:1024px) and (max-height:700px){.hero-inner{min-height:700px}.hero h1{font-size:clamp(34px,2.75vw,40px)}.hero-employer{font-size:clamp(44px,4vw,54px)}}
 @media(prefers-reduced-motion:reduce){.hero .sheen{background:none!important;color:#b8b8b8!important}}

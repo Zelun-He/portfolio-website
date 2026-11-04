@@ -5,8 +5,8 @@ export const SPHERE = Object.freeze({columns:8,rows:8,frames:63,fps:20});
 
 export function sphereLayout(width,height,headingBottom=0){
   const desktop=width>=1024,tablet=width>=768;
-  const d=desktop?1.64:tablet?2:2.98;
-  const x=desktop?.29:tablet?.35:.22,y=desktop?.69:tablet?.55:.60;
+  const d=desktop?1.38:tablet?2:2.98;
+  const x=desktop?.29:tablet?.35:.22,y=desktop?.59:tablet?.55:.60;
   const mask=desktop?[.02,.328,.33,.10]:tablet?[.22,0,.36,0]:[0,0,.28,0];
   return {size:Math.min(width*d,height*4)*1.09,x:width*(x-.06),y:height*(y+.05),
     left:width*mask[3],right:width*(1-mask[1]),
