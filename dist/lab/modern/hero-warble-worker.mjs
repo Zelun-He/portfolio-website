@@ -66,7 +66,7 @@ onmessage=({data})=>{
     fw=Math.max(2,Math.round(width*scale));fh=Math.max(2,Math.round(height*scale));
     field.width=fw;field.height=fh;pixels=fieldContext.createImageData(fw,fh);
     flow=new MistFlow(64,Math.max(32,Math.min(112,Math.round(64*height/width))));
-    layout=sphereLayout(width,height,data.headingBottom,data.offerTop);cells=[];
+    layout=sphereLayout(width,height,data.headingBottom,data.offerTop,data.headingHeight);cells=[];
     const pitch=layout.pitch;
     for(let y=pitch/2;y<layout.bottom;y+=pitch)for(let x=pitch/2;x<layout.right;x+=pitch){
       let keep=1;

@@ -1,24 +1,30 @@
-// A stable circular silhouette contains the reference's 63-frame rotation.
+// The reference's responsive sphere composition and 63-frame rotation.
 export const clamp = (n,a=0,b=1) => Math.min(b,Math.max(a,n));
 export const smooth = n => { n=clamp(n);return n*n*(3-2*n); };
 export const SPHERE = Object.freeze({columns:8,rows:8,frames:63,fps:20});
 
-export function sphereLayout(width,height,headingBottom=0,offerTop=height*.64){
-  const desktop=width>=1024;
-  // Fit the actual object, rather than enlarging its black sprite-sheet padding.
-  // Mobile uses the free space between the headline and the primary actions.
-  const top=desktop?height*.035:headingBottom+22;
-  const bottom=desktop?height*.665:Math.max(top+40,offerTop-18);
-  const radius=Math.max(20,Math.min(width*(desktop?.25:.44),(bottom-top)/2));
-  return {size:radius/.285,x:width*(desktop?.34:.5),y:(top+bottom)/2,radius,
-    left:Math.max(0,width*(desktop?.34:.5)-radius),
-    right:Math.min(width,width*(desktop?.34:.5)+radius),top,bottom,
-    pitch:6.93};
+// Match the reference's viewport-based sprite scale, anchor and edge fades.
+// The sheet includes black padding: its occupied sphere is only ~60% of a tile.
+export function sphereLayout(width,height,headingBottom=0,offerTop=height*.64,headingHeight=0){
+  const desktop=width>=1024,tablet=width>=768;
+  const d=desktop?1.64:tablet?2:2.98;
+  const cx=desktop?.29:tablet?.35:.22,cy=desktop?.69:tablet?.55:.60;
+  const mask=desktop?[.02,.328,.33,.10]:tablet?[.22,0,.36,0]:[0,0,.28,0];
+  const size=Math.min(width*d,height*4)*1.09;
+  return {size,x:width*(cx-.06),y:height*(cy+.05),radius:size*.31,
+    left:width*mask[3],right:width*(1-mask[1]),
+    top:Math.max(height*mask[0],desktop?0:headingBottom),bottom:height*(1-mask[2]),
+    softLeft:width*.17,softRight:width*.005,
+    softTop:desktop?height*.005:Math.max(height*.005,headingHeight*.6),softBottom:height*.125,
+    pitch:Math.max(1.5,Math.min(12,Math.max(6.08,4.8048+width*.003296))*.66)};
 }
 
 export function sphereMask(x,y,layout){
   const distance=Math.hypot(x-layout.x,y-layout.y)/layout.radius;
-  return 1-smooth((distance-.91)/.09);
+  // Only guard the sprite's outer padding; preserve its native curved silhouette.
+  return (1-smooth((distance-.97)/.03))
+    *smooth((x-layout.left)/layout.softLeft)*smooth((layout.right-x)/layout.softRight)
+    *smooth((y-layout.top)/layout.softTop)*smooth((layout.bottom-y)/layout.softBottom);
 }
 
 export function sampleSphere(atlas,x,y,layout,seconds){

@@ -12,7 +12,7 @@ export function mountHeroWarble(hero){
     previous=null;strokes=[];
     const holes=[...hero.querySelectorAll('h1,.hero-locator,.hero-small,.hero-employer,.hero .pill'),document.querySelector('.brand')].filter(Boolean).map(e=>{const r=e.getBoundingClientRect();return [r.left-bounds.left,r.top-bounds.top,r.width,r.height];});
     worker.postMessage({type:'resize',width:bounds.width,height:bounds.height,
-      headingBottom:heading.bottom-bounds.top,offerTop:offer.top-bounds.top,holes,
+      headingBottom:heading.bottom-bounds.top,headingHeight:heading.height,offerTop:offer.top-bounds.top,holes,
       density:Math.min(devicePixelRatio||1,1.5,2000/Math.max(bounds.width,bounds.height))});
   }
   function state(){
