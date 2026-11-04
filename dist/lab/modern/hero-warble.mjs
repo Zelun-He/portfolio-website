@@ -7,12 +7,12 @@ export function mountHeroWarble(hero){
   const stop=()=>{worker?.terminate();worker=null;art.classList.remove('warble-ready');art.dataset.renderer='poster';};
   function resize(){
     if(!worker)return;
-    const bounds=art.getBoundingClientRect(),heading=hero.querySelector('h1').getBoundingClientRect();
+    const bounds=art.getBoundingClientRect(),heading=hero.querySelector('h1').getBoundingClientRect(),offer=hero.querySelector('.hero-offer').getBoundingClientRect();
     if(!bounds.width||!bounds.height)return;
     previous=null;strokes=[];
     const holes=[...hero.querySelectorAll('h1,.hero-locator,.hero-small,.hero-employer,.hero .pill'),document.querySelector('.brand')].filter(Boolean).map(e=>{const r=e.getBoundingClientRect();return [r.left-bounds.left,r.top-bounds.top,r.width,r.height];});
     worker.postMessage({type:'resize',width:bounds.width,height:bounds.height,
-      headingBottom:heading.bottom-bounds.top,holes,
+      headingBottom:heading.bottom-bounds.top,offerTop:offer.top-bounds.top,holes,
       density:Math.min(devicePixelRatio||1,1.5,2000/Math.max(bounds.width,bounds.height))});
   }
   function state(){

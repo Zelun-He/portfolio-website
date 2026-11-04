@@ -32,6 +32,7 @@ function paint(){
   context.drawImage(field,0,0,width,height);
   if(atlas){
     // A fixed page-aligned lattice with round, overlapping highlights. No clipped squares.
+    context.save();context.beginPath();context.arc(layout.x,layout.y,layout.radius,0,Math.PI*2);context.clip();
     const pitch=layout.pitch;context.fillStyle='#fff';context.beginPath();
     for(const [x,y,keep] of cells){
       const ink=sampleSphere(atlas,x,y,layout,time)*keep;
@@ -39,7 +40,7 @@ function paint(){
       const radius=pitch*(.1+.7*ink);
       context.moveTo(x+radius,y);context.arc(x,y,radius,0,Math.PI*2);
     }
-    context.fill();
+    context.fill();context.restore();
   }
   if(!announced&&atlas){announced=true;postMessage({type:'painted'});}
 }
@@ -65,7 +66,7 @@ onmessage=({data})=>{
     fw=Math.max(2,Math.round(width*scale));fh=Math.max(2,Math.round(height*scale));
     field.width=fw;field.height=fh;pixels=fieldContext.createImageData(fw,fh);
     flow=new MistFlow(64,Math.max(32,Math.min(112,Math.round(64*height/width))));
-    layout=sphereLayout(width,height,data.headingBottom);cells=[];
+    layout=sphereLayout(width,height,data.headingBottom,data.offerTop);cells=[];
     const pitch=layout.pitch;
     for(let y=pitch/2;y<layout.bottom;y+=pitch)for(let x=pitch/2;x<layout.right;x+=pitch){
       let keep=1;

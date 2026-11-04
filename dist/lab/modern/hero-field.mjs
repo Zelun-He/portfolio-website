@@ -1,28 +1,30 @@
-// Hero geometry follows the reference's responsive sphere crop and 63-frame rotation.
+// A stable circular silhouette contains the reference's 63-frame rotation.
 export const clamp = (n,a=0,b=1) => Math.min(b,Math.max(a,n));
 export const smooth = n => { n=clamp(n);return n*n*(3-2*n); };
 export const SPHERE = Object.freeze({columns:8,rows:8,frames:63,fps:20});
 
-export function sphereLayout(width,height,headingBottom=0){
-  const desktop=width>=1024,tablet=width>=768;
-  const d=desktop?1.38:tablet?2:2.98;
-  const x=desktop?.29:tablet?.35:.22,y=desktop?.59:tablet?.55:.60;
-  const mask=desktop?[.02,.328,.33,.10]:tablet?[.22,0,.36,0]:[0,0,.28,0];
-  return {size:Math.min(width*d,height*4)*1.09,x:width*(x-.06),y:height*(y+.05),
-    left:width*mask[3],right:width*(1-mask[1]),
-    top:Math.max(height*mask[0],desktop?0:headingBottom),bottom:height*(1-mask[2]),
-    softLeft:width*.17,softRight:width*.005,
-    softTop:desktop?height*.005:Math.max(1,headingBottom*.12),softBottom:height*.125,
+export function sphereLayout(width,height,headingBottom=0,offerTop=height*.64){
+  const desktop=width>=1024;
+  // Fit the actual object, rather than enlarging its black sprite-sheet padding.
+  // Mobile uses the free space between the headline and the primary actions.
+  const top=desktop?height*.035:headingBottom+22;
+  const bottom=desktop?height*.665:Math.max(top+40,offerTop-18);
+  const radius=Math.max(20,Math.min(width*(desktop?.25:.44),(bottom-top)/2));
+  return {size:radius/.285,x:width*(desktop?.34:.5),y:(top+bottom)/2,radius,
+    left:Math.max(0,width*(desktop?.34:.5)-radius),
+    right:Math.min(width,width*(desktop?.34:.5)+radius),top,bottom,
     pitch:6.93};
 }
 
 export function sphereMask(x,y,layout){
-  return smooth((x-layout.left)/layout.softLeft)*smooth((layout.right-x)/layout.softRight)
-    *smooth((y-layout.top)/layout.softTop)*smooth((layout.bottom-y)/layout.softBottom);
+  const distance=Math.hypot(x-layout.x,y-layout.y)/layout.radius;
+  return 1-smooth((distance-.91)/.09);
 }
 
 export function sampleSphere(atlas,x,y,layout,seconds){
   if(!atlas)return 0;
+  const mask=sphereMask(x,y,layout);
+  if(mask<=0)return 0;
   // The sprite stores highlights, not a finished halftone. Sample between frames.
   const u=.5-(x-layout.x)/layout.size,v=.5+(y-layout.y)/layout.size;
   if(u<0||u>1||v<0||v>1)return 0;
@@ -38,7 +40,7 @@ export function sampleSphere(atlas,x,y,layout,seconds){
     return (top*(1-sy)+bottom*sy)/255;
   };
   const level=tap(a)*(1-f)+tap(b)*f;
-  return Math.pow(clamp((level-.1)/.9),1.6)*sphereMask(x,y,layout);
+  return Math.pow(clamp((level-.1)/.9),1.6)*mask;
 }
 
 // Two moving grey fields, with the same scale, phase and pace as the reference.
