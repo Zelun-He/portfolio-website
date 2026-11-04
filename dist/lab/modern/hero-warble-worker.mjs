@@ -1,4 +1,4 @@
-import { shadeAt, orbAt } from './hero-field.mjs';
+import { shadeAt, orbAt, prepareTrails, sampleDisplacement, TRAIL_LIFETIME } from './hero-field.mjs';
 
 let canvas, context, pixels, width = 0, height = 0, density = 1;
 let field, fieldContext, fieldWidth = 0, fieldHeight = 0;
@@ -8,16 +8,17 @@ let holes = [];
 const smooth = x => { x = Math.min(1, Math.max(0, x)); return x*x*(3-2*x); };
 const schedule = typeof requestAnimationFrame === 'function'
   ? callback => requestAnimationFrame(callback)
-  : callback => setTimeout(() => callback(performance.now()), 67);
+  : callback => setTimeout(() => callback(performance.now()), 33);
 const cancel = typeof cancelAnimationFrame === 'function'
   ? frame => cancelAnimationFrame(frame)
   : frame => clearTimeout(frame);
 
 function paint() {
   const data = pixels.data;
+  const prepared=prepareTrails(time,trails),unit=Math.min(width,height);
   for (let y = 0; y < fieldHeight; y++) {
     for (let x = 0; x < fieldWidth; x++) {
-      const tone = shadeAt(x + 0.5, y + 0.5, fieldWidth, fieldHeight, time, trails);
+      const tone = shadeAt(x + 0.5, y + 0.5, fieldWidth, fieldHeight, time, trails, prepared);
       const index = (y * fieldWidth + x) * 4;
       data[index] = data[index + 1] = data[index + 2] = tone;
       data[index + 3] = 255;
@@ -25,6 +26,7 @@ function paint() {
   }
   fieldContext.putImageData(pixels, 0, 0);
   context.setTransform(density, 0, 0, density, 0, 0);
+  context.imageSmoothingEnabled=true;context.imageSmoothingQuality='high';
   context.drawImage(field, 0, 0, width, height);
   context.fillStyle = '#fafafa';
   context.globalAlpha = 0.95;
@@ -32,13 +34,14 @@ function paint() {
   const pitch = 6.93;
   for (let y = pitch / 2; y < height * 0.65; y += pitch) {
     for (let x = pitch / 2; x < width * 0.71; x += pitch) {
-      let tone = orbAt(x, y, width, height, time);
+      const ripple=sampleDisplacement(x,y,width,height,prepared);
+      let tone = orbAt(x+ripple.x*unit, y-ripple.y*unit, width, height, time);
       for (const [left, top, w, h] of holes) {
         const dx = Math.max(left-x,x-left-w,0), dy = Math.max(top-y,y-top-h,0);
         tone *= smooth((Math.hypot(dx,dy)-7)/22);
       }
       if (tone <= 0.003) continue;
-      const radius = pitch * (0.1 + 0.7 * Math.pow(tone, 1.6));
+      const radius = pitch * (0.1 + 0.37 * Math.pow(tone, 1.4));
       context.moveTo(x + radius, y);
       context.arc(x, y, radius, 0, Math.PI * 2);
     }
@@ -50,10 +53,10 @@ function paint() {
 function tick(now) {
   frame = 0;
   if (!running || reduced) return;
-  if (now - last >= 66) {
-    time += Math.min(now - last || 66, 100) / 1000;
+  if (now - last >= 33) {
+    time += Math.min(now - last || 33, 100) / 1000;
     last = now;
-    trails = trails.filter(trail => time - trail.time < 2.3);
+    trails = trails.filter(trail => time - trail.time < TRAIL_LIFETIME);
     paint();
   }
   frame = schedule(tick);
@@ -74,7 +77,7 @@ onmessage = ({ data }) => {
     density = data.density;
     canvas.width = Math.max(1, Math.round(width * density));
     canvas.height = Math.max(1, Math.round(height * density));
-    const scale = Math.min(1, 140 / Math.min(width, height), 224 / Math.max(width, height));
+    const scale = Math.min(1, 128 / Math.min(width, height), 200 / Math.max(width, height));
     fieldWidth = Math.max(1, Math.round(width * scale));
     fieldHeight = Math.max(1, Math.round(height * scale));
     field.width = fieldWidth; field.height = fieldHeight;

@@ -1,4 +1,4 @@
-import { SETTINGS, vertexShader, fragmentShader } from './hero-field.mjs';
+import { SETTINGS, TRAIL_LIFETIME, smoothPointerMotion, vertexShader, fragmentShader } from './hero-field.mjs';
 
 export function mountHeroWarble(hero) {
   const art = hero.querySelector('.hero-art');
@@ -9,6 +9,7 @@ export function mountHeroWarble(hero) {
   let gl, program, vertexBuffer, uniforms, worker;
   let raf = 0, visible = false, elapsed = 0, last = 0;
   let width = 1, height = 1, previousPointer, lastSplat = 0;
+  let pointerMotion={x:0,y:0};
   let trails = [];
   const trailData = new Float32Array(40);
   const trailMotion = new Float32Array(20);
@@ -110,7 +111,7 @@ export function mountHeroWarble(hero) {
 
   function render() {
     if (!gl) return;
-    trails = trails.filter(trail => elapsed - trail.time <= 2.3);
+    trails = trails.filter(trail => elapsed - trail.time <= TRAIL_LIFETIME);
     trailData.fill(0); trailMotion.fill(0);
     for (let i = 0; i < trails.length; i++) {
       const trail = trails[i];
@@ -131,7 +132,7 @@ export function mountHeroWarble(hero) {
     raf = 0;
     if (!gl || !visible || document.hidden || motion.matches) return;
     if (now - last >= 33) {
-      elapsed += Math.min(now - last || 33, 100) / 1000 * SETTINGS.speed;
+      elapsed += Math.min(now - last || 33, 100) / 1000;
       last = now;
       render();
     }
@@ -140,6 +141,7 @@ export function mountHeroWarble(hero) {
 
   function updateState() {
     const running = visible && !document.hidden;
+    if(!running||motion.matches){previousPointer=null;pointerMotion={x:0,y:0};}
     if (worker) worker.postMessage({ type: 'state', running, reduced: motion.matches });
     if (motion.matches) { elapsed = 0; trails = []; render(); }
     if (!running || motion.matches) { cancelAnimationFrame(raf); raf = 0; }
@@ -147,23 +149,24 @@ export function mountHeroWarble(hero) {
   }
 
   hero.addEventListener('pointermove', event => {
-    if (motion.matches || !event.isPrimary) return;
+    if (motion.matches || !event.isPrimary || event.pointerType==='touch') return;
     const now = performance.now();
     const bounds = art.getBoundingClientRect();
     const point = { x: (event.clientX - bounds.left) / width, y: 1 - (event.clientY - bounds.top) / height, time: now };
-    if (previousPointer && now - lastSplat >= 32) {
-      const dt = Math.max(16, now - previousPointer.time) / 1000;
+    if (previousPointer && now-previousPointer.time<160) {
+      const dt = Math.max(8, now - previousPointer.time) / 1000;
       const factor = SETTINGS.pointerForce * SETTINGS.pointerDisplacement;
-      const trail = { x: point.x, y: point.y, time: elapsed,
-        dx: Math.max(-0.12, Math.min(0.12, (point.x - previousPointer.x) / dt * factor)),
-        dy: Math.max(-0.12, Math.min(0.12, (point.y - previousPointer.y) / dt * factor)) };
-      trails.push(trail); if (trails.length > 10) trails.shift();
-      worker?.postMessage({ type: 'pointer', trail });
-      lastSplat = now;
-    }
+      const unit=Math.min(width,height);
+      pointerMotion=smoothPointerMotion(pointerMotion,(point.x-previousPointer.x)*width/unit/dt*factor,(point.y-previousPointer.y)*height/unit/dt*factor,dt);
+      if(now-lastSplat>=32){
+        const trail={x:point.x,y:point.y,time:elapsed,dx:pointerMotion.x,dy:pointerMotion.y};
+        trails.push(trail);if(trails.length>10)trails.shift();
+        worker?.postMessage({type:'pointer',trail});lastSplat=now;
+      }
+    }else{pointerMotion={x:0,y:0};}
     previousPointer = point;
   }, { passive: true });
-  hero.addEventListener('pointerleave', () => { previousPointer = null; });
+  hero.addEventListener('pointerleave', () => { previousPointer = null;pointerMotion={x:0,y:0}; });
   const observer = new IntersectionObserver(entries => { visible = entries[0].isIntersecting; updateState(); });
   observer.observe(hero);
   const resizer = new ResizeObserver(resize);
