@@ -52,6 +52,7 @@ async function enhanceGallery() {
     [readout,topBar].forEach(el=>el.inert=false);
     topBar.hidden=false;
     delete work.dataset.frontVisible;
+    delete work.dataset.finalExpanded;
     root.classList.remove('gallery-pending','gallery-enhanced');
     readout.hidden=true;canvas.hidden=true;root.style.removeProperty('--gallery-final-height');
   }
@@ -71,6 +72,7 @@ async function enhanceGallery() {
     const height=stage.offsetHeight;
     target=positionForTravel(travel/height,projects.length);
     handoff=handoffForTravel(travel/height,projects.length);
+    work.toggleAttribute('data-final-expanded',handoff>=1);
     stage.style.setProperty('--gallery-expand',String(handoff));
     stage.style.setProperty('--work-rise',String(ease((travel/height+.55)/.55)));
     const writing=clamp((travel/height+.04)/.57);

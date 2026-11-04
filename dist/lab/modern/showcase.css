@@ -5,7 +5,7 @@
 .portfolio-mist{position:fixed;inset:-4%;width:108%;height:108%;z-index:0;pointer-events:none;filter:blur(6px);contain:strict}
 .portfolio-mist-ready main{position:relative;z-index:1}
 .portfolio-mist-ready :is(.showcase,.showcase .gallery-stage,.case-studies,.archive){background:transparent}
-.showcase .gallery-stage:before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(#2223 .55px,transparent .75px);background-size:7px 7px;opacity:.28}
+.showcase .gallery-stage:before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(#2223 .55px,transparent .75px);background-size:7px 7px;opacity:calc(.28*(1 - var(--gallery-expand,0)))}
 .gallery-stills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px;padding-block:20px 70px;position:relative}
 .gallery-stills a{display:block}.gallery-stills img{width:100%;height:auto;border-radius:14px;background:white;aspect-ratio:1.51;object-fit:contain}.gallery-stills span{display:block;margin-top:15px;font-size:18px}
 :is(.gallery-enhanced,.gallery-pending) .showcase{height:calc(var(--gallery-runway,6.8)*var(--gallery-stage-height,100svh))}
@@ -69,10 +69,15 @@
 @media print{.portfolio-mist{display:none!important}}
 
 /* Release the inset final image into native scrolling, with a clear gap below it. */
+.gallery-end-panel{display:none}
+.gallery-enhanced .showcase .gallery-end-panel{display:block;position:absolute;z-index:2;left:4.75%;width:90.5%;height:auto;max-width:none;top:calc((var(--gallery-runway) - 1)*var(--gallery-stage-height) + (var(--gallery-stage-height) - var(--gallery-final-height,59.96vw))/2);visibility:hidden;pointer-events:none}
+.gallery-enhanced .showcase[data-final-expanded] .gallery-end-panel{visibility:visible}
+.gallery-enhanced .showcase[data-final-expanded] .gallery-stage :is(.gallery-canvas,.coil-mesh-canvas,.gallery-heading){visibility:hidden}
 .gallery-finale-anchor{position:absolute;left:0;top:0;width:1px;height:1px;scroll-margin-top:-105px;pointer-events:none}
 :is(.gallery-enhanced,.gallery-pending) .gallery-finale-anchor{top:calc(var(--gallery-last,6.25)*var(--gallery-stage-height,100svh))}
-:is(.gallery-enhanced,.gallery-pending) .showcase+.case-studies{position:relative;z-index:2;margin-top:calc((min(var(--gallery-final-height,59.96vw),var(--gallery-stage-height,100svh)) - var(--gallery-stage-height,100svh))/2 + clamp(30px,5vw,100px))}
+:is(.gallery-enhanced,.gallery-pending) .showcase+.case-studies{position:relative;z-index:2;margin-top:calc((var(--gallery-final-height,59.96vw) - var(--gallery-stage-height,100svh))/2 + clamp(30px,5vw,100px))}
 @media print{:is(.gallery-enhanced,.gallery-pending) .showcase+.case-studies{margin-top:0}}
+@media print{.gallery-enhanced .showcase .gallery-end-panel{display:none}}
 
 /* Match the reserved scroll layout to the stage before enhancement loads. */
 :root{--gallery-stage-height:max(100svh,660px)}
