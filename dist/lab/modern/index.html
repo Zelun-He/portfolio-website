@@ -21,12 +21,13 @@
   <link rel="stylesheet" href="./engineering.css">
   <link rel="stylesheet" href="./showcase.css">
   <link rel="stylesheet" href="./footer.css">
-  <link rel="stylesheet" href="./hero.css">
+  <link rel="stylesheet" href="./hero.css?v=actions-20261104">
   <script>
     if (!matchMedia('(prefers-reduced-motion: reduce)').matches) {
       document.documentElement.classList.add('story-pending', 'gallery-pending');
     }
   </script>
+  <script type="module" src="./hero-actions.mjs"></script>
   <script type="module" src="./effects.mjs" onerror="document.documentElement.classList.remove('story-pending')"></script>
   <script type="module" src="./modern.mjs" onerror="document.documentElement.classList.remove('gallery-pending')"></script>
 </head>
