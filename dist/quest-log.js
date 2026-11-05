@@ -10,7 +10,7 @@ const QUEST_ENTRIES = {
       ],
       rewards: [['21+', 'client sites'], ['50%', 'shorter delivery']],
       art: { src: '/holcomb-tree-service.webp', alt: 'Holcomb Tree Service website designed for a Dallas tree care company' },
-      links: [{ href: 'https://staging-holcomb-tree-service.arbor-alliance.workers.dev/', label: 'View Holcomb client preview' }]
+      links: [{ href: 'https://www.holcombtreeservice.com/', label: 'Visit Holcomb Tree Service' }]
     },
     {
       name: 'MyOasis.ai', role: 'Software engineering intern', dates: 'Jun 2025 – May 2026', place: 'Remote', status: 'Internship',
@@ -70,7 +70,7 @@ const QUEST_ENTRIES = {
       summary: 'A service website for a Dallas tree care company.',
       objectives: ['Created clear navigation across the company’s services.', 'Made it easy for prospective customers to request a consultation.'],
       art: { src: '/holcomb-tree-service.webp', alt: 'Holcomb Tree Service homepage and consultation form' },
-      links: [{ href: 'https://staging-holcomb-tree-service.arbor-alliance.workers.dev/', label: 'View preview' }]
+      links: [{ href: 'https://www.holcombtreeservice.com/', label: 'Visit website' }]
     },
     {
       name: 'Scribsy', role: 'Clinical documentation · N-of-1 AI', status: 'Selected project', category: 'web',
