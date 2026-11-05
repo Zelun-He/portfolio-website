@@ -1,6 +1,7 @@
 import { COIL, clamp, sceneFor, framesFor, advanceEdge, travelForProject, positionForTravel, runwayForProjects, handoffForTravel, expandFinalFrame } from './showcase-geometry.mjs';
 import { mountPortfolioMist } from './showcase-mist.mjs';
 import { makeSurfaces, createCanvasRenderer, createGLRenderer } from './showcase-renderer.mjs';
+import { needsGalleryFrame } from './gallery-resources.mjs';
 
 // Semantic project entries remain the content source for both views of the work.
 const work = document.querySelector('.showcase');
@@ -25,7 +26,19 @@ const projects = articles.map(article => ({
 async function enhanceGallery() {
   const root = document.documentElement;
   if (motion.matches || projects.length < 2) { root.classList.remove('gallery-pending'); return; }
-  let renderer, surfaces=[], aspects=[], scene, observer, resizer;
+  let renderer, surfaces=[], aspects=[], scene, observer, resizer, preloader;
+  const lifecycle=new AbortController();
+  const profiling=new URLSearchParams(location.search).has('gallery-profile');
+  const samples=[];let renderCount=0;
+  function recordSubmit(milliseconds){
+    if(!profiling)return;
+    samples.push(milliseconds);if(samples.length>300)samples.shift();renderCount++;
+    const sorted=[...samples].sort((a,b)=>a-b);
+    stage.dataset.galleryProfile=JSON.stringify({renderer:stage.dataset.renderer,renderCount,sampleCount:samples.length,
+      submitP50Ms:sorted[Math.floor((sorted.length-1)*.5)],submitP95Ms:sorted[Math.floor((sorted.length-1)*.95)],
+      textureEstimateBytes:Number(canvas.dataset.textureEstimateBytes)||0,textureCount:Number(canvas.dataset.textureCount)||0,
+      cssWidth:scene?.width,cssHeight:scene?.height,bufferWidth:canvas.width,bufferHeight:canvas.height});
+  }
   let raf=0, visible=false, destroyed=false, position=COIL.entry, target=COIL.entry;
   let clock=0,last=0,spin=0,selected=-1,handoff=0;
   let edge={position:COIL.entry,velocity:0};
@@ -45,9 +58,10 @@ async function enhanceGallery() {
 
   function dispose() {
     if(destroyed)return;destroyed=true;
-    cancelAnimationFrame(raf);observer?.disconnect();resizer?.disconnect();
+    lifecycle.abort();cancelAnimationFrame(raf);observer?.disconnect();resizer?.disconnect();preloader?.disconnect();
+    motion.removeEventListener('change',onMotion);
     removeEventListener('scroll',onScroll);removeEventListener('resize',onScroll);document.removeEventListener('visibilitychange',visibility);
-    renderer?.destroy();
+    renderer?.destroy();surfaces.forEach(({surface})=>{surface.width=surface.height=1;});
     accent.textContent=accentText;accent.removeAttribute('aria-label');
     [readout,topBar].forEach(el=>el.inert=false);
     topBar.hidden=false;
@@ -56,6 +70,8 @@ async function enhanceGallery() {
     root.classList.remove('gallery-pending','gallery-enhanced');
     readout.hidden=true;canvas.hidden=true;root.style.removeProperty('--gallery-final-height');
   }
+  function onMotion(event){if(event.matches)dispose();}
+  motion.addEventListener('change',onMotion);
   function select(index) {
     if(index===selected)return;selected=index;const project=projects[index];
     readout.hidden=project.closing;topBar.hidden=project.closing;
@@ -89,7 +105,9 @@ async function enhanceGallery() {
     if(destroyed||!visible||document.hidden)return;
     if(now-last<32){queue();return;}
     const dt=Math.min((now-(last||now-33))/1000,0.05);last=now;clock+=dt;
-    updateTarget();const before=position;
+    updateTarget();
+    if(handoff>=1){position=target;edge={position,velocity:0};spin=0;renderer.suspend?.();return;}
+    const before=position;
     position+=(target-position)*(1-Math.exp(-13*dt));
     if(Math.abs(target-position)<0.0001)position=target;
     edge=advanceEdge(edge,position,dt);
@@ -99,12 +117,15 @@ async function enhanceGallery() {
     select(clamp(Math.round(position),0,projects.length-1));
     const frames=framesFor(scene,projects.length,position,clock,spin,position-edge.position,aspects)
       .map(frame=>({...frame,translucent:projects[frame.index].closing}));
-    renderer.draw(expandFinalFrame(scene,frames,projects.length-1,handoff,aspects.at(-1)));
-    queue();
+    const started=performance.now();
+    try{renderer.draw(expandFinalFrame(scene,frames,projects.length-1,handoff,aspects.at(-1)));}
+    catch{dispose();return;}
+    recordSubmit(performance.now()-started);
+    if(needsGalleryFrame(position,target,edge,spin))queue();
   }
   function onScroll(){updateTarget();queue();}
   function queue(){if(!raf&&!destroyed&&renderer&&visible&&!document.hidden)raf=requestAnimationFrame(draw);}
-  function visibility(){if(document.hidden){cancelAnimationFrame(raf);raf=0;}else{last=0;queue();}}
+  function visibility(){if(document.hidden){cancelAnimationFrame(raf);raf=0;renderer?.suspend?.();}else{last=0;queue();}}
   function resize(){
     if(destroyed||!renderer)return;
     root.style.setProperty('--gallery-stage-height',`${stage.offsetHeight}px`);
@@ -117,7 +138,16 @@ async function enhanceGallery() {
   addEventListener('scroll',onScroll,{passive:true});
   addEventListener('resize',onScroll,{passive:true});
   try {
-    surfaces=await makeSurfaces(projects);
+    // Do not decode gallery images or allocate a GL context while the reader is in the hero.
+    await new Promise(resolve=>{
+      preloader=new IntersectionObserver(entries=>{
+        if(entries.some(entry=>entry.isIntersecting)){preloader.disconnect();resolve();}
+      },{rootMargin:'600px 0px'});
+      lifecycle.signal.addEventListener('abort',resolve,{once:true});preloader.observe(stage);
+    });
+    if(destroyed)return;
+    surfaces=await makeSurfaces(projects,{signal:lifecycle.signal});
+    if(destroyed){surfaces.forEach(({surface})=>{surface.width=surface.height=1;});return;}
     aspects=surfaces.map(({aspect})=>aspect);
     if(motion.matches){dispose();return;}
     renderer=createGLRenderer(canvas,surfaces);
@@ -138,11 +168,11 @@ async function enhanceGallery() {
     observer=new IntersectionObserver(entries=>{
       visible=entries[0].isIntersecting;
       if(visible){updateTarget();position=target;edge={position,velocity:0};last=0;queue();}
-      else{cancelAnimationFrame(raf);raf=0;}
+      else{cancelAnimationFrame(raf);raf=0;renderer.suspend?.();}
     });observer.observe(stage);
     resizer=new ResizeObserver(resize);resizer.observe(stage);
     document.addEventListener('visibilitychange',visibility);
-    motion.addEventListener('change',event=>{if(event.matches)dispose();},{once:true});
+    
     dispatchEvent(new Event('portfolio:layout-ready'));
   }catch{dispose();}
 }

@@ -1,5 +1,24 @@
-import { COIL } from './showcase-geometry.mjs';
+import { COIL, localPoint, worldPoint, projectPoint } from './showcase-geometry.mjs';
 import { paintMesh } from './showcase-painter.mjs';
+import { galleryBudget, textureDimensions, textureBytes } from './gallery-resources.mjs';
+
+function currentBudget(){
+  return galleryBudget({width:innerWidth,dpr:devicePixelRatio||1,coarse:matchMedia('(pointer: coarse)').matches,
+    memory:navigator.deviceMemory??8,saveData:navigator.connection?.saveData??false});
+}
+
+// Test a small projected grid so offscreen cards need neither textures nor mesh paint.
+export function visibleFrames(scene,frames){
+  return frames.filter(frame=>{
+    if(frame.opacity<=.005)return false;
+    let left=Infinity,top=Infinity,right=-Infinity,bottom=-Infinity;
+    for(const u of [0,.25,.5,.75,1])for(const v of [0,.5,1]){
+      const [x,y]=projectPoint(scene,worldPoint(localPoint(scene,frame,u,v),frame));
+      left=Math.min(left,x);right=Math.max(right,x);top=Math.min(top,y);bottom=Math.max(bottom,y);
+    }
+    return right>=-32&&left<=scene.width+32&&bottom>=-32&&top<=scene.height+32;
+  });
+}
 
 export const vertexShader = `
 attribute vec2 uv;
@@ -39,24 +58,42 @@ void main(){
   gl_FragColor=vec4(pixel.rgb,pixel.a*opacity);
 }`;
 
-export async function makeSurfaces(projects) {
-  const results = await Promise.allSettled(projects.map(async project => {
-    const image = new Image(); image.decoding = 'async'; image.src = project.image;
-    await image.decode();
-    const surface = document.createElement('canvas');
-    surface.width = Math.min(image.naturalWidth, 2048);
-    surface.height = Math.round(surface.width * image.naturalHeight / image.naturalWidth);
-    const ctx = surface.getContext('2d');
-    if (!ctx) throw new Error('Image surface unavailable');
-    ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = 'high';
-    // Use the project itself: no invented browser chrome or surrounding mockup frame.
-    ctx.beginPath(); ctx.roundRect(0, 0, surface.width, surface.height, surface.width * 0.0265); ctx.clip();
-    ctx.drawImage(image, 0, 0, surface.width, surface.height);
-    return { surface, aspect: image.naturalWidth / image.naturalHeight };
-  }));
-  const loaded = results.filter(result => result.status === 'fulfilled').map(result => result.value);
-  if (loaded.length !== projects.length) {
-    throw new Error('A project image could not be prepared');
+export async function makeSurfaces(projects,{signal}={}) {
+  const budget=currentBudget(),loaded=new Array(projects.length);
+  let cursor=0;
+  const check=()=>{if(signal?.aborted)throw new DOMException('Gallery cancelled','AbortError');};
+  async function next(){
+    while(cursor<projects.length){
+      check();const index=cursor++,project=projects[index],image=new Image();
+      let surface;
+      const cancel=()=>{image.src='';};
+      signal?.addEventListener('abort',cancel,{once:true});
+      try{
+        image.decoding='async';image.src=project.image;await image.decode();check();
+        if(!image.naturalWidth||!image.naturalHeight)throw new Error('Image dimensions unavailable');
+        surface=document.createElement('canvas');
+        const scale=Math.min(1,budget.textureEdge/Math.max(image.naturalWidth,image.naturalHeight));
+        surface.width=Math.max(1,Math.round(image.naturalWidth*scale));
+        surface.height=Math.max(1,Math.round(image.naturalHeight*scale));
+        const ctx=surface.getContext('2d');
+        if(!ctx)throw new Error('Image surface unavailable');
+        ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';
+        ctx.beginPath();ctx.roundRect(0,0,surface.width,surface.height,surface.width*.0265);ctx.clip();
+        ctx.drawImage(image,0,0,surface.width,surface.height);
+        loaded[index]={surface,aspect:image.naturalWidth/image.naturalHeight};
+      }catch(error){
+        if(surface)surface.width=surface.height=1;throw error;
+      }finally{
+        signal?.removeEventListener('abort',cancel);image.src='';
+      }
+    }
+  }
+  // Wait for both decoders to settle so a late decode cannot retain a surface.
+  const results=await Promise.allSettled(Array.from({length:Math.min(budget.decoders,projects.length)},next));
+  const failure=results.find(result=>result.status==='rejected');
+  if(failure||signal?.aborted){
+    loaded.forEach(item=>{if(item)item.surface.width=item.surface.height=1;});
+    throw failure?.reason??new DOMException('Gallery cancelled','AbortError');
   }
   return loaded;
 }
@@ -64,7 +101,7 @@ export async function makeSurfaces(projects) {
 export async function createCanvasRenderer(stage, surfaces) {
   let canvas=document.createElement('canvas');canvas.className='coil-mesh-canvas';canvas.setAttribute('aria-hidden','true');stage.append(canvas);
   let worker,scene,density=1,busy=false,latest=null,destroyed=false;
-  const pixelRatio=()=>Math.min(devicePixelRatio||1,2,4096/Math.max(scene.width,scene.height));
+  const pixelRatio=()=>Math.min(currentBudget().density,4096/Math.max(scene.width,scene.height));
   try {
     if(!canvas.transferControlToOffscreen||typeof Worker!=='function')throw new Error('Worker canvas unavailable');
     const images=await Promise.all(surfaces.map(({surface})=>createImageBitmap(surface)));
@@ -84,7 +121,8 @@ export async function createCanvasRenderer(stage, surfaces) {
     worker.onerror=()=>{stage.dispatchEvent(new Event('showcase:renderer-error'));};
     return {
       resize(next){scene=next;density=pixelRatio();worker.postMessage({type:'resize',scene,density});},
-      draw(frames){latest=frames;flush();},
+      draw(frames){latest=visibleFrames(scene,frames);flush();},
+      suspend(){latest=null;},
       destroy(){destroyed=true;worker.terminate();canvas.remove();}
     };
   }catch{
@@ -95,7 +133,7 @@ export async function createCanvasRenderer(stage, surfaces) {
     if(!ctx){canvas.remove();throw new Error('Gallery canvas unavailable');}
     return {
       resize(next){scene=next;density=pixelRatio();canvas.width=Math.round(scene.width*density);canvas.height=Math.round(scene.height*density);},
-      draw(frames){paintMesh(ctx,surfaces.map(item=>item.surface),scene,frames,density);},
+      draw(frames){paintMesh(ctx,surfaces.map(item=>item.surface),scene,visibleFrames(scene,frames),density);},
       destroy(){destroyed=true;canvas.remove();}
     };
   }
@@ -104,9 +142,19 @@ export async function createCanvasRenderer(stage, surfaces) {
 export function createGLRenderer(canvas, surfaces) {
   const gl = canvas.getContext('webgl', { alpha: true, antialias: true, depth: false, powerPreference: 'low-power' });
   if (!gl) return null;
-  const shaders = [], textures = []; let program, buffer;
+  const shaders = [], textures = new Map(); let program, buffer;
+  const budget=currentBudget(),maxTextureSize=gl.getParameter(gl.MAX_TEXTURE_SIZE);
+  const anisotropy=gl.getExtension('EXT_texture_filter_anisotropic');
+  function report(){
+    canvas.dataset.textureEstimateBytes=String([...textures.values()].reduce((sum,item)=>sum+item.bytes,0));
+    canvas.dataset.textureCount=String(textures.size);
+  }
+  function releaseTextures(keep=new Set()){
+    for(const [index,item] of textures)if(!keep.has(index)){gl.deleteTexture(item.texture);textures.delete(index);}
+    report();
+  }
   function dispose() {
-    textures.forEach(texture => gl.deleteTexture(texture));
+    releaseTextures();
     shaders.forEach(shader => gl.deleteShader(shader));
     if (buffer) gl.deleteBuffer(buffer); if (program) gl.deleteProgram(program);
   }
@@ -136,29 +184,40 @@ export function createGLRenderer(canvas, surfaces) {
     gl.enable(gl.BLEND);
     gl.blendFuncSeparate(gl.SRC_ALPHA,gl.ONE_MINUS_SRC_ALPHA,gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
     gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL,true);gl.clearColor(0,0,0,0);
-    for (const {surface} of surfaces) {
-      const texture=gl.createTexture();if(!texture)throw new Error('Gallery image unavailable');textures.push(texture);gl.bindTexture(gl.TEXTURE_2D,texture);
-      // WebGL 1 needs power-of-two dimensions for mipmaps. UV mapping restores the card's aspect.
-      const upload=document.createElement('canvas');upload.width=2048;upload.height=2048;
-      const uploadContext=upload.getContext('2d');
-      if(!uploadContext)throw new Error('Gallery texture unavailable');
-      uploadContext.imageSmoothingQuality='high';uploadContext.drawImage(surface,0,0,2048,2048);
-      gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,upload);
-      upload.width=upload.height=1;
-      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
-      gl.generateMipmap(gl.TEXTURE_2D);
-      gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
-      const anisotropy=gl.getExtension('EXT_texture_filter_anisotropic');
-      if(anisotropy)gl.texParameterf(gl.TEXTURE_2D,anisotropy.TEXTURE_MAX_ANISOTROPY_EXT,Math.min(8,gl.getParameter(anisotropy.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
+    function textureFor(index){
+      if(textures.has(index))return textures.get(index).texture;
+      const {surface}=surfaces[index];
+      const dimensions=textureDimensions(surface.width,surface.height,budget.textureEdge,maxTextureSize);
+      const texture=gl.createTexture();if(!texture)throw new Error('Gallery image unavailable');
+      const upload=document.createElement('canvas');
+      try{
+        upload.width=dimensions.width;upload.height=dimensions.height;
+        const ctx=upload.getContext('2d');if(!ctx)throw new Error('Gallery texture unavailable');
+        ctx.imageSmoothingEnabled=true;ctx.imageSmoothingQuality='high';ctx.drawImage(surface,0,0,upload.width,upload.height);
+        gl.bindTexture(gl.TEXTURE_2D,texture);
+        gl.texImage2D(gl.TEXTURE_2D,0,gl.RGBA,gl.RGBA,gl.UNSIGNED_BYTE,upload);
+        gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_S,gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_WRAP_T,gl.CLAMP_TO_EDGE);
+        gl.generateMipmap(gl.TEXTURE_2D);
+        if(gl.getError()!==gl.NO_ERROR)throw new Error('Gallery texture allocation failed');
+        gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MIN_FILTER,gl.LINEAR_MIPMAP_LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D,gl.TEXTURE_MAG_FILTER,gl.LINEAR);
+        if(anisotropy)gl.texParameterf(gl.TEXTURE_2D,anisotropy.TEXTURE_MAX_ANISOTROPY_EXT,Math.min(4,gl.getParameter(anisotropy.MAX_TEXTURE_MAX_ANISOTROPY_EXT)));
+        textures.set(index,{texture,bytes:textureBytes(upload.width,upload.height)});report();
+        return texture;
+      }catch(error){gl.deleteTexture(texture);throw error;}
+      finally{upload.width=upload.height=1;}
     }
     let scene;
     return {
       resize(next) {
-        scene=next;const density=Math.min(devicePixelRatio||1,2,4096/Math.max(scene.width,scene.height));
+        scene=next;const density=Math.min(budget.density,4096/Math.max(scene.width,scene.height));
         canvas.width=Math.round(scene.width*density);canvas.height=Math.round(scene.height*density);
         gl.viewport(0,0,canvas.width,canvas.height);
       },
       draw(frames) {
+        frames=visibleFrames(scene,frames);
+        releaseTextures(new Set(frames.map(frame=>frame.index)));
         gl.clear(gl.COLOR_BUFFER_BIT);gl.uniform2f(uniforms.view,scene.width,scene.height);
         gl.uniform1i(uniforms.image,0);
         for(const frame of frames){
@@ -166,9 +225,10 @@ export function createGLRenderer(canvas, surfaces) {
           gl.uniform3f(uniforms.offset,frame.x,frame.y,frame.z);gl.uniform3f(uniforms.rotation,frame.rx,frame.ry,frame.rz);
           gl.uniform1f(uniforms.curve,frame.curve);gl.uniform1f(uniforms.flex,frame.flex);
           gl.uniform1f(uniforms.opacity,frame.opacity);gl.uniform1f(uniforms.wash,frame.wash);
-          gl.bindTexture(gl.TEXTURE_2D,textures[frame.index]);gl.drawArrays(gl.TRIANGLES,0,mesh.length/2);
+          gl.bindTexture(gl.TEXTURE_2D,textureFor(frame.index));gl.drawArrays(gl.TRIANGLES,0,mesh.length/2);
         }
       },
+      suspend:releaseTextures,
       destroy:dispose
     };
   } catch { dispose(); return null; }
