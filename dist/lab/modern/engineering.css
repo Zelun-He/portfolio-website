@@ -179,3 +179,8 @@
 .case-proof>p:not(.eyebrow){font-size:15px;line-height:1.65;color:#4c4c4c;margin:0}
 .case-proof>.text-link{display:inline-block;font-size:14px;line-height:1.5;margin-top:12px;padding-block:8px}
 @media(max-width:1050px){.case-index{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Short review paths turn delivered features into inspectable evidence. */
+.case-review-steps{margin:14px 0 0;padding-left:1.3em;display:grid;gap:8px;color:#4c4c4c;font-size:15px;line-height:1.6}
+.case-evidence-links{display:flex;flex-wrap:wrap;gap:8px 22px;margin-top:10px}
+.case-evidence-links>.text-link{display:inline-flex;align-items:center;min-height:44px;font-size:14px;line-height:1.5;padding-block:8px}

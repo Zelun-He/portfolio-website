@@ -18,7 +18,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="./overused-grotesk-book.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./modern.css">
-  <link rel="stylesheet" href="./engineering.css?v=narrator-case-20261105">
+  <link rel="stylesheet" href="./engineering.css?v=case-evidence-20261105">
   <link rel="stylesheet" href="./showcase.css?v=case-shortcut-20261105">
   <link rel="stylesheet" href="./footer.css">
   <link rel="stylesheet" href="./hero.css?v=hierarchy-20261105">
@@ -126,8 +126,15 @@
           <div class="case-body">
             <div class="case-notes"><div><h4>The problem</h4><p>Turn a recorded conversation into an organized draft that a practitioner can inspect and edit.</p></div><div><h4>My contribution</h4><p>Connected audio processing, structured note generation, and a Next.js review interface through FastAPI endpoints.</p></div></div>
             <div class="case-decision"><p class="eyebrow">Key engineering decision</p><h4>Make the generated note a reviewable draft.</h4><p>Keep the transcript and structured SOAP sections available in the review workflow, so the practitioner can check and revise the output before exporting it.</p></div>
-            <details class="case-depth"><summary>Architecture &amp; implementation <span aria-hidden="true">+</span></summary><div class="case-depth-body"><dl><div><dt>Structure</dt><dd>Whisper transcription feeds a separate summarization service. The response separates subjective, objective, assessment, and plan fields instead of returning an unstructured paragraph.</dd></div><div><dt>API behavior</dt><dd>The backend separates upload endpoints, transcription, summarization, note schemas, and CRUD operations. Invalid audio and processing failures return explicit errors.</dd></div><div><dt>Public demonstration</dt><dd>The sample visit uses fictional content. Editing and PDF export can be explored without an account or a live AI request.</dd></div></dl></div></details>
-            <p class="case-outcome"><span>Delivered</span>An audio-to-note review workflow with editable sections and note management.</p>
+            
+            <section class="case-proof" aria-labelledby="scribsy-evidence-title">
+              <p class="eyebrow">Inspect the result</p><h4 id="scribsy-evidence-title">Edit a sample. Check the exported note.</h4>
+              <p>The fictional sample visit makes the review workflow available without an account or a live AI request.</p>
+              <ol class="case-review-steps"><li>Edit the Plan section in the sample visit.</li><li>Choose “Save sample changes,” then “Approve &amp; export.”</li><li>Open the PDF and check that your edit appears in the Plan.</li></ol>
+              <div class="case-evidence-links"><a class="text-link" href="https://github.com/Zelun-He/Scribsy/blob/b6f572765efbd0a304a13ec00a6cf0f0a5d36d62/tests/test_dashboard_workflow.py" target="_blank" rel="noopener noreferrer">Inspect workflow tests ↗</a><a class="text-link" href="https://github.com/Zelun-He/Scribsy/blob/b6f572765efbd0a304a13ec00a6cf0f0a5d36d62/tests/test_note_pdf.py" target="_blank" rel="noopener noreferrer">Inspect PDF tests ↗</a></div>
+            </section>
+            <details class="case-depth"><summary>Architecture &amp; implementation <span aria-hidden="true">+</span></summary><div class="case-depth-body"><dl><div><dt>Structure</dt><dd>Whisper transcription feeds a separate summarization service. The response separates subjective, objective, assessment, and plan fields instead of returning an unstructured paragraph.</dd></div><div><dt>API behavior</dt><dd>The backend separates upload endpoints, transcription, summarization, note schemas, and CRUD operations. Invalid audio and processing failures return explicit errors.</dd></div><div><dt>Public demonstration</dt><dd>The sample visit uses fictional content. Editing and PDF export can be explored without an account or a live AI request.</dd></div><div><dt>Inspectable test coverage</dt><dd>API workflow tests exercise saved SOAP corrections, account isolation and finalization locks. PDF tests extract generated text to check section content, record status and long-note pagination.</dd></div><div><dt>Validation scope</dt><dd>The workflow suite substitutes model responses to isolate application behavior. Clinical accuracy and time saved require separate measurement.</dd></div></dl></div></details>
+            <p class="case-outcome"><span>Delivered</span>A review workflow that preserves edited SOAP sections, locks finalized records, and exports structured notes as PDFs.</p>
             <p class="project-stack">Next.js · FastAPI · Whisper · Structured SOAP output</p>
             <div class="case-actions"><a class="text-link project-link" href="https://scribsy.vercel.app/sample-visit" target="_blank" rel="noopener noreferrer">Try a sample visit ↗</a><a class="text-link" href="https://github.com/Zelun-He/Scribsy" target="_blank" rel="noopener noreferrer">View code ↗</a></div>
             <p class="case-demo-note">No signup · Fictional sample · Edit a draft and export a PDF</p>
@@ -174,8 +181,14 @@
           <div class="case-body">
             <div class="case-notes"><div><h4>The problem</h4><p>Present the company’s coffee, hospitality, and technology offerings clearly while keeping a cohesive identity across the corporate site and coffee brand.</p></div><div><h4>My contribution</h4><p>Built responsive pages and organized the company’s offerings into a consistent visual presentation, connecting the corporate story with the Deep Thrill brand.</p></div></div>
             <div class="case-decision"><p class="eyebrow">Key design decision</p><h4>Give distinct offerings one coherent story.</h4><p>Use a consistent page structure and visual language across the company’s business areas, while giving each offering enough space to explain its role.</p></div>
+            
+            <section class="case-proof" aria-labelledby="eastern-evidence-title">
+              <p class="eyebrow">Review the delivery</p><h4 id="eastern-evidence-title">Inspect the company story and its navigation.</h4>
+              <p>The full-size homepage capture shows the delivered “From Source to Sip” interface. Use the website link below to explore the company’s offerings and review how the shared navigation and presentation connect them.</p>
+              <a class="text-link" href="/Images/eastern-asteria-home.webp" target="_blank" rel="noopener noreferrer">Open the full-size delivery capture ↗</a>
+            </section>
             <details class="case-depth"><summary>Scope &amp; implementation <span aria-hidden="true">+</span></summary><div class="case-depth-body"><dl><div><dt>Content structure</dt><dd>Organized coffee sourcing, the Deep Thrill brand, hospitality, and technology into clear pages within the broader company story.</dd></div><div><dt>Responsive presentation</dt><dd>Adapted layouts and imagery for desktop and mobile while maintaining a cohesive presentation across the corporate and coffee brand pages.</dd></div><div><dt>Attribution</dt><dd>Client work completed as part of the Arrows Up team. My contribution focused on the website’s responsive pages and presentation.</dd></div></dl></div></details>
-            <p class="case-outcome"><span>Delivered</span>A cohesive, responsive corporate and coffee brand website with clear paths into the company’s offerings.</p>
+            <p class="case-outcome"><span>Delivered</span>A corporate and coffee-brand site with shared navigation and page structure across the company’s offerings.</p>
             <p class="project-stack">Responsive web · Brand storytelling · Client delivery</p>
             <div class="case-actions"><a class="text-link project-link" href="https://www.easternasteriainc.com/" target="_blank" rel="noopener noreferrer">Visit the website ↗</a><a class="text-link" href="#experience">View experience ↗</a></div>
             <p class="case-demo-note">Professional team work · Arrows Up client website</p>
@@ -192,8 +205,14 @@
           <div class="case-body">
             <div class="case-notes"><div><h4>The problem</h4><p>Help visitors find relevant tree-care services and move easily from learning about the company to requesting a consultation.</p></div><div><h4>My contribution</h4><p>Built responsive page layouts, organized the service navigation, and implemented clear consultation entry points as part of the Arrows Up team.</p></div></div>
             <div class="case-decision"><p class="eyebrow">Key design decision</p><h4>Keep the path from service to consultation clear.</h4><p>Connect the company’s service information with prominent estimate and consultation actions, so visitors have a clear next step as they explore the site.</p></div>
+            
+            <section class="case-proof" aria-labelledby="holcomb-evidence-title">
+              <p class="eyebrow">Review the delivery</p><h4 id="holcomb-evidence-title">Follow the path from services to a consultation.</h4>
+              <p>The homepage capture shows the service navigation alongside a consultation form. Use the staging preview below to inspect the service information and consultation entry points described in this case study.</p>
+              <a class="text-link" href="/holcomb-tree-service.webp" target="_blank" rel="noopener noreferrer">Open the full-size delivery capture ↗</a>
+            </section>
             <details class="case-depth"><summary>Scope &amp; implementation <span aria-hidden="true">+</span></summary><div class="case-depth-body"><dl><div><dt>Visitor journey</dt><dd>Organized the service information and consultation entry points around the needs of prospective tree-care customers.</dd></div><div><dt>Implementation</dt><dd>Rebuilt responsive interfaces and routing with SvelteKit. The linked Cloudflare staging site demonstrates the client-facing result.</dd></div><div><dt>Attribution</dt><dd>Client project completed as part of the Arrows Up team. This case study describes the Holcomb website rather than my broader work across client platforms.</dd></div></dl></div></details>
-            <p class="case-outcome"><span>Delivered</span>A responsive tree-care website with clear service navigation and prominent consultation requests.</p>
+            <p class="case-outcome"><span>Delivered</span>A SvelteKit rebuild connecting tree-care service information with visible consultation entry points.</p>
             <p class="project-stack">SvelteKit · TypeScript · Responsive web · Cloudflare</p>
             <div class="case-actions"><a class="text-link project-link" href="https://staging-holcomb-tree-service.arbor-alliance.workers.dev/" target="_blank" rel="noopener noreferrer">View Holcomb preview ↗</a><a class="text-link" href="#experience">My role at Arrows Up ↗</a></div>
             <p class="case-demo-note">Arrows Up client project · Staging preview</p>
