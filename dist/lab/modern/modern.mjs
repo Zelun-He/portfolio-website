@@ -74,7 +74,7 @@ async function enhanceGallery() {
   motion.addEventListener('change',onMotion);
   function select(index) {
     if(index===selected)return;selected=index;const project=projects[index];
-    readout.hidden=project.closing;topBar.hidden=project.closing;
+    readout.hidden=project.closing;
     stage.querySelector('#active-type').textContent=project.type;
     stage.querySelector('#active-title').textContent=project.title;
     stage.querySelector('#active-description').textContent=project.description;
@@ -98,7 +98,7 @@ async function enhanceGallery() {
     stage.style.setProperty('--work-front',String(front));
     const frontVisible=front>.05;
     work.toggleAttribute('data-front-visible',frontVisible);
-    [readout,topBar].forEach(el=>el.inert=!frontVisible);
+    readout.inert=!frontVisible;
   }
   function draw(now) {
     raf=0;
