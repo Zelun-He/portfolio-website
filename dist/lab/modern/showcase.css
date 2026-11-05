@@ -4,7 +4,9 @@
 .showcase .gallery-stage{isolation:isolate;background:#ededeb}
 .portfolio-mist{position:fixed;inset:-4%;width:108%;height:108%;z-index:0;pointer-events:none;filter:blur(6px);contain:strict}
 .portfolio-mist-ready main{position:relative;z-index:1}
-.portfolio-mist-ready :is(.showcase,.showcase .gallery-stage,.case-studies,.archive){background:transparent}
+/* Keep the atmospheric showcase; soften mist beneath longer project reading. */
+.portfolio-mist-ready :is(.showcase,.showcase .gallery-stage){background:transparent}
+.portfolio-mist-ready :is(.case-studies,.archive){background:rgb(245 245 243 / .84)}
 .showcase .gallery-stage:before{content:'';position:absolute;inset:0;pointer-events:none;z-index:0;background-image:radial-gradient(#2223 .55px,transparent .75px);background-size:7px 7px;opacity:calc(.28*(1 - var(--gallery-expand,0)))}
 .gallery-stills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:25px;padding-block:20px 70px;position:relative}
 .gallery-stills a{display:block}.gallery-stills img{width:100%;height:auto;border-radius:14px;background:white;aspect-ratio:1.51;object-fit:contain}.gallery-stills span{display:block;margin-top:15px;font-size:18px}
