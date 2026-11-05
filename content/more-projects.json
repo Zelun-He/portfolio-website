@@ -18,7 +18,7 @@
     "status": "In progress"
   },
   {
-    "id": "narrator",
+    "id": "narrator-archive",
     "title": "Narrator",
     "categories": [
       "web"
@@ -34,6 +34,10 @@
       {
         "label": "View code",
         "href": "https://github.com/Zelun-He/Narrator"
+      },
+      {
+        "label": "Engineering case study",
+        "href": "#narrator"
       }
     ],
     "image": {
@@ -42,12 +46,7 @@
       "width": 2048,
       "height": 1180
     },
-    "note": "No signup · Sample studio · New audio generation requires the self-hosted backend",
-    "gallery": {
-      "order": 4,
-      "type": "Audiobook platform / Personal project",
-      "linkLabel": "Explore the demo"
-    }
+    "note": "No signup · Sample studio · New audio generation requires the self-hosted backend"
   },
   {
     "id": "myoasis",

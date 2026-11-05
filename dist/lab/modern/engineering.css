@@ -29,7 +29,7 @@
 .case-section-heading h2,.research-top h2{font-size:clamp(42px,5.8vw,88px);letter-spacing:-.06em;line-height:1.02}
 .case-section-heading h2>span{color:#747474}
 .case-section-heading>p:last-child{grid-column:2;max-width:480px;font-size:17px;line-height:1.5;color:#555;text-wrap:balance}
-.case-index{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;margin:55px 0 30px}
+.case-index{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px;margin:55px 0 30px}
 .case-index a{display:grid;grid-template-columns:1fr auto;gap:12px;padding:20px 0;border-block:1px solid var(--line)}
 .case-index span{font-size:12px;color:#626262;grid-column:1/-1}
 .case-index strong{font-size:27px;font-weight:400;letter-spacing:-.04em}.case-index i{font-style:normal;font-size:25px;align-self:center}
@@ -171,3 +171,11 @@
 .gene-study-copy h3{font-size:clamp(36px,4vw,60px);line-height:1.05;letter-spacing:-.055em;margin:18px 0 24px}.gene-study .project-description{font-size:20px;line-height:1.5;color:#eee}.gene-study-decision{margin-top:30px;padding-left:20px;border-left:2px solid var(--accent)}.gene-study-decision h4{font-size:23px;letter-spacing:-.035em;margin:0 0 13px}.gene-study-decision p,.gene-study-finding{font-size:16px;line-height:1.6;color:#bbb}.gene-study-finding{margin-top:25px}.gene-study .project-stack{color:#aaa;margin-top:25px}.gene-study .case-actions{margin-top:25px}.gene-study .research-footnote{margin-top:20px;max-width:600px}
 @media(max-width:760px){.gene-study{grid-template-columns:1fr;gap:32px;margin-top:50px;padding-top:40px}.gene-study-copy h3{font-size:40px}.gene-study .project-description{font-size:18px}.gene-study-metrics{gap:28px}.gene-study-metrics dt{font-size:34px}}
 @media print{.gene-study{display:block;break-inside:avoid}.gene-study p,.gene-study-metrics dd,.gene-study-visual figcaption{color:#333!important}}
+
+/* Evidence sits beside the engineering decision, with source links for closer review. */
+.case-proof{margin-top:24px;padding:20px 0;border-top:1px solid var(--line)}
+.case-proof .eyebrow{margin-bottom:10px}
+.case-proof h4{font-size:20px;line-height:1.3;letter-spacing:-.025em;font-weight:400;margin:0 0 12px}
+.case-proof>p:not(.eyebrow){font-size:15px;line-height:1.65;color:#4c4c4c;margin:0}
+.case-proof>.text-link{display:inline-block;font-size:14px;line-height:1.5;margin-top:12px;padding-block:8px}
+@media(max-width:1050px){.case-index{grid-template-columns:repeat(2,minmax(0,1fr))}}
