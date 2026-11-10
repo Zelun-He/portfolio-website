@@ -18,7 +18,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="./overused-grotesk-book.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="./modern.css">
-  <link rel="stylesheet" href="./engineering.css?v=scribsy-quality-20261110">
+  <link rel="stylesheet" href="./engineering.css?v=scribsy-sample-20261110">
   <link rel="stylesheet" href="./showcase.css?v=reading-20261105">
   <link rel="stylesheet" href="./footer.css">
   <link rel="stylesheet" href="./hero.css?v=hierarchy-20261105">
@@ -93,7 +93,7 @@
         <div class="gallery-top section-pad"><p class="eyebrow">01 / Selected work</p><a class="text-link" href="#engineering-notes">Read the case studies <span aria-hidden="true">↗</span></a></div>
         <h2 class="gallery-heading" id="work-title"><span class="work-title-line"><span class="work-title-rise">Selected work.</span></span><span class="work-title-line work-title-accent">Built to be used.</span></h2>
         <div class="gallery-stills section-pad" aria-label="Selected projects">
-          <a href="#scribsy"><img src="/Images/scribsy.png" alt="Scribsy clinical documentation application" width="2048" height="1181" loading="lazy" decoding="async"><span>Scribsy ↗</span></a>
+          <a href="#scribsy"><img src="/Images/scribsy-fictional-visit.jpg" alt="Scribsy fictional sample visit with a transcript and populated SOAP note" width="1355" height="1095" loading="lazy" decoding="async"><span>Scribsy ↗</span></a>
           <a href="#eastern-asteria"><img src="/Images/eastern-asteria-home.webp" alt="Eastern Asteria website with coffee fields and the heading From Source to Sip" width="800" height="445" loading="lazy"><span>Eastern Asteria ↗</span></a>
           <a href="#holcomb-tree-service"><img src="/holcomb-tree-service.webp" alt="Holcomb Tree Service client website" width="800" height="461" loading="lazy"><span>Holcomb Tree Service ↗</span></a>
         </div>
@@ -116,13 +116,13 @@
         <a href="#holcomb-tree-service"><span>04 / Client website</span><strong>Holcomb Tree Service</strong><i aria-hidden="true">↗</i></a>
       </nav>
       <div class="case-study-list" id="project-index">
-        <article class="project case-study" id="scribsy" data-gallery-image="/Images/scribsy.png" data-gallery-order="0" data-type="Clinical documentation / N-of-1 AI" data-link-label="Try a sample visit">
+        <article class="project case-study" id="scribsy" data-gallery-image="/Images/scribsy-fictional-visit.jpg" data-gallery-order="0" data-type="Clinical documentation / N-of-1 AI" data-link-label="Try a sample visit">
           <header class="case-intro">
             <p class="eyebrow">01 / Applied AI · Internship</p><h3>Scribsy</h3>
             <p class="project-description">I built the audio transcription, structured SOAP generation, and note-management workflow for a clinical documentation application.</p>
             <p class="case-role">Software Engineering Intern · N-of-1 AI<br>June — August 2025</p>
           </header>
-          <div class="case-visual"><img src="/Images/scribsy.png" alt="Scribsy dashboard with clinical note creation and a calendar" width="2048" height="1181" loading="lazy" decoding="async"><p class="case-caption">Next.js interface · FastAPI backend <a class="case-capture-link" href="/Images/scribsy.png" target="_blank" rel="noopener noreferrer" aria-label="Open the full-resolution Scribsy dashboard screenshot">View full size ↗</a></p><ol class="case-flow" aria-label="Scribsy workflow"><li>Audio</li><li>Transcript</li><li>SOAP draft</li><li>Review</li></ol></div>
+          <div class="case-visual"><img src="/Images/scribsy-fictional-visit.jpg" alt="Scribsy fictional sample visit showing a transcript beside populated Subjective, Objective, Assessment, and Plan sections" width="1355" height="1095" loading="lazy" decoding="async"><p class="case-caption">Fictional sample visit · Transcript and SOAP draft <a class="case-capture-link" href="/Images/scribsy-fictional-visit.jpg" target="_blank" rel="noopener noreferrer" aria-label="Open the full-resolution Scribsy fictional sample screenshot">View full size ↗</a></p><ol class="case-flow" aria-label="Scribsy workflow"><li>Audio</li><li>Transcript</li><li>SOAP draft</li><li>Review</li></ol></div>
           <div class="case-body">
             <div class="case-notes"><div><h4>The problem</h4><p>Turn a recorded conversation into an organized draft that a practitioner can inspect and edit.</p></div><div><h4>My contribution</h4><p>Connected audio processing, structured note generation, and a Next.js review interface through FastAPI endpoints.</p></div></div>
             <div class="case-decision"><p class="eyebrow">Key engineering decision</p><h4>Make the generated note a reviewable draft.</h4><p>Keep the transcript and structured SOAP sections available in the review workflow, so the practitioner can check and revise the output before exporting it.</p></div>
