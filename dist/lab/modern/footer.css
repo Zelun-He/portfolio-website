@@ -4,17 +4,3 @@
 .contact .footer a:focus-visible{outline-color:#111;outline-offset:3px}
 @media(max-width:760px){.contact .footer{padding-block:8px;gap:0 20px}}
 @media print{.contact .footer{background:#fff;color:#111;border-top:1px solid #ddd}}
-
-/* One white flare, then the original grey wordmark. */
-@keyframes footer-name-burn{
-  0%{color:#737373;text-shadow:0 0 0 transparent}
-  20%,38%{color:#fff;text-shadow:0 0 14px #ffffff70,0 0 42px #ffffff30}
-  68%{color:#c9c9c9;text-shadow:0 0 18px #ffffff18}
-  100%{color:#737373;text-shadow:0 0 0 transparent}
-}
-@media(prefers-reduced-motion:no-preference){
-  .footer-wordmark.is-burning{animation:footer-name-burn 2.8s cubic-bezier(.22,.61,.36,1) both}
-}
-@media(prefers-reduced-motion:reduce){
-  .footer-wordmark.is-burning{animation:none;color:#737373;text-shadow:none}
-}
