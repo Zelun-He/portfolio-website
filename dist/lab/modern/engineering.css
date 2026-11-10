@@ -60,9 +60,10 @@
 .case-depth-body{padding:0 0 24px}.case-depth dl{margin:5px 0 0;display:grid;gap:18px}
 .case-depth dt{font-size:13px;font-weight:500;margin-bottom:6px}.case-depth dd{margin:0;font-size:15px;line-height:1.6;color:#505050}
 .case-depth-body>.text-link{margin-top:20px}
-.case-outcome{font-size:16px;line-height:1.5;margin-top:23px}
+.case-outcome{font-size:16px;line-height:1.5;margin:28px 0 24px}
 .case-outcome>span,
 .case-body .project-stack{font-size:12px;line-height:1.6;color:#626262;margin:18px 0}
+.case-outcome>span{display:block;margin:0 0 10px}
 .case-actions{display:flex;align-items:start;flex-wrap:wrap;gap:15px 25px}
 .case-actions .text-link{font-size:14px;line-height:1.5;margin:0;padding-block:4px}
 .case-demo-note{font-size:12px;line-height:1.6;color:#626262;margin-top:13px;max-width:520px}
