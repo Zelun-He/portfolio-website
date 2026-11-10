@@ -214,3 +214,6 @@
  .research-entry-poster{margin-top:30px;max-width:650px;break-inside:avoid}
  .research-entry p,.research-question h4,.research-poster-caption{color:#333!important}
 }
+
+/* Inspect the original screenshot without enlarging a compressed preview. */
+.case-caption .case-capture-link{display:inline-flex;align-items:center;min-height:44px;margin-left:12px;color:inherit;text-decoration:underline;text-underline-offset:3px}
