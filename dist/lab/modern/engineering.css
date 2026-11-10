@@ -77,7 +77,7 @@
 .research-footnote{font-size:12px;line-height:1.6;color:#aaa;margin-top:23px}
 .research-status-working{color:#bdbdbd}
 .story-top h2{font-size:clamp(30px,3.6vw,56px)}
-:is(.story-enhanced,.story-pending) .story{height:280svh}
+:is(.story-enhanced,.story-pending) .story{height:370svh}
 .story-controls>div{gap:8px}.story-controls button{width:auto;min-height:38px;min-width:80px;padding:8px 14px;border:1px solid #ffffff35;border-radius:100px;color:#bcbcbc;font-size:12px}
 .story-controls button:after{display:none}.story-controls button[aria-pressed=true]{background:#eee;border-color:#eee;color:#151515}
 .chapter-proof strong{font-size:32px}.chapter-proof{max-width:470px}
@@ -117,7 +117,7 @@
  .case-actions .text-link{font-size:14px}.case-demo-note{font-size:12px}
  .gallery-invitation{display:block;padding-block:27px}.gallery-invitation>span{display:block;margin-bottom:12px}.gallery-invitation strong{font-size:19px}
  .research-feature{padding-block:55px 60px;border-radius:30px 30px 0 0}
- :is(.story-enhanced,.story-pending) .story{height:300svh}.story-controls>p:last-child{display:none}.story-controls button{font-size:11px;min-width:70px;padding-inline:11px}.story-controls>div{gap:6px}.story-top h2{max-width:430px}
+ :is(.story-enhanced,.story-pending) .story{height:400svh}.story-controls>p:last-child{display:none}.story-controls button{font-size:11px;min-width:70px;padding-inline:11px}.story-controls>div{gap:6px}.story-top h2{max-width:430px}
  :is(.gallery-enhanced,.gallery-pending) .work{height:390svh}.project-summary>p{font-size:15px}.project-heading .eyebrow{font-size:12px}.gallery-actions{gap:18px;margin-top:8px}.gallery-actions .text-link{font-size:13px}.gallery-top .eyebrow,.gallery-top .text-link{font-size:12px}
  .gallery-hint{font-size:11px}.project-count{font-size:12px}
 }
@@ -252,4 +252,11 @@
 }
 @media print{
  .story-chapter .chapter-employment h3,.chapter-employment .chapter-role,.chapter-employment .chapter-date,.story-chapters .story-chapter>.chapter-continuation{color:#111}
+}
+
+/* Four experience destinations remain reachable on narrow screens. */
+@media(max-width:450px){
+ :is(.story-enhanced,.story-pending) .story-controls{display:grid;grid-template-columns:1fr;gap:10px}
+ .story-controls>div{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+ .story-controls button{min-width:0;width:100%;height:auto;min-height:44px;padding-inline:5px}
 }

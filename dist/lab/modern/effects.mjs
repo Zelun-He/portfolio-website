@@ -145,6 +145,7 @@ function setupStory() {
   const stage = document.querySelector('.story-stage');
   const chapters = [...document.querySelectorAll('.story-chapter')];
   const buttons = [...document.querySelectorAll('[data-chapter]')];
+  const lastChapter = Math.max(1, chapters.length - 1);
   const controls = document.querySelector('.story-controls');
   const canvas = document.querySelector('.story-canvas');
   const ctx = canvas.getContext('2d');
@@ -187,11 +188,13 @@ function setupStory() {
     tick += Math.min(time - lastTime || 45, 80) / 1000;
     lastTime = time;
     ctx.clearRect(0, 0, width, height);
-    const from = Math.min(1, Math.floor(progress));
+    // Keep the three graphic forms independent of the number of employers.
+    const shapeProgress = progress / lastChapter * (shapes.length - 1);
+    const from = Math.min(shapes.length - 2, Math.floor(shapeProgress));
     const to = from + 1;
-    const mix = clamp(progress - from);
+    const mix = clamp(shapeProgress - from);
     const eased = mix * mix * (3 - 2 * mix);
-    const rotation = tick * 0.06 + progress * 0.3;
+    const rotation = tick * 0.06 + shapeProgress * 0.3;
     const size = Math.min(width, height) * 0.31;
     const points = [];
     for (let i = 0; i < count; i++) {
@@ -227,7 +230,7 @@ function setupStory() {
     if (!active) return;
     const bounds = section.getBoundingClientRect();
     const range = Math.max(1, section.offsetHeight - stage.offsetHeight);
-    const rawProgress = clamp((-bounds.top / range - 0.06) / 0.88) * 2;
+    const rawProgress = clamp((-bounds.top / range - 0.06) / 0.88) * lastChapter;
     const base = Math.floor(rawProgress);
     const blend = clamp((rawProgress - base - 0.35) / 0.3);
     progress = base + blend * blend * (3 - 2 * blend);
@@ -249,7 +252,7 @@ function setupStory() {
   buttons.forEach(button => button.addEventListener('click', () => {
     const top = scrollY + section.getBoundingClientRect().top;
     const range = Math.max(1, section.offsetHeight - stage.offsetHeight);
-    scrollTo({ top: top + range * (0.06 + Number(button.dataset.chapter) / 2 * 0.88), behavior: 'smooth' });
+    scrollTo({ top: top + range * (0.06 + Number(button.dataset.chapter) / lastChapter * 0.88), behavior: 'smooth' });
   }));
   const observer = new IntersectionObserver(entries => {
     visible = entries[0].isIntersecting;
