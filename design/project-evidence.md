@@ -1,6 +1,6 @@
 # Project evidence register
 
-Updated 2026-11-05. This is a source review for portfolio claims, not a new run
+Updated 2026-11-10. This is a source review for portfolio claims, not a new run
 of the application suites or a live-site performance benchmark.
 
 ## Scribsy
@@ -25,23 +25,33 @@ processing rather than making an unmeasured throughput claim.
 
 ## Eastern Asteria
 
-Evidence: the existing published /Images/eastern-asteria-home.webp delivery
-capture and the public website link. The visible case study now offers a review
-path through the company narrative and navigation. Attribution remains
-professional team work at Arrows Up.
+Copy review, 2026-11-10: the published /Images/eastern-asteria-home.webp delivery
+capture shows separate Our Coffee, Deep Thrill and Investors header entries.
+This supports the case study's content/navigation decision. The responsibility
+statement retains the existing attribution to responsive page implementation
+within the Arrows Up team; private client source was not available to verify
+authorship independently. No new framework, CMS or route-architecture claim was
+added. The external website could not be loaded through the public page reader.
 
 ## Holcomb Tree Service
 
-Evidence: the existing published /holcomb-tree-service.webp delivery capture
-and the linked staging preview. The review path focuses on service information
-and consultation entry points. The preview is explicitly labeled staging.
+Copy review, 2026-11-10: the published /holcomb-tree-service.webp delivery capture
+shows the consultation form beside the service introduction. The official
+https://www.holcombtreeservice.com/ page was read on the same date and includes
+property/contact fields, an estimate action and the phone number. These support
+the case study's form-placement decision and input constraint, not a conversion
+claim. The responsibility and SvelteKit statements retain existing portfolio
+attribution; no private client source was reviewed. The public link now points
+to the official website rather than the old staging preview.
 
 ## Measurement limits
 
-This session could not load the two external client sites through the public
-page reader and has no browser runner. No new form, responsive-layout, analytics
-or performance result is asserted. The delivery captures were already portfolio
-assets; no private client source or analytics were published.
+The original 2026-11-05 review could not load the external client sites through
+the public page reader. The 2026-11-10 copy review adds the Holcomb public-page
+inspection described above. Neither review establishes successful form submission,
+responsive behavior of the client sites, analytics or performance results. The
+delivery captures were already portfolio assets; no private client source or
+analytics were published.
 
 Future quantitative outcomes require retained evidence: an exact before/after
 revision, the same test conditions, the measured result and collection date.
