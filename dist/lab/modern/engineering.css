@@ -220,3 +220,35 @@
 
 /* Preserve the complete sample note and its fictional-data labels. */
 #scribsy .case-visual>img,.gallery-stills a[href="#scribsy"] img{aspect-ratio:auto;max-height:none}
+
+/* Put employer, responsibility and tenure before the supporting project story. */
+.case-intro .case-role{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;gap:4px 18px;font-size:16px;line-height:1.5;letter-spacing:normal;color:#333;margin:0 0 22px}
+.case-role .case-company{grid-column:1;grid-row:1;font-size:21px;font-weight:500;line-height:1.3;color:#111;letter-spacing:-.02em}
+.case-role .case-job{grid-column:1;grid-row:2;font-size:17px}
+.case-role .case-period{grid-column:2;grid-row:1 / span 2;align-self:center;font-size:16px;color:#444;font-variant-numeric:tabular-nums}
+.case-role .case-scope{grid-column:1 / -1;font-size:14px;line-height:1.6;color:#626262;margin-top:3px}
+.story-chapter .chapter-employment{margin-bottom:22px}
+.story-chapter .chapter-employment h3{font-size:clamp(36px,4vw,58px);line-height:1.08;letter-spacing:-.045em;font-weight:400;margin:14px 0 12px;color:#fff;text-wrap:balance}
+.chapter-employment .chapter-role{font-size:21px;line-height:1.45;font-weight:500;color:#f3f3f3;margin:0}
+.chapter-employment .chapter-date{font-size:17px;line-height:1.5;color:#ffad89;margin:6px 0 0;font-variant-numeric:tabular-nums}
+.story-chapters .story-chapter>.chapter-summary{font-size:18px;line-height:1.6;letter-spacing:-.015em;color:#c4c4c4}
+.story-chapters .story-chapter>.chapter-continuation{font-size:15px;line-height:1.5;letter-spacing:normal;color:#bbb;margin-top:18px}
+@media(max-width:760px){
+ .story-chapter .chapter-employment{margin-bottom:16px}
+ .story-chapter .chapter-employment h3{font-size:34px;margin:10px 0}
+ .chapter-employment .chapter-role{font-size:18px}
+ .chapter-employment .chapter-date{font-size:16px}
+ .story-chapters .story-chapter>.chapter-summary{font-size:16px;line-height:1.55}
+ .story-chapters .story-chapter>.chapter-continuation{font-size:14px;margin-top:14px}
+ :is(.story-enhanced,.story-pending) .story-stage{min-height:880px}
+}
+@media(max-width:450px){
+ .case-intro .case-role{grid-template-columns:minmax(0,1fr);gap:5px}
+ .case-role .case-period{grid-column:1;grid-row:3;align-self:auto}
+ .case-role .case-company{font-size:20px}
+ .case-role .case-job{font-size:16px}
+ .story-chapter .chapter-employment h3{font-size:31px}
+}
+@media print{
+ .story-chapter .chapter-employment h3,.chapter-employment .chapter-role,.chapter-employment .chapter-date,.story-chapters .story-chapter>.chapter-continuation{color:#111}
+}
