@@ -1,0 +1,27 @@
+name: Portfolio scroll checks
+on:
+  pull_request:
+    paths: ['dist/lab/modern/**','scripts/**','.github/workflows/scroll-performance.yml']
+  push:
+    branches: ['perf/windows-scroll-smoothness-20261117']
+  workflow_dispatch:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate syntax and scroll timing
+        run: |
+          node --check dist/lab/modern/modern.mjs
+          node --check dist/lab/modern/effects.mjs
+          node --check dist/lab/modern/showcase-renderer.mjs
+          node scripts/test-scroll-timing.mjs
+      - name: Check gallery lifecycle and budgets
+        run: |
+          node scripts/test-gallery-lifecycle.mjs
+          node scripts/test-gallery-resources.mjs
+      - name: Verify generated homepage
+        run: node scripts/render-portfolio.mjs --check

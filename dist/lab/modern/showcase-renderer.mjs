@@ -140,7 +140,7 @@ export async function createCanvasRenderer(stage, surfaces) {
 }
 
 export function createGLRenderer(canvas, surfaces) {
-  const gl = canvas.getContext('webgl', { alpha: true, antialias: true, depth: false, powerPreference: 'low-power' });
+  const gl = canvas.getContext('webgl', { alpha: true, antialias: true, depth: false, powerPreference: 'default' });
   if (!gl) return null;
   const shaders = [], textures = new Map(); let program, buffer;
   const budget=currentBudget(),maxTextureSize=gl.getParameter(gl.MAX_TEXTURE_SIZE);

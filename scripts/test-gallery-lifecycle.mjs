@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import * as geometry from '../dist/lab/modern/showcase-geometry.mjs';
+import * as scrollMotion from '../dist/lab/modern/scroll-motion.mjs';
 
 const source=readFileSync(new URL('../dist/lab/modern/modern.mjs',import.meta.url),'utf8');
 let checks=0;
@@ -40,8 +41,8 @@ function harness({reduced=false,gl=true,failFallback=false}={}){
     suspend(){this.suspends++;},destroy(){this.destroyed=true;}};
     state.renderers.push(value);return value;
   }
-  const names=['COIL','clamp','sceneFor','framesFor','advanceEdge','travelForProject','positionForTravel','runwayForProjects','handoffForTravel','expandFinalFrame'];
-  const values=names.map(name=>geometry[name]);
+  const names=['COIL','clamp','sceneFor','framesFor','advanceEdge','travelForProject','positionForTravel','runwayForProjects','handoffForTravel','expandFinalFrame','approach','shouldRenderFrame'];
+  const values=names.map(name=>name in geometry?geometry[name]:scrollMotion[name]);
   const stripped=source.replace(/^import .*;$/gm,'').replace(/enhanceGallery\(\);\s*$/,'const ready=enhanceGallery();return {ready};');
   const api=new Function(...names,'mountPortfolioMist','makeSurfaces','createCanvasRenderer','createGLRenderer','needsGalleryFrame',
     'document','matchMedia','IntersectionObserver','ResizeObserver','addEventListener','removeEventListener','dispatchEvent',
