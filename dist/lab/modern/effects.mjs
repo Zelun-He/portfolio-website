@@ -1,4 +1,5 @@
 import { mountHeroWarble } from './hero-warble.mjs';
+import { approach, chapterProgress } from './scroll-motion.mjs';
 
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const clamp = (value, low = 0, high = 1) => Math.min(high, Math.max(low, value));
@@ -158,6 +159,7 @@ function setupStory() {
   controls.hidden = false;
   let selected = -1;
   let progress = 0;
+  let targetProgress = 0;
   let frame = 0;
   let visible = false;
   let width = 1;
@@ -181,12 +183,32 @@ function setupStory() {
     const rung = (i % 10) / 9;
     shapes[2].push([Math.sin(a) * 0.6 * (1 - rung * 2), (t - 0.5) * 2.5, Math.cos(a) * 0.6 * (1 - rung * 2)]);
   }
+  const counter = document.querySelector('.story-position');
+  function syncChapters(){
+    const index=Math.round(progress);
+    for(const [i,chapter] of chapters.entries()){
+      const distance=i-progress;
+      chapter.style.opacity=String(clamp(1-Math.abs(distance)*1.8));
+      chapter.style.transform=`translateY(${distance*70}px)`;
+      if(index!==selected){
+        chapter.classList.toggle('is-active',i===index);
+        chapter.setAttribute('aria-hidden',String(i!==index));
+      }
+    }
+    if(index!==selected){
+      selected=index;
+      buttons.forEach((button,i)=>button.setAttribute('aria-pressed',String(i===index)));
+      counter.firstChild.textContent=`0${index+1} `;
+    }
+  }
   function draw(time) {
     frame = 0;
     if (!active || !visible || document.hidden) return;
-    if (time - lastTime < 45) { frame = requestAnimationFrame(draw); return; }
-    tick += Math.min(time - lastTime || 45, 80) / 1000;
-    lastTime = time;
+    // Stay in sync with the display and ease discrete wheel updates over time.
+    const dt=Math.min((time-(lastTime||time-16.7))/1000,.05);
+    lastTime=time;tick+=dt;
+    const next=approach(progress,targetProgress,dt,22);
+    if(next!==progress){progress=next;syncChapters();}
     ctx.clearRect(0, 0, width, height);
     // Keep the three graphic forms independent of the number of employers.
     const shapeProgress = progress / lastChapter * (shapes.length - 1);
@@ -231,23 +253,9 @@ function setupStory() {
     const bounds = section.getBoundingClientRect();
     const range = Math.max(1, section.offsetHeight - stage.offsetHeight);
     const rawProgress = clamp((-bounds.top / range - 0.06) / 0.88) * lastChapter;
-    const base = Math.floor(rawProgress);
-    const blend = clamp((rawProgress - base - 0.35) / 0.3);
-    progress = base + blend * blend * (3 - 2 * blend);
-    const index = Math.round(progress);
-    for (const [i, chapter] of chapters.entries()) {
-      const distance = i - progress;
-      chapter.style.opacity = String(clamp(1 - Math.abs(distance) * 1.8));
-      chapter.style.transform = `translateY(${distance * 70}px)`;
-      chapter.classList.toggle('is-active', i === index);
-      chapter.setAttribute('aria-hidden', String(i !== index));
-    }
-    if (index !== selected) {
-      selected = index;
-      buttons.forEach((button, i) => button.setAttribute('aria-pressed', String(i === index)));
-      const counter = document.querySelector('.story-position');
-      counter.firstChild.textContent = `0${index + 1} `;
-    }
+    targetProgress=chapterProgress(rawProgress,lastChapter);
+    // Do not animate offscreen; start in the right chapter upon reentry.
+    if(!visible){progress=targetProgress;syncChapters();}
   };
   buttons.forEach(button => button.addEventListener('click', () => {
     const top = scrollY + section.getBoundingClientRect().top;
@@ -256,7 +264,10 @@ function setupStory() {
   }));
   const observer = new IntersectionObserver(entries => {
     visible = entries[0].isIntersecting;
-    if (visible && active && !frame) { lastTime = 0; frame = requestAnimationFrame(draw); }
+    if (visible && active && !frame) {
+      progress=targetProgress;syncChapters();lastTime=0;
+      frame=requestAnimationFrame(draw);
+    }
     else if (!visible) { cancelAnimationFrame(frame); frame = 0; }
   });
   observer.observe(stage);

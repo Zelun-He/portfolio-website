@@ -2,6 +2,7 @@ import { COIL, clamp, sceneFor, framesFor, advanceEdge, travelForProject, positi
 import { mountPortfolioMist } from './showcase-mist.mjs';
 import { makeSurfaces, createCanvasRenderer, createGLRenderer } from './showcase-renderer.mjs';
 import { needsGalleryFrame } from './gallery-resources.mjs';
+import { approach, shouldRenderFrame } from './scroll-motion.mjs';
 
 // Semantic project entries remain the content source for both views of the work.
 const work = document.querySelector('.showcase');
@@ -103,12 +104,12 @@ async function enhanceGallery() {
   function draw(now) {
     raf=0;
     if(destroyed||!visible||document.hidden)return;
-    if(now-last<32){queue();return;}
-    const dt=Math.min((now-(last||now-33))/1000,0.05);last=now;clock+=dt;
+    if(!shouldRenderFrame(now,last,stage.dataset.renderer)){queue();return;}
+    const dt=Math.min((now-(last||now-16.7))/1000,0.05);last=now;clock+=dt;
     updateTarget();
     if(handoff>=1){position=target;edge={position,velocity:0};spin=0;renderer.suspend?.();return;}
     const before=position;
-    position+=(target-position)*(1-Math.exp(-13*dt));
+    position=approach(position,target,dt,20);
     if(Math.abs(target-position)<0.0001)position=target;
     edge=advanceEdge(edge,position,dt);
     const velocity=(position-before)/Math.max(dt,0.001);
