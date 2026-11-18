@@ -1,4 +1,4 @@
-name: Portfolio scroll checks
+name: Portfolio checks
 on:
   pull_request:
     paths: ['dist/lab/modern/**','scripts/**','.github/workflows/scroll-performance.yml']
@@ -19,6 +19,7 @@ jobs:
           node --check dist/lab/modern/effects.mjs
           node --check dist/lab/modern/showcase-renderer.mjs
           node scripts/test-scroll-timing.mjs
+          node scripts/test-contact-links.mjs
       - name: Check gallery lifecycle and budgets
         run: |
           node scripts/test-gallery-lifecycle.mjs

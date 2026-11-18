@@ -4,3 +4,34 @@
 .contact .footer a:focus-visible{outline-color:#111;outline-offset:3px}
 @media(max-width:760px){.contact .footer{padding-block:8px;gap:0 20px}}
 @media print{.contact .footer{background:#fff;color:#111;border-top:1px solid #ddd}}
+
+/* Editorial inquiry routes: email-app links, not a server-side form. */
+.contact-routing{margin:clamp(28px,4.3vw,68px) 0 clamp(38px,5vw,80px)}
+.contact-routing-heading{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:10px 24px;margin-bottom:18px}
+.contact-routing-heading>p:first-child{font-size:clamp(16px,1.6vw,22px);letter-spacing:-.035em}
+.contact-routing-heading>p:last-child{font-size:12px;line-height:1.5;color:#a7a7a7}
+.contact-routes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-block:1px solid #ffffff35}
+.contact-route{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px;align-items:start;min-height:142px;padding:29px 24px 27px;color:white;transition:background .22s ease}
+.contact-route+.contact-route{border-left:1px solid #ffffff30}
+.contact-route:hover,.contact-route:focus-visible{background:#ffffff12;text-decoration:none}
+.contact-route:focus-visible{outline:2px solid #ff782f;outline-offset:-2px}
+.contact-route-index{font-size:11px;color:#9c9c9c;line-height:1.75}
+.contact-route-copy{display:flex;flex-direction:column;gap:20px;min-width:0}
+.contact-route-copy strong{font-size:clamp(21px,2.15vw,32px);font-weight:400;letter-spacing:-.045em;line-height:1.1}
+.contact-route-copy small{color:#a7a7a7;font-size:12px;line-height:1.4}
+.contact-route-arrow{font-size:24px;line-height:1;transition:transform .22s ease}
+.contact-route:hover .contact-route-arrow,.contact-route:focus-visible .contact-route-arrow{transform:translate(3px,-3px)}
+@media(max-width:1050px){.contact-route{gap:10px;padding-inline:15px}.contact-route-copy strong{font-size:22px}}
+@media(max-width:760px){
+  .contact-routing{margin:34px 0 45px}
+  .contact-routing-heading{display:block}
+  .contact-routing-heading>p:last-child{margin-top:7px}
+  .contact-routes{grid-template-columns:1fr}
+  .contact-route{min-height:93px;padding:20px 3px;gap:14px;align-items:center}
+  .contact-route+.contact-route{border-left:0;border-top:1px solid #ffffff30}
+  .contact-route-copy{gap:7px}
+  .contact-route-copy strong{font-size:23px}
+  .contact-route-arrow{font-size:22px}
+}
+@media(prefers-reduced-motion:reduce){.contact-route,.contact-route-arrow{transition:none!important}.contact-route:hover .contact-route-arrow{transform:none}}
+@media print{.contact-routing{display:none}}
